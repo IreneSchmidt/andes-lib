@@ -1,0 +1,26 @@
+{
+  "name": "andes-lib",
+  "version": "0.1.0",
+  "description": "Lib do Andes",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["typescript", "library"],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IreneSchmidt/andes-lib"
+  },
+  "bugs": {
+    "url": "https://github.com/IreneSchmidt/andes-lib/issues"
+  },
+  "homepage": "https://github.com/IreneSchmidt/andes-lib#readme"
+}
