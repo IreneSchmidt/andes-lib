@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from 'path';
 import { LocalEntity, Model, Module, Relation, isEnumX, isImportedEntity, isLocalEntity, isManyToMany, isManyToOne, isModule, isOneToOne } from "../../model/models";
-import { base_ident } from "../../generator-utils.js";
+import { base_ident } from "../../util/generator-utils";
 import { expandToStringWithNL } from "langium/generate";
 
 export class DiagramGeneratorService {

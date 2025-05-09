@@ -1,7 +1,7 @@
-import { Event, Model, Module, UseCase, isModule, isUseCase } from "../../language/generated/ast.js"
+import { Event, Model, Module, UseCase, isModule, isUseCase } from "../model/models"
 import fs from "fs";
 import path from 'path'
-import { createPath } from "../generator-utils.js";
+import { createPath } from "../util/generator-utils.js";
 import { expandToString, expandToStringWithNL } from "langium/generate";
 
 

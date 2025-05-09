@@ -1,6 +1,6 @@
 import { expandToStringWithNL } from "langium/generate";
 import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBussinesRule, isRequirements, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
-import { createPath } from "../../generator-utils.js";
+import { createPath } from "../../util/generator-utils";
 import fs from "fs";
 import path from 'path'
 import { Dependency, Graph, Node, ActorRelation } from "../../graph/graph.js";

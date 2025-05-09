@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from 'path';
-import { Model, UseCase, isActor, isUseCase } from "../../../language/generated/ast.js";
+import { Model, UseCase, isActor, isUseCase } from "../../model/models";
 import { expandToStringWithNL } from "langium/generate";
 
 export class UseCaseGeneratorService {
