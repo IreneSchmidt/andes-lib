@@ -10,6 +10,49 @@ export type AttributeEnum ={
     fullName?: string;
     name: string;
 }
+
+export type Model = {
+    components: Array<AbstractElement | Actor | ModuleImport | Requirements | UseCase>;
+    project?: Project;
+}
+
+export type ModuleImport = {
+    entities: Array<ImportedEntity>;
+    library: string;
+    name: string;
+    package_path: string;
+}
+
+export type Module = {
+    readonly $container: Model | Module;
+    readonly $type: 'Module';
+    description?: string;
+    elements: Array<AbstractElement | LocalEntity>;
+    name?: QualifiedName;
+}
+
+export type AbstractElement = EnumX | Module;
+
+export type LocalEntity = {
+    attributes: Array<Attribute>;
+    comment?: string;
+    enumentityatributes: Array<EnumEntityAtribute>;
+    functions: Array<FunctionEntity>;
+    is_abstract: boolean;
+    name: string;
+    relations: Array<Relation>;
+}
+
+export type Attribute = {
+    blank: boolean;
+    comment?: string;
+    fullName?: string;
+    max?: number;
+    min?: number;
+    name: string;
+    type: DATATYPE;
+    unique: boolean;
+}
 // ---------------------------
 
 export type Project = {
@@ -18,6 +61,7 @@ export type Project = {
     description?: string;
     purpose?: string;
     miniworld?: string;
+    name_fragment?: string// Oque é isso??
     architecture?: 'python' | 'java' |'csharp-minimal-api'|'csharp-clean-architecture'|'charp-pipeline'
 }
 
