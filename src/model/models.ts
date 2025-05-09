@@ -12,7 +12,7 @@ export type Requirements = {
     id: string;
     name: string;
     description: string;
-    requirement: FunctionalRequirement|NonFunctionalRequirement|BussinesRule
+    requirement: Array<FunctionalRequirement|NonFunctionalRequirement|BussinesRule>
 }
 
 export type FunctionalRequirement ={
