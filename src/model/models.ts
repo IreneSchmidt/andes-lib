@@ -1,6 +1,16 @@
-export type Model = {
-    
+//CONTEUDO NOVO:
+export type EnumX = {
+    attributes: Array<AttributeEnum>;
+    comment?: string;
+    name: string;
 }
+
+export type AttributeEnum ={
+    comment?: string;
+    fullName?: string;
+    name: string;
+}
+// ---------------------------
 
 export type Project = {
     id: string;
@@ -64,3 +74,6 @@ export type Event = {
 }
 
 //--------------- ENTITIES ---------------
+
+//----------------- AST ------------------
+

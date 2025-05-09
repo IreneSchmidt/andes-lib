@@ -1,4 +1,4 @@
-import {  EnumX, LocalEntity, Model, isEnumX, isLocalEntity, isModule } from "../../language/generated/ast.js"
+import {  EnumX, LocalEntity, Model, isEnumX, isLocalEntity, isModule } from "../model/models"
 import fs from "fs";
 import path from 'path'
 import { createPath } from "../generator-utils.js";
