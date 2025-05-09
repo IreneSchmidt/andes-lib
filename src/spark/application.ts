@@ -32,7 +32,7 @@ export class SparkApplication {
         Configuration {
             software_name: "${project?.name_fragment?? "Name"}"
             about: "${project?.description}"
-            language: ${project?.architcture?? "java"}
+            language: ${project?.architecture?? "java"}
         }
         ${modules.map(module => `module ${module.name}
         {
