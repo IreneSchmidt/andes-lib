@@ -5,14 +5,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "keywords": ["typescript", "library"],
+  "keywords": [
+    "typescript",
+    "library"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "repository": {
@@ -22,5 +27,14 @@
   "bugs": {
     "url": "https://github.com/IreneSchmidt/andes-lib/issues"
   },
-  "homepage": "https://github.com/IreneSchmidt/andes-lib#readme"
+  "homepage": "https://github.com/IreneSchmidt/andes-lib#readme",
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
 }
