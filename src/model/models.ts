@@ -14,7 +14,7 @@ export type ImportedEntity = {
 export type EnumEntityAtribute = {
     comment?: string;
     name: string;
-    type: Reference<EnumX>;
+    type: EnumX;
 }
 
 export type Entity = ImportedEntity | LocalEntity;
@@ -73,49 +73,34 @@ export type FunctionEntity = {
     response: DATATYPE;
 }
 
-/*
-export type Reference<T> = {
-    comment?: string;
-    fullName?: string;
-    name: string;
-    type: T;
-}
-// essa só para parar de dar erro no nas relações.
-*/
-
 // Relations
 export type ManyToMany = {
-    by?: Reference<LocalEntity>;
+    by?: LocalEntity;
     comment?: string;
     fullName?: string;
     name: string;
-    type: Reference<Entity>;
+    type: Entity;
 }
 export type ManyToOne = {
     comment?: string;
     fullName?: string;
     name: string;
-    type: Reference<Entity>;
+    type: Entity;
 }
 
 export type OneToMany = {
     comment?: string;
     fullName?: string;
     name: string;
-    type: Reference<Entity>;
+    type: Entity;
 }
 
 export type OneToOne = {
     comment?: string;
     fullName?: string;
     name: string;
-    type: Reference<Entity>;
+    type: Entity;
 }
-
-
-
-
-
 
 
 export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
