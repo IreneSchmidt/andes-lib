@@ -28,6 +28,15 @@
   ],
   "author": "Leds",
   "license": "MIT",
+  "contributors": 
+  [
+  {"name": "Allicia Rocha",           "email": "allicia30300@gmail.com"     },
+  {"name": "Caio Cesar Oliva Coronel","email": "caiocoronel10@gmail.com"    },
+  {"name": "Guilherme Gomes",         "email": "guilhermeneto26@gmail.com"  },
+  {"name": "Manuely Meireles Lemos",  "email": "manumeireleslemos@gmail.com"},
+  {"name": "Romulo Alves Luciano",    "email": "romuloa.l2507@gmail.com"    }
+  ],
+
 
   "repository": {
     "type": "git",
