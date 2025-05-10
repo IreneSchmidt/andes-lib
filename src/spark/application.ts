@@ -1,8 +1,8 @@
 import {  EnumX, LocalEntity, Model, isEnumX, isLocalEntity, isModule } from "../model/models"
 import fs from "fs";
 import path from 'path'
-import { createPath } from "../generator-utils.js";
-import {  expandToStringWithNL } from "langium/generate";
+import { createPath } from "../util/generator-utils.js";
+import {  expandWithNewLines } from "../util/expandToString";
 
 export class SparkApplication {
     model: Model
@@ -28,7 +28,7 @@ export class SparkApplication {
         const project = this.model.project
         const modules = this.model.components.filter(isModule)
 
-        return expandToStringWithNL`
+        return expandWithNewLines`
         Configuration {
             software_name: "${project?.name_fragment?? "Name"}"
             about: "${project?.description}"
@@ -43,7 +43,7 @@ export class SparkApplication {
     }
 
     private createEnum (enumx: EnumX):string {
-        return expandToStringWithNL`
+        return expandWithNewLines`
         enum ${enumx.name}{
             ${enumx.attributes.map(value => `${value.name}`).join(`\n`)}
         }

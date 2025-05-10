@@ -1,4 +1,4 @@
-import { expandToStringWithNL } from "langium/generate";
+import { expandWithNewLines } from "../../util/expandToString";
 import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBussinesRule, isRequirements, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
 import { createPath } from "../../util/generator-utils";
 import fs from "fs";
@@ -43,7 +43,7 @@ export class DocksaurusService {
 
     private createRequirementContain(){
         
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ---
         title: Requisitos
         sidebar_position: 2
@@ -77,7 +77,7 @@ export class DocksaurusService {
         });
 
         const {containsCycle, topologicalSort, table} = graph.createAnalysis(dependencies,nodes)
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ## Matrix de Dependencia dos Eventos
         ${table}
 
@@ -121,7 +121,7 @@ export class DocksaurusService {
            
 
         const {containsCycle, topologicalSort, table} = graph.createAnalysis(dependencies,nodes)
-        return expandToStringWithNL`
+        return expandWithNewLines`
 
         ## Matrix de Dependencia dos casos de uso
         ${table}
@@ -145,7 +145,7 @@ export class DocksaurusService {
 
         const nonFunctionals = this.model.components.filter(isRequirements).flatMap(requirements=>requirements.requirements.filter(isNonFunctionalRequirement))
 
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ## Requisitos Não-Funcionais
 
         | ID   | Descrição    |Prioridade   | Dependências           |
@@ -157,7 +157,7 @@ export class DocksaurusService {
     private createFunctionalRequirements(){
         const functionalRequirements = this.model.components.filter(isRequirements).flatMap(requirements => requirements.requirements.filter(isFunctionalRequirement))
       
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ## Requisitos Funcionais
 
         | ID   | Descrição    |Prioridade   | Dependências           |
@@ -169,7 +169,7 @@ export class DocksaurusService {
     private createBusinessRules(){
         const BussinesRule = this.model.components.filter(isRequirements).flatMap(requirements => requirements.requirements.filter(isBussinesRule))
       
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ## Regras de Negócios
 
         | ID   | Descrição    |Prioridade   | Dependências           |
@@ -196,7 +196,7 @@ ${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
     }
 
     private createUseCaseContain(useCase: UseCase):string {
-        return expandToStringWithNL`
+        return expandWithNewLines`
     ## ${useCase.id.toUpperCase()}: ${useCase.name_fragment}
     ${useCase.description}
     ${useCase.events.map((event, index)=> this.createEventContain(event, useCase, index)).join('\n')}
@@ -204,7 +204,7 @@ ${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
     }
 
     private createEventContain(event:Event, usecase: UseCase, index:number):string{
-        return expandToStringWithNL`
+        return expandWithNewLines`
     ### ${usecase.id.toUpperCase()}.${index}: ${event.name_fragment}
     ${event.action}
     `
