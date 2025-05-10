@@ -2,8 +2,7 @@ import { Event, Model, Module, UseCase, isModule, isUseCase } from "../model/mod
 import fs from "fs";
 import path from 'path'
 import { createPath } from "../util/generator-utils.js";
-import { expandToString, expandToStringWithNL } from "langium/generate";
-
+import { expandToString, expandWithNewLines } from "../util/expandToString";
 
 type Dictionary = Record<string, any>;
 /* Cada caso de uso é mapeado para um EPIC e um Evento para um caso de uso */
@@ -42,7 +41,7 @@ export class MadeApplication {
 
         useCases.map(useCase=> useCase.events.map((event,index) =>this.dict[event.id]=`${projectID}.${useCase.id.toLocaleLowerCase()}_${index}`))
 
-        return expandToStringWithNL`
+        return expandWithNewLines`
         project ${projectID}{
             name: "${project?.name_fragment?? "nodefined"}"
             description: "${project?.description}"
@@ -57,7 +56,7 @@ export class MadeApplication {
     }
 
     private createDiagramModel (modules: Module[]):string {
-        return expandToStringWithNL`
+        return expandWithNewLines`
         epic domaindiagram {
             name: "Create Problem Domain Modules"
             description: "Create Problem Domain Modules"
@@ -66,7 +65,7 @@ export class MadeApplication {
     }
 
     private createStoryFromModule(module: Module){
-        return expandToStringWithNL`
+        return expandWithNewLines`
             story createmodule${module.name?.toLocaleLowerCase()}{
                 name: "Create database infrastruture to module ${module.name}"
                 description: "Create database infrastruture to ${module.name}"
@@ -100,7 +99,7 @@ export class MadeApplication {
     }
 
     private createEPIC(projectID: string, usecase:UseCase):string {
-        return expandToStringWithNL`
+        return expandWithNewLines`
         epic ${usecase.id.toLocaleLowerCase()} {
             name:"${usecase.name_fragment}" 
             description: "${usecase.description ?? ""}" 
@@ -112,7 +111,7 @@ export class MadeApplication {
 
     private createUserStory(event: Event, usecase:UseCase, index:number, projectID:string){
         // TODO pensar em como fazer assim
-        return expandToStringWithNL`
+        return expandWithNewLines`
         story  ${usecase.id.toLocaleLowerCase()}_${index} {
             name:"${event.name_fragment}" 
             description: "${event.description ?? ""}"  

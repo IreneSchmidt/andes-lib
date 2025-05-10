@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from 'path';
 import { Model, UseCase, isActor, isUseCase } from "../../model/models";
-import { expandToStringWithNL } from "langium/generate";
+import { expandWithNewLines } from "../../util/expandToString";
 
 export class UseCaseGeneratorService {
     private model: Model;
@@ -36,7 +36,7 @@ export class UseCaseGeneratorService {
         // Extrai as dependências e verifica se cada referência é válida
         const dependencies = module.depends.map(dep => dep.ref?.id).filter(Boolean);
 
-        return expandToStringWithNL`
+        return expandWithNewLines`
             ' Definindo atores
             ${actors.map(actor => `actor ${actor.name}`).join('\n')}
             

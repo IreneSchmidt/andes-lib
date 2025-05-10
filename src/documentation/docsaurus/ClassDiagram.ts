@@ -2,7 +2,7 @@ import fs from "fs";
 import path from 'path';
 import { LocalEntity, Model, Module, Relation, isEnumX, isImportedEntity, isLocalEntity, isManyToMany, isManyToOne, isModule, isOneToOne } from "../../model/models";
 import { base_ident } from "../../util/generator-utils";
-import { expandToStringWithNL } from "langium/generate";
+import { expandWithNewLines } from "../../util/expandToString";
 
 export class DiagramGeneratorService {
     private model: Model;
@@ -28,7 +28,7 @@ export class DiagramGeneratorService {
         const enums = module.elements.filter(isEnumX);
         const entities = module.elements.filter(isLocalEntity);
 
-        return expandToStringWithNL`
+        return expandWithNewLines`
             @startuml ${module.name}
                 ${enums.flatMap(e =>[`enum ${e.name} { \n ${e.attributes.map(a => `${base_ident}${a.name}`).join(`\n`)}\n}`]).join(`\n`)}
                 ${entities.map(e => this.entityClassDiagram(e, module)).join(`\n`)}
@@ -72,7 +72,7 @@ fs.writeFileSync(path.join(this.targetFolder , `modeloestrutural.md`), value)
 
 }
     private createUseCaseContain(modulo: Module):string {
-        return expandToStringWithNL`
+        return expandWithNewLines`
         ${modulo.description}
         `
     }
