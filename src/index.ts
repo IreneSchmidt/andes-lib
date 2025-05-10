@@ -1,5 +1,4 @@
 export * from "./model/models"
-
-export function greet(name: string): string {
-    return `Hello, ${name}!`;
-  }
+export * from "./made/application"
+export * from "./spark/application" 
+export * from "./graph/graph"

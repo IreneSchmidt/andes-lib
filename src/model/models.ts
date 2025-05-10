@@ -1,4 +1,25 @@
+// ----------------- AST ------------------
+
+
 //CONTEUDO NOVO:
+export type QualifiedName = string;
+
+
+export type ImportedEntity = {
+    readonly $container: ModuleImport;
+    readonly $type: 'ImportedEntity';
+    name: string;
+}
+
+export type EnumEntityAtribute = {
+    comment?: string;
+    name: string;
+    type: Reference<EnumX>;
+}
+
+export type Entity = ImportedEntity | LocalEntity;
+
+
 export type EnumX = {
     attributes: Array<AttributeEnum>;
     comment?: string;
@@ -32,6 +53,72 @@ export type Module = {
 }
 
 export type AbstractElement = EnumX | Module;
+
+
+export type DATATYPE = 'boolean' | 'cnpj' | 'cpf' | 'currency' | 'date' | 'datetime' | 'decimal' | 'email' | 'file' | 'integer' | 'mobilePhoneNumber' | 'phoneNumber' | 'string' | 'uuid' | 'void' | 'zipcode';
+
+export type Element = {
+    name: string;
+    type: DATATYPE;
+}
+
+export type Parameter = {
+    element: Array<Element> | Element;
+}
+
+export type FunctionEntity = {
+    comment?: string;
+    name: string;
+    paramters: Array<Parameter>;
+    response: DATATYPE;
+}
+
+/*
+export type Reference<T> = {
+    comment?: string;
+    fullName?: string;
+    name: string;
+    type: T;
+}
+// essa só para parar de dar erro no nas relações.
+*/
+
+// Relations
+export type ManyToMany = {
+    by?: Reference<LocalEntity>;
+    comment?: string;
+    fullName?: string;
+    name: string;
+    type: Reference<Entity>;
+}
+export type ManyToOne = {
+    comment?: string;
+    fullName?: string;
+    name: string;
+    type: Reference<Entity>;
+}
+
+export type OneToMany = {
+    comment?: string;
+    fullName?: string;
+    name: string;
+    type: Reference<Entity>;
+}
+
+export type OneToOne = {
+    comment?: string;
+    fullName?: string;
+    name: string;
+    type: Reference<Entity>;
+}
+
+
+
+
+
+
+
+export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
 
 export type LocalEntity = {
     attributes: Array<Attribute>;
