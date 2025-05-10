@@ -1,5 +1,34 @@
 // ----------------- AST ------------------
 
+export const Module = 'Module';
+
+export function isModule(item: unknown): item is Module {
+    // Verifica se é um objeto não nulo
+    if (typeof item !== 'object' || item === null) {
+        return false;
+    }
+
+    // Verifica a propriedade $type
+    if (!('$type' in item) || (item as any).$type !== Module) {
+        return false;
+    }
+
+    // Verifica as propriedades obrigatórias
+    if (!('$container' in item) || !('elements' in item)) {
+        return false;
+    }
+
+    // Verifica o tipo dos elementos (verificação básica)
+    const elements = (item as any).elements;
+    if (!Array.isArray(elements)) {
+        return false;
+    }
+
+    // Verificações adicionais podem ser adicionadas aqui conforme necessário
+    // Por exemplo, verificar a estrutura de name se QualifiedName for conhecido
+
+    return true;
+}
 
 //CONTEUDO NOVO:
 export type QualifiedName = string;
