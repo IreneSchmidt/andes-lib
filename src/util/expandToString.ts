@@ -1,14 +1,10 @@
-const SNLE = '$$SNLE$$'; // String representing newlines in substitutions
-const EOL = '\n'; // End of line character
+// SNLE (String Null or Empty): valores nulos ou indefinidos
+// EOL (End Of Line): representa uma quebra de linha (\n)
+const SNLE = '$$SNLE$$'; 
+const EOL = '\n'; 
 
-// Regular expression to split strings into lines while handling different line endings
 const NEWLINE_REGEXP = /\r?\n/;
 
-/**
- * Converts any value to its string representation.
- * @param value The value to convert to string
- * @returns The string representation
- */
 function toString(value: unknown): string {
     if (value === undefined || value === null) {
         return SNLE;
@@ -32,12 +28,9 @@ function toString(value: unknown): string {
     return SNLE;
 }
 
-/**
- * Aligns a substitution string with the current accumulated string.
- * @param substitution The substitution string to align
- * @param current The current accumulated string
- * @returns The aligned substitution string
- */
+// substitution: texto que vamos adicionar
+// current: texto que já temos
+// align: essa função "alinha o texto"
 function align(substitution: string, current: string): string {
     if (substitution === SNLE) {
         return SNLE;
@@ -48,18 +41,15 @@ function align(substitution: string, current: string): string {
     return substitution.replace(/\n/g, '\n' + indent);
 }
 
-/**
- * Finds the minimum indentation level across all non-empty lines.
- * @param lines The lines to analyze
- * @returns The number of spaces in the minimum indentation
- */
+// findIndentation: encontra a menor identação (qnt de espaços à esquerda)
 function findIndentation(lines: string[]): number {
     let indent = Infinity;
     for (const line of lines) {
         if (line.trim().length === 0) {
             continue;
         }
-        const lineIndent = line.match(/^\s*/)?.[0].length ?? 0;
+        // lineIndent: identação que encontramos na linha atual
+        const lineIndent = line.match(/^\s*/)?.[0].length ?? 0; // mede qnts espaços tem no início da linha
         if (lineIndent < indent) {
             indent = lineIndent;
         }
@@ -67,16 +57,14 @@ function findIndentation(lines: string[]): number {
             break;
         }
     }
+    // se nenhuma linha válida foi encontrada, retorna 0,
+    // caso contrário, retorna a menor indentação encontrada
     return indent === Infinity ? 0 : indent;
 }
 
-/**
- * Internal function to expand a template string with substitutions.
- * @param lineSep The line separator to use
- * @param staticParts The static parts of the template string
- * @param substitutions The dynamic substitutions
- * @returns The expanded string
- */
+// lineSep: separador de linha
+// staticParts: partes estáticas do template (strings entre as partes dinâmicas)
+// substitutions: valores dinâmicos inseridos no meio do template
 function internalExpandToString(lineSep: string, staticParts: TemplateStringsArray, ...substitutions: unknown[]): string {
     let lines = substitutions
         // align substitutions and fuse them with static parts
