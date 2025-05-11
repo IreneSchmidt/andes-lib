@@ -203,8 +203,8 @@ export type Actor = {
 export type UseCase = {
     id: string;
     description: string;
-    requirements: Requirements;
-    events: Event; //como adicionar listagem
+    requirements: Array<Requirements>;
+    events: Array<Event>; 
     
 }
 
@@ -213,8 +213,8 @@ export type Event = {
     name: string;
     description: string;
     action: string;
-    requirements: Requirements;
-    depend: Event;
+    requirements: Array<Requirements>;
+    depend: Array<Event>;
     performer: Actor;
 }
 
