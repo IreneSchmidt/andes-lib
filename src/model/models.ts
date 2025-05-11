@@ -296,7 +296,7 @@ export function isEvent(item: unknown): item is Event{
 //----------------- AST ------------------
 
 
-// TESTAR isEnumx e isLocalEntity PRESENTES NA PASTA SPARK
+// TESTAR AS FUNÇÕES ABAIXO
 
 // export function isEnumX(item: unknown): item is EnumX{
 
@@ -326,6 +326,22 @@ export function isEvent(item: unknown): item is Event{
 //     ) 
 //     {
 //         return false
+//     }
+
+//     return true
+// }
+
+// export function isImportedEntity(item: unknown): item is ImportedEntity{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj !== 'object' ||
+//         obj === null ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.$type !== 'string' || 
+//         obj.$type !== 'ImportedEntity' ||
+//         typeof obj.$container !== 'object' || obj.$container === null
+//     ) {
+//         return false;
 //     }
 
 //     return true
