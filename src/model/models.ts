@@ -420,3 +420,17 @@ export function isFunctionalRequirement(item: unknown): item is FunctionalRequir
 
     return true
 }
+
+export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement{
+    const obj = item as Record<string, unknown>;
+    if (
+        typeof obj.id !== 'string' ||
+        typeof obj.description !== 'string' ||
+        typeof obj.priority !== 'string' ||
+        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+    ) {
+        return false;
+    }
+
+    return true
+}
