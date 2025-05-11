@@ -136,6 +136,7 @@ export type OneToOne = {
 export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
 
 export type LocalEntity = {
+    $container: Module;
     attributes: Array<Attribute>;
     comment?: string;
     enumentityatribute: EnumEntityAtribute;
