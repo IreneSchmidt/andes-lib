@@ -1,5 +1,5 @@
 import { expandWithNewLines } from "../../util/expandToString";
-import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBussinesRule, isRequirements, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
+import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBussinesRule, isRequirement, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
 import { createPath } from "../../util/generator-utils";
 import fs from "fs";
 import path from 'path'
