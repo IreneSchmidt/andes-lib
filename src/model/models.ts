@@ -296,53 +296,97 @@ export function isEvent(item: unknown): item is Event{
 //----------------- AST ------------------
 
 
-// TESTAR AS FUNÇÕES ABAIXO
+// *************** TESTAR AS FUNÇÕES ABAIXO ***************
 
-// export function isEnumX(item: unknown): item is EnumX{
+// DICA: DIGITE *** CTRL + ; *** PARA DESCOMENTAR OU COMENTAR COM FACILIDADE
 
-//     const obj = item as Record<string, unknown>;
-//     if (
-//         !Array.isArray(obj.attributes) ||
-//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-//         typeof obj.name !== 'string'
-//     ) 
-//     {
-//         return false
-//     }
+// EM isEnumX, isLocalEntity e isImportedEntity
+// comment É OPICIONAL ? SE SIM FICA:
+//  (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+// SENÃO FICA:
+// typeof obj.comment !== 'string' ||
 
-//     return true
-// }
+export function isEnumX(item: unknown): item is EnumX{
 
-// export function isLocalEntity(item: unknown): item is LocalEntity{
-//     const obj = item as Record<string, unknown>;
-//     if (
-//         !Array.isArray(obj.attributes) ||
-//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-//         !Array.isArray(obj.enumentityatributes) ||
-//         !Array.isArray(obj.functions) ||
-//         typeof obj.is_abstract !== 'boolean' ||
-//         typeof obj.name !== 'string' ||
-//         !Array.isArray(obj.relations)    
-//     ) 
-//     {
-//         return false
-//     }
+    const obj = item as Record<string, unknown>;
+    if (
+        !Array.isArray(obj.attributes) ||
+        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+        typeof obj.name !== 'string'
+    ) 
+    {
+        return false
+    }
 
-//     return true
-// }
+    return true
+}
 
-// export function isImportedEntity(item: unknown): item is ImportedEntity{
-//     const obj = item as Record<string, unknown>;
-//     if (
-//         typeof obj !== 'object' ||
-//         obj === null ||
-//         typeof obj.name !== 'string' ||
-//         typeof obj.$type !== 'string' || 
-//         obj.$type !== 'ImportedEntity' ||
-//         typeof obj.$container !== 'object' || obj.$container === null
-//     ) {
-//         return false;
-//     }
+export function isLocalEntity(item: unknown): item is LocalEntity{
+    const obj = item as Record<string, unknown>;
+    if (
+        !Array.isArray(obj.attributes) ||
+        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+        !Array.isArray(obj.enumentityatributes) ||
+        !Array.isArray(obj.functions) ||
+        typeof obj.is_abstract !== 'boolean' ||
+        typeof obj.name !== 'string' ||
+        !Array.isArray(obj.relations)    
+    ) 
+    {
+        return false
+    }
 
-//     return true
-// }
+    return true
+}
+
+export function isImportedEntity(item: unknown): item is ImportedEntity{
+    const obj = item as Record<string, unknown>;
+    if (
+        typeof obj !== 'object' ||
+        obj === null ||
+        typeof obj.name !== 'string' ||
+        typeof obj.$type !== 'string' || 
+        obj.$type !== 'ImportedEntity' ||
+        typeof obj.$container !== 'object' || obj.$container === null
+    ) {
+        return false;
+    }
+
+    return true
+}
+
+// EM isManyToMany e isManyToOne
+// fullName E comment É OPICIONAL ? SE SIM FICA:
+//  (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//  (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+// SENÃO FICA:
+//  typeof obj.comment !== 'string' ||
+//  typeof obj.fullName !== 'string' ||
+
+export function isManyToMany(item: unknown): item is ManyToMany{
+    const obj = item as Record<string, unknown>;
+    if (
+        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+        typeof obj.name !== 'string' ||
+        typeof obj.type !== 'object' || obj.type === null
+    ) {
+        return false;
+    }
+
+    return true
+}
+
+export function isManyToOne(item: unknown): item is ManyToOne{
+    const obj = item as Record<string, unknown>;
+    if (
+        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+        typeof obj.name !== 'string' ||
+        typeof obj.type !== 'object' || obj.type === null
+    ) {
+        return false;
+    }
+
+    return true
+}
