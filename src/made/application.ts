@@ -89,9 +89,9 @@ export class MadeApplication {
         
         if (item.depend){
             
-            depends.push(`${this.dict[item.depend.ref?.id||""]}`)
+            depends.push(`${this.dict[item.depend.id||""]}`)
         }
-        item.depends.map(depend => depends.push(`${this.dict[depend.ref?.id||""]}`))
+        item.depends.map(depend => depends.push(`${this.dict[depend.id||""]}`))
 
 
         return expandToString`${depends.length >0 ? "depends:" :""} ${depends.map(value => `${value}`).join(`,`)}        

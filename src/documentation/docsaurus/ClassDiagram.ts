@@ -37,13 +37,13 @@ export class DiagramGeneratorService {
 
     private entityClassDiagram(entity: LocalEntity, module: Module): string {
         const lines = [
-            `class ${entity.name} ${entity.superType ? isImportedEntity(entity.superType.ref) ? `<< ${entity.superType.ref.name}>>` : `` : ``}{`,
+            `class ${entity.name} ${entity.superType ? isImportedEntity(entity.superType) ? `<< ${entity.superType.name}>>` : `` : ``}{`,
             ...entity.attributes.map(a => `${a.type}: ${a.name}`),
             ``,
-            ...entity.relations.filter(r => !isManyToMany(r)).map(r => `${r.type.ref?.name}: ${r.name.toLowerCase()}`),
+            ...entity.relations.filter(r => !isManyToMany(r)).map(r => `${r.type.name}: ${r.name.toLowerCase()}`),
             `}`,
-            entity.superType?.ref ? `\n${entity.superType.ref.name} <|-- ${entity.name}\n` : '',
-            entity.enumentityatributes.map(a => `${entity.name} "1" -- "1" ${a.type.ref?.name} : ${a.name.toLowerCase()}>`),
+            entity.superType? `\n${entity.superType.name} <|-- ${entity.name}\n` : '',
+            entity.enumentityatributes.map(a => `${entity.name} "1" -- "1" ${a.type.name} : ${a.name.toLowerCase()}>`),
             ...entity.relations.filter(r => !isManyToOne(r)).map(r => this.relationDiagram(r, entity, module)),
             ``
         ];
@@ -54,9 +54,9 @@ export class DiagramGeneratorService {
     private relationDiagram(relation: Relation, entity: LocalEntity, module: Module): string {
         const targetCardinality = isOneToOne(relation) ? "1" : "0..*";
         const sourceCardinality = isManyToMany(relation) ? "0..*" : "1";
-        const originModule = relation.type.ref?.$container.name?.toLowerCase() !== module.name?.toLowerCase() ? `${relation.type.ref?.$container.name}.` : "";
+        const originModule = relation.type.$container.name?.toLowerCase() !== module.name?.toLowerCase() ? `${relation.type.$container.name}.` : "";
 
-        return `${entity.name} "${sourceCardinality}" -- "${targetCardinality}" ${originModule}${relation.type.ref?.name} : ${relation.name.toLowerCase()} >`;
+        return `${entity.name} "${sourceCardinality}" -- "${targetCardinality}" ${originModule}${relation.type.name} : ${relation.name.toLowerCase()} >`;
     }
 
     private CreateModuloEstrutural(){
