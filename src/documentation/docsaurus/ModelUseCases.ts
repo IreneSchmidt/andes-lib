@@ -31,10 +31,10 @@ export class UseCaseGeneratorService {
 
     private createModelUseCase(module: UseCase): string {
         // Extrai os atores e verifica se cada referência é válida
-        const actors = module.actors.map(actor => actor.ref).filter(isActor);
+        const actors = module.actors.map(actor => actor).filter(isActor);
         
         // Extrai as dependências e verifica se cada referência é válida
-        const dependencies = module.depends.map(dep => dep.ref?.id).filter(Boolean);
+        const dependencies = module.depends.map(dep => dep.id).filter(Boolean);
 
         return expandWithNewLines`
             ' Definindo atores

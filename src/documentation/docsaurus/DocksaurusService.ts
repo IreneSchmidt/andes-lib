@@ -69,10 +69,10 @@ export class DocksaurusService {
             nodes.push({node:event.id.toUpperCase(),description:`${event.name_fragment}`})
             
             if (event.depend){
-                dependencies.push({from: event.id.toUpperCase(),to:event.depend.ref?.id.toUpperCase()?? ""})                
+                dependencies.push({from: event.id.toUpperCase(),to:event.depend.id.toUpperCase()?? ""})                
             }
             if (event.depends){
-                event.depends.map(itemDepended=> dependencies.push({from: event.id.toUpperCase(),to:itemDepended.ref?.id.toUpperCase()?? ""}))
+                event.depends.map(itemDepended=> dependencies.push({from: event.id.toUpperCase(),to:itemDepended.id.toUpperCase()?? ""}))
             }
         });
 
@@ -106,16 +106,16 @@ export class DocksaurusService {
         const useCases = this.model.components.filter(isUseCase)
         useCases.map(usecase => {
 
-            nodes.push({node: usecase.id.toUpperCase(),description:`${usecase.name_fragment}`, actors:usecase.actors.map(actor=>actor.ref?.name ??'')})
+            nodes.push({node: usecase.id.toUpperCase(),description:`${usecase.name_fragment}`, actors:usecase.actors.map(actor=>actor.name ??'')})
             
             if (usecase.depend){
-                dependencies.push({from: usecase.id.toUpperCase(),to:usecase.depend.ref?.id.toUpperCase()?? ""})                
+                dependencies.push({from: usecase.id.toUpperCase(),to:usecase.depend.id.toUpperCase()?? ""})                
             }
             if (usecase.depends){
-                usecase.depends.map(itemDepended=> dependencies.push({from: usecase.id.toUpperCase(),to:itemDepended.ref?.id.toUpperCase()?? ""}))
+                usecase.depends.map(itemDepended=> dependencies.push({from: usecase.id.toUpperCase(),to:itemDepended.id.toUpperCase()?? ""}))
             }
             if (usecase.actors){
-                usecase.actors.map(itemActor=> actorRelations.push({from: usecase.id.toUpperCase(),to:itemActor.ref?.name ?? ""}))
+                usecase.actors.map(itemActor=> actorRelations.push({from: usecase.id.toUpperCase(),to:itemActor.name ?? ""}))
             }
         })
            
@@ -143,38 +143,38 @@ export class DocksaurusService {
 
     private createNonFunctionalRequirements(){
 
-        const nonFunctionals = this.model.components.filter(isRequirements).flatMap(requirements=>requirements.requirements.filter(isNonFunctionalRequirement))
+        const nonFunctionals = this.model.components.filter(isRequirement).flatMap(requirements=>requirements.requirements.filter(isNonFunctionalRequirement))
 
         return expandWithNewLines`
         ## Requisitos Não-Funcionais
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${nonFunctionals.map(nonFunctional=> `|${nonFunctional.id.toUpperCase()}|${nonFunctional.description ?? `-`}|${nonFunctional.priority ?? `-`}|${nonFunctional.depend?.ref?.id.toUpperCase()?? `-`}${nonFunctional.depends.map(depends => depends.ref?.id ? `,${depends.ref.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${nonFunctionals.map(nonFunctional=> `|${nonFunctional.id.toUpperCase()}|${nonFunctional.description ?? `-`}|${nonFunctional.priority ?? `-`}|${nonFunctional.depend?.id.toUpperCase()?? `-`}${nonFunctional.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
     `
     }
 
     private createFunctionalRequirements(){
-        const functionalRequirements = this.model.components.filter(isRequirements).flatMap(requirements => requirements.requirements.filter(isFunctionalRequirement))
+        const functionalRequirements = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements.filter(isFunctionalRequirement))
       
         return expandWithNewLines`
         ## Requisitos Funcionais
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${functionalRequirements.map(requirement=> `|${requirement.id.toUpperCase()}|${requirement.description ?? `-`}|${requirement.priority ?? `-`}|${requirement.depend?.ref?.id.toUpperCase()?? `-`}${requirement.depends.map(depends => depends.ref?.id ? `,${depends.ref.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${functionalRequirements.map(requirement=> `|${requirement.id.toUpperCase()}|${requirement.description ?? `-`}|${requirement.priority ?? `-`}|${requirement.depend?.id.toUpperCase()?? `-`}${requirement.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
         `
     }
 
     private createBusinessRules(){
-        const BussinesRule = this.model.components.filter(isRequirements).flatMap(requirements => requirements.requirements.filter(isBussinesRule))
+        const BussinesRule = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements.filter(isBussinesRule))
       
         return expandWithNewLines`
         ## Regras de Negócios
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${BussinesRule.map(BussinesRule=> `|${BussinesRule.id.toUpperCase()}|${BussinesRule.description ?? `-`}|${BussinesRule.priority ?? `-`}|${BussinesRule.depend?.ref?.id.toUpperCase()?? `-`}${BussinesRule.depends.map(depends => depends.ref?.id ? `,${depends.ref.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${BussinesRule.map(BussinesRule=> `|${BussinesRule.id.toUpperCase()}|${BussinesRule.description ?? `-`}|${BussinesRule.priority ?? `-`}|${BussinesRule.depend?.id.toUpperCase()?? `-`}${BussinesRule.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
         `
     }
     
