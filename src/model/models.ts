@@ -295,3 +295,19 @@ export function isEvent(item: unknown): item is Event{
 
 //----------------- AST ------------------
 
+
+// TESTAR isEnumx e isLocalEntity PRESENTES NA PASTA SPARK
+export function isEnumX(item: unknown): item is EnumX{
+
+    const obj = item as Record<string, unknown>;
+    if (
+        !Array.isArray(obj.attributes) ||
+        typeof obj.comment !== 'string' ||
+        typeof obj.name !== 'string'
+    ) 
+    {
+        return false
+    }
+
+    return true
+}
