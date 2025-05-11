@@ -448,3 +448,28 @@ export function isBussinesRule(item: unknown): item is BussinesRule{
 
     return true
 }
+
+// SUGESTÃO DE MELHORIA -> OTIMIZAR isFunctionalRequirement, isNonFunctionalRequirement E isBussinesRule
+
+// function isRequirementBase(obj: unknown): obj is {
+//     id: string;
+//     description: string;
+//     priority: string;
+//     depend: Requirements;
+// } {
+//     const o = obj as Record<string, unknown>;
+//     return (
+//         typeof o.id === 'string' &&
+//         typeof o.description === 'string' &&
+//         typeof o.priority === 'string' &&
+//         typeof o.depend === 'object' &&
+//         o.depend !== null &&
+//         isRequirement(o.depend)
+//     );
+// }
+
+// export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement { return isRequirementBase(item); }
+
+// export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement { return isRequirementBase(item); }
+
+// export function isBussinesRule(item: unknown): item is BussinesRule { return isRequirementBase(item); }
