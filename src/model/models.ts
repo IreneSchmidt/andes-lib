@@ -306,148 +306,148 @@ export function isEvent(item: unknown): item is Event{
 // SENÃO FICA:
 // typeof obj.comment !== 'string' ||
 
-export function isEnumX(item: unknown): item is EnumX{
+// export function isEnumX(item: unknown): item is EnumX{
 
-    const obj = item as Record<string, unknown>;
-    if (
-        !Array.isArray(obj.attributes) ||
-        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-        typeof obj.name !== 'string'
-    ) 
-    {
-        return false
-    }
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         !Array.isArray(obj.attributes) ||
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         typeof obj.name !== 'string'
+//     ) 
+//     {
+//         return false
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isLocalEntity(item: unknown): item is LocalEntity{
-    const obj = item as Record<string, unknown>;
-    if (
-        !Array.isArray(obj.attributes) ||
-        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-        !Array.isArray(obj.enumentityatributes) ||
-        !Array.isArray(obj.functions) ||
-        typeof obj.is_abstract !== 'boolean' ||
-        typeof obj.name !== 'string' ||
-        !Array.isArray(obj.relations)    
-    ) 
-    {
-        return false
-    }
+// export function isLocalEntity(item: unknown): item is LocalEntity{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         !Array.isArray(obj.attributes) ||
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         !Array.isArray(obj.enumentityatributes) ||
+//         !Array.isArray(obj.functions) ||
+//         typeof obj.is_abstract !== 'boolean' ||
+//         typeof obj.name !== 'string' ||
+//         !Array.isArray(obj.relations)    
+//     ) 
+//     {
+//         return false
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isImportedEntity(item: unknown): item is ImportedEntity{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj !== 'object' ||
-        obj === null ||
-        typeof obj.name !== 'string' ||
-        typeof obj.$type !== 'string' || 
-        obj.$type !== 'ImportedEntity' ||
-        typeof obj.$container !== 'object' || obj.$container === null
-    ) {
-        return false;
-    }
+// export function isImportedEntity(item: unknown): item is ImportedEntity{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj !== 'object' ||
+//         obj === null ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.$type !== 'string' || 
+//         obj.$type !== 'ImportedEntity' ||
+//         typeof obj.$container !== 'object' || obj.$container === null
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-// EM isManyToMany, isManyToOne e isOneToOne
-// fullName E comment É OPICIONAL ? SE SIM FICA:
-//  (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-//  (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
-// SENÃO FICA:
-//  typeof obj.comment !== 'string' ||
-//  typeof obj.fullName !== 'string' ||
+// // EM isManyToMany, isManyToOne e isOneToOne
+// // fullName E comment É OPICIONAL ? SE SIM FICA:
+// //  (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+// //  (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+// // SENÃO FICA:
+// //  typeof obj.comment !== 'string' ||
+// //  typeof obj.fullName !== 'string' ||
 
-export function isManyToMany(item: unknown): item is ManyToMany{
-    const obj = item as Record<string, unknown>;
-    if (
-        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
-        typeof obj.name !== 'string' ||
-        typeof obj.type !== 'object' || obj.type === null
-    ) {
-        return false;
-    }
+// export function isManyToMany(item: unknown): item is ManyToMany{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.type !== 'object' || obj.type === null
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isManyToOne(item: unknown): item is ManyToOne{
-    const obj = item as Record<string, unknown>;
-    if (
-        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
-        typeof obj.name !== 'string' ||
-        typeof obj.type !== 'object' || obj.type === null
-    ) {
-        return false;
-    }
+// export function isManyToOne(item: unknown): item is ManyToOne{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.type !== 'object' || obj.type === null
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isOneToOne(item: unknown): item is OneToOne{
-    const obj = item as Record<string, unknown>;
-    if (
-        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
-        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
-        typeof obj.name !== 'string' ||
-        typeof obj.type !== 'object' || obj.type === null
-    ) {
-        return false;
-    }
+// export function isOneToOne(item: unknown): item is OneToOne{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.type !== 'object' || obj.type === null
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-// FUNÇÕES RELACIONADAS A REQUERIMENTS
+// // FUNÇÕES RELACIONADAS A REQUERIMENTS
 
-export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
-    ) {
-        return false;
-    }
+// export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj.id !== 'string' ||
+//         typeof obj.description !== 'string' ||
+//         typeof obj.priority !== 'string' ||
+//         typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
-    ) {
-        return false;
-    }
+// export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj.id !== 'string' ||
+//         typeof obj.description !== 'string' ||
+//         typeof obj.priority !== 'string' ||
+//         typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
-export function isBussinesRule(item: unknown): item is BussinesRule{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
-    ) {
-        return false;
-    }
+// export function isBussinesRule(item: unknown): item is BussinesRule{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj.id !== 'string' ||
+//         typeof obj.description !== 'string' ||
+//         typeof obj.priority !== 'string' ||
+//         typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+//     ) {
+//         return false;
+//     }
 
-    return true
-}
+//     return true
+// }
 
 // SUGESTÃO DE MELHORIA -> OTIMIZAR isFunctionalRequirement, isNonFunctionalRequirement E isBussinesRule
 
