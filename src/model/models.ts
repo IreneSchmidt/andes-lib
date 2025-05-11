@@ -146,6 +146,7 @@ export type LocalEntity = {
     name: string;
     relation: Relation;
     relations: Array<Relation>;
+    superType?: Entity;
 }
 
 export type Attribute = {
@@ -205,7 +206,10 @@ export type BussinesRule = {
 
 // --------------- USE CASE -------------------
 export type Actor = {
-    name: string;
+    comment?: string;
+    entity: Entity;
+    name: QualifiedName;
+    superType?: Actor;
 }
 
 export type UseCase = {
