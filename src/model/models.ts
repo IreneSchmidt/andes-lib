@@ -297,17 +297,36 @@ export function isEvent(item: unknown): item is Event{
 
 
 // TESTAR isEnumx e isLocalEntity PRESENTES NA PASTA SPARK
-export function isEnumX(item: unknown): item is EnumX{
 
-    const obj = item as Record<string, unknown>;
-    if (
-        !Array.isArray(obj.attributes) ||
-        typeof obj.comment !== 'string' ||
-        typeof obj.name !== 'string'
-    ) 
-    {
-        return false
-    }
+// export function isEnumX(item: unknown): item is EnumX{
 
-    return true
-}
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         !Array.isArray(obj.attributes) ||
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         typeof obj.name !== 'string'
+//     ) 
+//     {
+//         return false
+//     }
+
+//     return true
+// }
+
+// export function isLocalEntity(item: unknown): item is LocalEntity{
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         !Array.isArray(obj.attributes) ||
+//         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+//         !Array.isArray(obj.enumentityatributes) ||
+//         !Array.isArray(obj.functions) ||
+//         typeof obj.is_abstract !== 'boolean' ||
+//         typeof obj.name !== 'string' ||
+//         !Array.isArray(obj.relations)    
+//     ) 
+//     {
+//         return false
+//     }
+
+//     return true
+// }
