@@ -404,3 +404,19 @@ export function isOneToOne(item: unknown): item is OneToOne{
 
     return true
 }
+
+// FUNÇÕES RELACIONADAS A REQUERIMENTS
+
+export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement{
+    const obj = item as Record<string, unknown>;
+    if (
+        typeof obj.id !== 'string' ||
+        typeof obj.description !== 'string' ||
+        typeof obj.priority !== 'string' ||
+        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+    ) {
+        return false;
+    }
+
+    return true
+}
