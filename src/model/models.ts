@@ -218,6 +218,80 @@ export type Event = {
     performer: Actor;
 }
 
+export function isUseCase(item: unknown): item is UseCase {
+    // Verificação básica de objeto
+    if (typeof item !== 'object' || item === null) return false;
+
+    const obj = item as Record<string, unknown>;
+
+    // Verifica propriedades obrigatórias e seus tipos
+    return (
+        typeof obj.id === 'string' &&
+        typeof obj.description === 'string' &&
+        Array.isArray(obj.requirements) &&
+        Array.isArray(obj.events)
+    );
+}
+
+export function isRequirement(item: unknown): item is Requirements{
+    // Verifica se é um objeto não nulo
+    if (typeof item !== 'object' || item === null) {
+        return false;
+    }
+
+    // Verificação de propriedades
+    const obj = item as Record<string, unknown>;
+    if (
+        typeof obj.id !== 'string' ||
+        typeof obj.name !== 'string' ||
+        typeof obj.description !== 'string' ||
+        !Array.isArray(obj.requirement)
+    ) 
+    {
+        return false;
+    }
+
+    return true;
+}
+
+// TALVEZ NÃO ESTEJA FUNCIONANDO
+// export function isActor(item: unknown): item is Actor{
+//     // Verifica se é um objeto não nulo
+//     if (typeof item !== 'object' || item === null) {
+//         return false;
+//     }
+
+//     // Verificação de propriedades
+//     const obj = item as Record<string, unknown>;
+//     if (typeof obj.name !== 'string') return false;
+    
+
+//     return true;
+// }
+
+// export function isEvent(item: unknown): item is Event{
+//     // Verifica se é um objeto não nulo
+//     if (typeof item !== 'object' || item === null) {
+//         return false;
+//     }
+
+//     // Verificação de propriedades
+//     const obj = item as Record<string, unknown>;
+//     if (
+//         typeof obj.id !== 'string' ||
+//         typeof obj.name !== 'string' ||
+//         typeof obj.description !== 'string' ||
+//         typeof obj.action !== 'string' ||
+//         !Array.isArray(obj.requirements) ||
+//         !Array.isArray(obj.depend) ||
+//         !isActor(obj.performer) 
+//     ) 
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
 //--------------- ENTITIES ---------------
 
 //----------------- AST ------------------

@@ -1,7 +1,7 @@
 //This configuration tells TypeScript how to compile our code.
 
 {
-    "include": ["./src", "expandToString.ts"],
+    "include": ["./src", "src/util/expandToString.ts"],
     "exclude": ["**/*.test.ts"],
     "compilerOptions": {
       "module": "esnext",
