@@ -355,7 +355,7 @@ export function isImportedEntity(item: unknown): item is ImportedEntity{
     return true
 }
 
-// EM isManyToMany e isManyToOne
+// EM isManyToMany, isManyToOne e isOneToOne
 // fullName E comment É OPICIONAL ? SE SIM FICA:
 //  (obj.comment !== undefined && typeof obj.comment !== 'string') ||
 //  (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
@@ -378,6 +378,20 @@ export function isManyToMany(item: unknown): item is ManyToMany{
 }
 
 export function isManyToOne(item: unknown): item is ManyToOne{
+    const obj = item as Record<string, unknown>;
+    if (
+        (obj.comment !== undefined && typeof obj.comment !== 'string') ||
+        (obj.fullName !== undefined && typeof obj.fullName !== 'string') ||
+        typeof obj.name !== 'string' ||
+        typeof obj.type !== 'object' || obj.type === null
+    ) {
+        return false;
+    }
+
+    return true
+}
+
+export function isOneToOne(item: unknown): item is OneToOne{
     const obj = item as Record<string, unknown>;
     if (
         (obj.comment !== undefined && typeof obj.comment !== 'string') ||
