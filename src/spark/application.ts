@@ -56,7 +56,7 @@ export class SparkApplication {
       ${entity.attributes.map(value => `${value.name}: ${value.type}`)} 
       ${entity.enumentityatributes.map(value => `${value.name} uses ${value.type.name}`)} 
       ${entity.functions.map(value => `fun ${value.name} (${value.paramters.map(param=>param.element).join(',')}): ${value.response}`)} 
-      ${entity.relations.map(value => `${value.name} ${value.$type} ${value.type.name}`)} 
+      ${entity.relations.map(value => `${value.name} ${value.type} ${value.type.name}`)} 
        
     }
         `

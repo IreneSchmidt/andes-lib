@@ -42,7 +42,7 @@ export class DiagramGeneratorService {
             ``,
             ...entity.relations.filter(r => !isManyToMany(r)).map(r => `${r.type.name}: ${r.name.toLowerCase()}`),
             `}`,
-            entity.superType? `\n${entity.superType.name} <|-- ${entity.name}\n` : '',
+            entity.superType ? `\n${entity.superType.name} <|-- ${entity.name}\n` : '',
             entity.enumentityatributes.map(a => `${entity.name} "1" -- "1" ${a.type.name} : ${a.name.toLowerCase()}>`),
             ...entity.relations.filter(r => !isManyToOne(r)).map(r => this.relationDiagram(r, entity, module)),
             ``
