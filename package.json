@@ -2,10 +2,10 @@
   "name": "andes-lib",
   "version": "0.1.0",
   "description": "Andes Library to assist in the development of Andes applications.",
-  "main": "dist/main.js",
-  "types": "dist/main.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "generate": "./dist/main.js"
+    "generate": "./index/main.js"
   },
   "scripts": {
     "build": "tsup",
