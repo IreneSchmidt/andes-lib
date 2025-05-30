@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "generate": "./index/main.js"
+    "generate": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup",
