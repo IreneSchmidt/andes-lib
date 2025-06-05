@@ -210,7 +210,7 @@ export type BussinesRule = {
 // --------------- USE CASE -------------------
 export type Actor = {
     comment?: string;
-    entity: Entity;
+    entity?: Entity;
     name: QualifiedName;
     superType?: Actor;
 }
