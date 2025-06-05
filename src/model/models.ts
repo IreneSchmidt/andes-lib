@@ -98,8 +98,8 @@ export type Parameter = {
 export type FunctionEntity = {
     comment?: string;
     name: string;
-    paramter:Parameter;
-    paramters: Array<Parameter>;
+    paramter?:Parameter;
+    paramters?: Array<Parameter>;
     response: DATATYPE;
 }
 
@@ -139,14 +139,14 @@ export type LocalEntity = {
     $container: Module;
     attributes: Array<Attribute>;
     comment?: string;
-    enumentityatribute: EnumEntityAtribute;
-    enumentityatributes: Array<EnumEntityAtribute>;
-    function: FunctionEntity;
-    functions: Array<FunctionEntity>;
+    enumentityatribute?: EnumEntityAtribute;
+    enumentityatributes?: Array<EnumEntityAtribute>;
+    function?: FunctionEntity;
+    functions?: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
-    relation: Relation;
-    relations: Array<Relation>;
+    relation?: Relation;
+    relations?: Array<Relation>;
     superType?: Entity;
 }
 
@@ -177,7 +177,7 @@ export type Requirement = {
     id: string;
     name: string;
     description: string;
-    requirement: BussinesRule | FunctionalRequirement | NonFunctionalRequirement
+    requirement?: BussinesRule | FunctionalRequirement | NonFunctionalRequirement
     requirements: Array<FunctionalRequirement|NonFunctionalRequirement|BussinesRule>
 }
 
@@ -185,7 +185,7 @@ export type FunctionalRequirement ={
     id: string;
     description: string;
     priority: string;
-    depend: Requirement;
+    depend?: Requirement;
     depends: Array<Requirement>
 }
 
@@ -193,7 +193,7 @@ export type NonFunctionalRequirement = {
     id: string;
     description: string;
     priority: string;
-    depend: Requirement;
+    depend?: Requirement;
     depends: Array<Requirement>
 }
 
@@ -201,7 +201,7 @@ export type BussinesRule = {
     id: string;
     description: string;
     priority: string;
-    depend: Requirement;
+    depend?: Requirement;
     depends: Array<Requirement>;
 }
 
@@ -232,7 +232,7 @@ export type Event = {
     description: string;
     action: string;
     requirements: Array<Requirement>;
-    depend: Event;
+    depend?: Event;
     depends: Array<Event>;
     performer: Actor
 }
