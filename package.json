@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "andes-lib",
   "version": "0.1.8",
   "description": "Andes Library to assist in the development of Andes applications.",
