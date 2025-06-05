@@ -99,7 +99,7 @@ export type FunctionEntity = {
     comment?: string;
     name: string;
     paramter?:Parameter;
-    paramters?: Array<Parameter>;
+    paramters: Array<Parameter>;
     response: DATATYPE;
 }
 
@@ -140,13 +140,13 @@ export type LocalEntity = {
     attributes: Array<Attribute>;
     comment?: string;
     enumentityatribute?: EnumEntityAtribute;
-    enumentityatributes?: Array<EnumEntityAtribute>;
+    enumentityatributes: Array<EnumEntityAtribute>;
     function?: FunctionEntity;
-    functions?: Array<FunctionEntity>;
+    functions: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
     relation?: Relation;
-    relations?: Array<Relation>;
+    relations: Array<Relation>;
     superType?: Entity;
 }
 
