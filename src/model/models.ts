@@ -173,6 +173,8 @@ export type Project = {
 }
 
 //-----------REQUIREMENT--------------
+export type Requirements = FunctionalRequirement | NonFunctionalRequirement;
+
 export type Requirement = {
     id: string;
     name: string;
@@ -185,24 +187,24 @@ export type FunctionalRequirement ={
     id: string;
     description: string;
     priority: string;
-    depend?: Requirement;
-    depends: Array<Requirement>
+    depend?: Requirements;
+    depends: Array<Requirements>
 }
 
 export type NonFunctionalRequirement = {
     id: string;
     description: string;
     priority: string;
-    depend?: Requirement;
-    depends: Array<Requirement>
+    depend?: Requirements;
+    depends: Array<Requirements>
 }
 
 export type BussinesRule = {
     id: string;
     description: string;
     priority: string;
-    depend?: Requirement;
-    depends: Array<Requirement>;
+    depend?: Requirements;
+    depends: Array<Requirements>;
 }
 
 // --------------- USE CASE -------------------
@@ -221,8 +223,8 @@ export type UseCase = {
     events: Array<Event>;
     id: string;
     name_fragment?: string;
-    requirement?: Requirement;
-    requirements: Array<Requirement>
+    requirement?: Requirements;
+    requirements: Array<Requirements>
 }
 
 export type Event = {
@@ -231,7 +233,7 @@ export type Event = {
     name_fragment?: string;
     description: string;
     action: string;
-    requirements: Array<Requirement>;
+    requirements: Array<Requirements>;
     depend?: Event;
     depends: Array<Event>;
     performer: Actor
