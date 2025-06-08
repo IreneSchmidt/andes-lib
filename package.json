@@ -12,7 +12,9 @@
     "prepare": "npm run build",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test": "jest",
+  "test:coverage": "jest --coverage"
   },
   "type": "module",
   "files": [
@@ -58,8 +60,11 @@
   },
   "homepage": "https://github.com/IreneSchmidt/andes-lib#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.15.17",
     "cz-conventional-changelog": "^3.3.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.4.0",
@@ -74,4 +79,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   }
+
+
+
 }
