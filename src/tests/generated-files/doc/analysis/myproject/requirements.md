@@ -7,20 +7,20 @@ sidebar_position: 2
 | ID   | Descrição    |Prioridade   | Dependências           |
 |------|--------------|-------------|------------------------|
 |FR01|Functional requirement description|High||
-|BR01|Business rule description|High||
-|FR02|Functional requirement description|High|FR01|
+|FR02|Another functional requirement|High|FR01|
 
 ## Requisitos Não-Funcionais
 
 | ID   | Descrição    |Prioridade   | Dependências           |
 |------|--------------|-------------|------------------------|
-
+|NFR1|Non Func Req 1|Low||
+|NFR2|Non Func Req 1|Low|,NFR1|
 
 ## Regras de Negócios
 
 | ID   | Descrição    |Prioridade   | Dependências           |
 |------|--------------|-------------|------------------------|
-
+|BR01|Business rule description|High||
 
 
 ## Matrix de Dependencia dos casos de uso

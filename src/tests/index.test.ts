@@ -1,8 +1,8 @@
-import {Actor, Model, Requirement, BussinesRule, FunctionalRequirement, UseCase, Event} from "../model/models.ts";
+import {Actor, Model, Requirement, UseCase, Event, createBusinessRule, createFunctionalRequirement, createNonFunctionalRequirement, isRequirement, isBusinessRule, isFunctionalRequirement, isNonFunctionalRequirement} from "../model/models.ts";
 import {SparkApplication} from "../spark/application.ts";
 import {MadeApplication} from "../made/application.ts";
 import {DocumentationApplication} from "../documentation/application.ts";
-import { test , expect } from 'vitest'
+import { test , expect, describe, it } from 'vitest'
 import fs from "fs"
 import path from "path"
 
@@ -12,33 +12,27 @@ const myActor: Actor = {
     comment: "This is an actor",
 }
 
-const myBusinessRule: BussinesRule = {
-    id: "BR01",
-    description: "Business rule description",
-    priority:"High",
-    depends: [],
+const myBusinessRule1 = createBusinessRule("BR01", "Business rule description", "High");
 
-}
+const myFunctionalRequirement = createFunctionalRequirement("FR01", "Functional requirement description", "High");
 
-const myFunctionalRequirement: FunctionalRequirement = {
-    id: "FR01",
-    description:"Functional requirement description",
-    priority:"High",
-    depends: [],
-}
+const myFunctionalRequirement2 = createFunctionalRequirement(
+    "FR02",
+    "Another functional requirement",
+    "High",
+    [myFunctionalRequirement]
+);
 
-const myFunctionalRequirement2: FunctionalRequirement = {
-    id: "FR02",
-    description:"Functional requirement description",
-    priority:"High",
-    depends: [myFunctionalRequirement],
-}
+const myNonFunctionRequirement1 = createNonFunctionalRequirement('NFR1', 'Non Func Req 1', 'Low');
+const myNonFunctionRequirement2 = createNonFunctionalRequirement('NFR2', 'Non Func Req 1', 'Low', [myNonFunctionRequirement1]);
+
+
 
 const myRequirement: Requirement = {
     id:"1",
     name:"Requirement 1",
     description: "This is a requirement",
-    requirements: [myFunctionalRequirement,myBusinessRule,myFunctionalRequirement2]
+    requirements: [myFunctionalRequirement,myBusinessRule1,myFunctionalRequirement2, myNonFunctionRequirement1, myNonFunctionRequirement2],
 }
 
 const myEvent: Event = {
@@ -91,15 +85,64 @@ test("SparkApplication Test", ()=>{const sparkApp = new SparkApplication
     expect(fs.existsSync(expectedFile)).toBe(true); // <--- Verifica se realmente a pasta foi criada, se ela existe após execução feita
  });
 
- test("MadeApplication Test", ()=>{const madeApp = new MadeApplication
+test("MadeApplication Test", ()=>{const madeApp = new MadeApplication
     (myModel, myTargetFolder);
     madeApp.create();
 
     const expectedFile = path.join(myTargetFolder, "./made/myproject.made"); 
     expect(fs.existsSync(expectedFile)).toBe(true); 
- });
+});
 
- test("DocumentationAplication Test", ()=>{const DocsApp = new DocumentationApplication
+test("DocumentationAplication Test", ()=>{const DocsApp = new DocumentationApplication
     (myModel, myTargetFolder);
     DocsApp.create();
- });
+});
+
+describe('Filtragem de tipos de Requirement', () => {
+    
+    it('Deve filtrar corretamente FunctionalRequirements', () => {
+        // Mock de Requirements dentro de um Requirement
+        const fr1 = myFunctionalRequirement;
+        const fr2 = myFunctionalRequirement2;
+
+        const functionalRequirements = myModel.components
+            .filter(isRequirement)
+            .flatMap(requirements => requirements.requirements?.filter(isFunctionalRequirement))
+            .filter(requirement => requirement != undefined);
+
+        console.log("Functional Requirements: ", functionalRequirements);
+
+        expect(functionalRequirements).toHaveLength(2);
+        expect(functionalRequirements.map(fr => fr.id)).toEqual(['FR01', 'FR02']);
+    });
+
+    it('Deve filtrar corretamente NonFunctionalRequirements', () => {
+        const nfr1 = myNonFunctionRequirement1;
+        const nfr2 = myNonFunctionRequirement2;
+
+        const nonFunctionalRequirements = myModel.components
+            .filter(isRequirement)
+            .flatMap(requirements => requirements.requirements?.filter(isNonFunctionalRequirement))
+
+        console.log("Non Functional Requirements: ", nonFunctionalRequirements);
+
+        expect(nonFunctionalRequirements).toHaveLength(2);
+        expect(nonFunctionalRequirements.map(nfr => nfr.id)).toEqual(['NFR1', 'NFR2']);
+    });
+
+    it('Deve filtrar corretamente BusinessRules', () => {
+        const br1 = myBusinessRule1;
+
+        const businessRules = myModel.components
+            .filter(isRequirement)
+            .flatMap(requirements => requirements.requirements?.filter(isBusinessRule))
+            .filter(requirement => requirement != undefined);
+
+        console.log("Business Rules: ", businessRules);
+
+        expect(businessRules).toHaveLength(1);
+        expect(businessRules[0].id).toBe('BR01');
+    });
+});
+
+ 

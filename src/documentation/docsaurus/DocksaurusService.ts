@@ -1,5 +1,5 @@
 import { expandWithNewLines } from "../../util/expandToString";
-import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBussinesRule, isRequirement, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
+import { Event, Model, UseCase, isEvent, isFunctionalRequirement, isNonFunctionalRequirement, isBusinessRule, isRequirement, isUseCase} from "../../model/models"; //Verificar se todos realmente vão pra models
 import { createPath } from "../../util/generator-utils";
 import fs from "fs";
 import path from 'path'
@@ -147,7 +147,7 @@ export class DocksaurusService {
     }
 
     private createFunctionalRequirements(){
-        console.log("Components + Filter (IsRequirement) + Flatmap: ", this.model.components.filter(isRequirement));
+        console.log("Components + Filter (IsRequirement) + Flatmap: ", this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements?.filter(isFunctionalRequirement)).filter(requirement => requirement != undefined));
         const functionalRequirements = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements?.filter(isFunctionalRequirement)).filter(requirement => requirement != undefined);
         return expandWithNewLines`
         ## Requisitos Funcionais
@@ -159,14 +159,14 @@ export class DocksaurusService {
     }
 
     private createBusinessRules(){
-        const BussinesRule = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements.filter(isBussinesRule))
+        const BusinessRule = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements.filter(isBusinessRule))
       
         return expandWithNewLines`
         ## Regras de Negócios
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${BussinesRule.map(BussinesRule=> `|${BussinesRule.id.toUpperCase()}|${BussinesRule.description ?? `-`}|${BussinesRule.priority ?? `-`}|${BussinesRule.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${BusinessRule.map(BusinessRule=> `|${BusinessRule.id.toUpperCase()}|${BusinessRule.description ?? `-`}|${BusinessRule.priority ?? `-`}|${BusinessRule.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
         `
     }
     

@@ -179,24 +179,27 @@ export type Requirement = {
     id: string;
     name: string;
     description: string;
-    requirements: Array<FunctionalRequirement|NonFunctionalRequirement|BussinesRule>
+    requirements: Array<FunctionalRequirement|NonFunctionalRequirement|BusinessRule>
 }
 
-export type FunctionalRequirement ={
+export type FunctionalRequirement = {
+    kind: 'FunctionalRequirement';
     id: string;
     description: string;
     priority: string;
-    depends: Array<Requirements>
+    depends: Array<Requirements>;
 }
 
 export type NonFunctionalRequirement = {
+    kind: 'NonFunctionalRequirement';
     id: string;
     description: string;
     priority: string;
-    depends: Array<Requirements>
+    depends: Array<Requirements>;
 }
 
-export type BussinesRule = {
+export type BusinessRule = {
+    kind: 'BusinessRule';
     id: string;
     description: string;
     priority: string;
@@ -424,49 +427,77 @@ export function isOneToOne(item: unknown): item is OneToOne{
 
 // FUNÇÕES RELACIONADAS A REQUERIMENTS
 
-export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' &&
-        typeof obj.description !== 'string' &&
-        typeof obj.priority !== 'string' &&
-        typeof obj.depends !== 'object' && obj.depends === null && !isRequirement(obj.depends)
-    ) {
-        return false;
-    }
-
-    return true
+export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement {
+    return (
+        typeof item === 'object' &&
+        item !== null &&
+        (item as any).kind === 'FunctionalRequirement'
+    );
 }
+
 
 export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
-    ) {
-        return false;
-    }
-
-    return true
+    return (
+        typeof item === 'object' &&
+        item !== null &&
+        (item as any).kind === "NonFunctionalRequirement"
+    );
 }
 
-export function isBussinesRule(item: unknown): item is BussinesRule{
-    const obj = item as Record<string, unknown>;
-    if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
-    ) {
-        return false;
-    }
-
-    return true
+export function isBusinessRule(item: unknown): item is BusinessRule{
+    return (
+        typeof item === 'object' &&
+        item !== null &&
+        (item as any).kind === 'BusinessRule'
+    );
 }
 
-//SUGESTÃO DE MELHORIA -> OTIMIZAR isFunctionalRequirement, isNonFunctionalRequirement E isBussinesRule
+//SUGESTÃO DE MELHORIA -> OTIMIZAR isFunctionalRequirement, isNonFunctionalRequirement E isBusinessRule
+
+export function createFunctionalRequirement(
+    id: string,
+    description: string,
+    priority: string,
+    depends: Array<Requirements> = []
+): FunctionalRequirement {
+    return {
+        kind: 'FunctionalRequirement',
+        id,
+        description,
+        priority,
+        depends,
+    };
+}
+
+export function createNonFunctionalRequirement(
+    id: string,
+    description: string,
+    priority: string,
+    depends: Array<Requirements> = []
+): NonFunctionalRequirement {
+    return {
+        kind: 'NonFunctionalRequirement',
+        id,
+        description,
+        priority,
+        depends,
+    };
+}
+
+export function createBusinessRule(
+    id: string,
+    description: string,
+    priority: string,
+    depends: Array<Requirements> = []
+): BusinessRule {
+    return {
+        kind: 'BusinessRule',
+        id,
+        description,
+        priority,
+        depends,
+    };
+}
 
 function isRequirementBase(obj: unknown): obj is {
     id: string;
@@ -489,4 +520,4 @@ function isRequirementBase(obj: unknown): obj is {
 
 // export function isNonFunctionalRequirement(item: unknown): item is NonFunctionalRequirement { return isRequirementBase(item); }
 
-// export function isBussinesRule(item: unknown): item is BussinesRule { return isRequirementBase(item); }
+// export function isBusinessRule(item: unknown): item is BusinessRule { return isRequirementBase(item); }
