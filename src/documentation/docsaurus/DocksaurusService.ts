@@ -142,12 +142,12 @@ export class DocksaurusService {
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${nonFunctionals.map(nonFunctional=> `|${nonFunctional.id.toUpperCase()}|${nonFunctional.description ?? `-`}|${nonFunctional.priority ?? `-`}|${nonFunctional.depend?.id.toUpperCase()?? `-`}${nonFunctional.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${nonFunctionals.map(nonFunctional=> `|${nonFunctional.id.toUpperCase()}|${nonFunctional.description ?? `-`}|${nonFunctional.priority ?? `-`}|${nonFunctional.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
     `
     }
 
     private createFunctionalRequirements(){
-        console.log("Components + Filter (IsRequirement): ", this.model.components.filter(isRequirement));
+        console.log("Components + Filter (IsRequirement) + Flatmap: ", this.model.components.filter(isRequirement));
         const functionalRequirements = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements?.filter(isFunctionalRequirement)).filter(requirement => requirement != undefined);
         return expandWithNewLines`
         ## Requisitos Funcionais

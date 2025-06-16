@@ -6,7 +6,9 @@ sidebar_position: 2
 
 | ID   | Descrição    |Prioridade   | Dependências           |
 |------|--------------|-------------|------------------------|
-
+|FR01|Functional requirement description|High||
+|BR01|Business rule description|High||
+|FR02|Functional requirement description|High|FR01|
 
 ## Requisitos Não-Funcionais
 

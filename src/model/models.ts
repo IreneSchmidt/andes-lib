@@ -193,7 +193,6 @@ export type NonFunctionalRequirement = {
     id: string;
     description: string;
     priority: string;
-    depend: Requirements;
     depends: Array<Requirements>
 }
 
@@ -253,21 +252,23 @@ export function isRequirement(item: unknown): item is Requirement {
         return false;
     }
 
-    // Verificação de propriedades
     const obj = item as Record<string, unknown>;
+
+    // Se faltar qualquer campo obrigatório OU se tiver campos de outros tipos, retorne false
     if (
-        typeof obj.id !== 'string' &&
-        typeof obj.name !== 'string' &&
-        typeof obj.description !== 'string' &&
-        !Array.isArray(obj.requirements) &&
-        obj.hasOwnProperty('actors') === false &&
-        obj.hasOwnProperty('comment') === false
+        typeof obj.id !== 'string' ||
+        typeof obj.name !== 'string' ||
+        typeof obj.description !== 'string' ||
+        !Array.isArray(obj.requirements) ||
+        obj.hasOwnProperty('actors') ||
+        obj.hasOwnProperty('comment')
     ) {
         return false;
     }
 
     return true;
 }
+
 
 
 export function isActor(item: unknown): item is Actor{
