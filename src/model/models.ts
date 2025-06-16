@@ -41,7 +41,7 @@ export type ImportedEntity = {
 }
 
 export type EnumEntityAtribute = {
-    comment?: string;
+    comment: string;
     name: string;
     type: EnumX;
 }
@@ -51,19 +51,19 @@ export type Entity = ImportedEntity | LocalEntity;
 
 export type EnumX = {
     attributes: Array<AttributeEnum>;
-    comment?: string;
+    comment: string;
     name: string;
 }
 
 export type AttributeEnum ={
-    comment?: string;
-    fullName?: string;
+    comment: string;
+    fullName: string;
     name: string;
 }
 
 export type Model = {
     components: Array<AbstractElement | Actor | ModuleImport | Requirement | UseCase>;
-    project?: Project;
+    project: Project;
 }
 
 export type ModuleImport = {
@@ -76,9 +76,9 @@ export type ModuleImport = {
 export type Module = {
     readonly $container: Model | Module;
     readonly $type: 'Module';
-    description?: string;
+    description: string;
     elements: Array<AbstractElement | LocalEntity>;
-    name?: QualifiedName;
+    name: QualifiedName;
 }
 
 export type AbstractElement = EnumX | Module;
@@ -96,38 +96,38 @@ export type Parameter = {
 }
 
 export type FunctionEntity = {
-    comment?: string;
+    comment: string;
     name: string;
-    paramter?:Parameter;
+    paramter:Parameter;
     paramters: Array<Parameter>;
     response: DATATYPE;
 }
 
 // Relations
 export type ManyToMany = {
-    by?: LocalEntity;
-    comment?: string;
-    fullName?: string;
+    by: LocalEntity;
+    comment: string;
+    fullName: string;
     name: string;
     type: Entity;
 }
 export type ManyToOne = {
-    comment?: string;
-    fullName?: string;
+    comment: string;
+    fullName: string;
     name: string;
     type: Entity;
 }
 
 export type OneToMany = {
-    comment?: string;
-    fullName?: string;
+    comment: string;
+    fullName: string;
     name: string;
     type: Entity;
 }
 
 export type OneToOne = {
-    comment?: string;
-    fullName?: string;
+    comment: string;
+    fullName: string;
     name: string;
     type: Entity;
 }
@@ -138,24 +138,24 @@ export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
 export type LocalEntity = {
     $container: Module;
     attributes: Array<Attribute>;
-    comment?: string;
-    enumentityatribute?: EnumEntityAtribute;
+    comment: string;
+    enumentityatribute: EnumEntityAtribute;
     enumentityatributes: Array<EnumEntityAtribute>;
-    function?: FunctionEntity;
+    function: FunctionEntity;
     functions: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
-    relation?: Relation;
+    relation: Relation;
     relations: Array<Relation>;
-    superType?: Entity;
+    superType: Entity;
 }
 
 export type Attribute = {
     blank: boolean;
-    comment?: string;
-    fullName?: string;
-    max?: number;
-    min?: number;
+    comment: string;
+    fullName: string;
+    max: number;
+    min: number;
     name: string;
     type: DATATYPE;
     unique: boolean;
@@ -165,11 +165,11 @@ export type Attribute = {
 export type Project = {
     id: string;
     name: string;
-    description?: string;
-    purpose?: string;
-    miniworld?: string;
-    name_fragment?: string;
-    architecture?: 'python' | 'java' |'csharp-minimal-api'|'csharp-clean-architecture'|'charp-pipeline'
+    description: string;
+    purpose: string;
+    miniworld: string;
+    name_fragment: string;
+    architecture: 'python' | 'java' |'csharp-minimal-api'|'csharp-clean-architecture'|'charp-pipeline'
 }
 
 //-----------REQUIREMENT--------------
@@ -179,7 +179,6 @@ export type Requirement = {
     id: string;
     name: string;
     description: string;
-    requirement?: BussinesRule | FunctionalRequirement | NonFunctionalRequirement
     requirements: Array<FunctionalRequirement|NonFunctionalRequirement|BussinesRule>
 }
 
@@ -187,7 +186,6 @@ export type FunctionalRequirement ={
     id: string;
     description: string;
     priority: string;
-    depend?: Requirements;
     depends: Array<Requirements>
 }
 
@@ -195,7 +193,7 @@ export type NonFunctionalRequirement = {
     id: string;
     description: string;
     priority: string;
-    depend?: Requirements;
+    depend: Requirements;
     depends: Array<Requirements>
 }
 
@@ -203,13 +201,12 @@ export type BussinesRule = {
     id: string;
     description: string;
     priority: string;
-    depend?: Requirements;
     depends: Array<Requirements>;
 }
 
 // --------------- USE CASE -------------------
 export type Actor = {
-    comment?: string;
+    comment: string;
     entity?: Entity;
     name: QualifiedName;
     superType?: Actor;
@@ -217,24 +214,20 @@ export type Actor = {
 
 export type UseCase = {
     actors: Array<Actor>;
-    depend?: UseCase;
     depends: Array<UseCase>;
-    description?: string;
+    description: string;
     events: Array<Event>;
     id: string;
-    name_fragment?: string;
-    requirement?: Requirements;
+    name: string;
     requirements: Array<Requirements>
 }
 
 export type Event = {
     id: string;
     name: string;
-    name_fragment?: string;
     description: string;
     action: string;
     requirements: Array<Requirements>;
-    depend?: Event;
     depends: Array<Event>;
     performer: Actor
 }
@@ -254,7 +247,7 @@ export function isUseCase(item: unknown): item is UseCase {
     );
 }
 
-export function isRequirement(item: unknown): item is Requirement{
+export function isRequirement(item: unknown): item is Requirement {
     // Verifica se é um objeto não nulo
     if (typeof item !== 'object' || item === null) {
         return false;
@@ -263,17 +256,19 @@ export function isRequirement(item: unknown): item is Requirement{
     // Verificação de propriedades
     const obj = item as Record<string, unknown>;
     if (
-        typeof obj.id !== 'string' ||
-        typeof obj.name !== 'string' ||
-        typeof obj.description !== 'string' ||
-        !Array.isArray(obj.requirement)
-    ) 
-    {
+        typeof obj.id !== 'string' &&
+        typeof obj.name !== 'string' &&
+        typeof obj.description !== 'string' &&
+        !Array.isArray(obj.requirements) &&
+        obj.hasOwnProperty('actors') === false &&
+        obj.hasOwnProperty('comment') === false
+    ) {
         return false;
     }
 
     return true;
 }
+
 
 export function isActor(item: unknown): item is Actor{
     // Verifica se é um objeto não nulo
@@ -431,10 +426,10 @@ export function isOneToOne(item: unknown): item is OneToOne{
 export function isFunctionalRequirement(item: unknown): item is FunctionalRequirement{
     const obj = item as Record<string, unknown>;
     if (
-        typeof obj.id !== 'string' ||
-        typeof obj.description !== 'string' ||
-        typeof obj.priority !== 'string' ||
-        typeof obj.depend !== 'object' || obj.depend === null || !isRequirement(obj.depend)
+        typeof obj.id !== 'string' &&
+        typeof obj.description !== 'string' &&
+        typeof obj.priority !== 'string' &&
+        typeof obj.depends !== 'object' && obj.depends === null && !isRequirement(obj.depends)
     ) {
         return false;
     }

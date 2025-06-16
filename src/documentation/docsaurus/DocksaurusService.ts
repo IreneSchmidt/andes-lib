@@ -66,11 +66,7 @@ export class DocksaurusService {
 
         events.forEach(event=>{
             
-            nodes.push({node:event.id.toUpperCase(),description:`${event.name_fragment}`})
-            
-            if (event.depend){
-                dependencies.push({from: event.id.toUpperCase(),to:event.depend.id.toUpperCase()?? ""})                
-            }
+            nodes.push({node:event.id.toUpperCase(),description:`${event.name}`})
             if (event.depends){
                 event.depends.map(itemDepended=> dependencies.push({from: event.id.toUpperCase(),to:itemDepended.id.toUpperCase()?? ""}))
             }
@@ -106,11 +102,7 @@ export class DocksaurusService {
         const useCases = this.model.components.filter(isUseCase)
         useCases.map(usecase => {
 
-            nodes.push({node: usecase.id.toUpperCase(),description:`${usecase.name_fragment}`, actors:usecase.actors.map(actor=>actor.name ??'')})
-            
-            if (usecase.depend){
-                dependencies.push({from: usecase.id.toUpperCase(),to:usecase.depend.id.toUpperCase()?? ""})                
-            }
+            nodes.push({node: usecase.id.toUpperCase(),description:`${usecase.name}`, actors:usecase.actors.map(actor=>actor.name ??'')})
             if (usecase.depends){
                 usecase.depends.map(itemDepended=> dependencies.push({from: usecase.id.toUpperCase(),to:itemDepended.id.toUpperCase()?? ""}))
             }
@@ -155,14 +147,14 @@ export class DocksaurusService {
     }
 
     private createFunctionalRequirements(){
-        const functionalRequirements = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements.filter(isFunctionalRequirement))
-      
+        console.log("Components + Filter (IsRequirement): ", this.model.components.filter(isRequirement));
+        const functionalRequirements = this.model.components.filter(isRequirement).flatMap(requirements => requirements.requirements?.filter(isFunctionalRequirement)).filter(requirement => requirement != undefined);
         return expandWithNewLines`
         ## Requisitos Funcionais
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${functionalRequirements.map(requirement=> `|${requirement.id.toUpperCase()}|${requirement.description ?? `-`}|${requirement.priority ?? `-`}|${requirement.depend?.id.toUpperCase()?? `-`}${requirement.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${functionalRequirements.map(requirement=> `|${requirement.id.toUpperCase()}|${requirement.description ?? `-`}|${requirement.priority ?? `-`}|${requirement.depends.map(depends => depends.id ? `${depends.id?.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
         `
     }
 
@@ -174,7 +166,7 @@ export class DocksaurusService {
 
         | ID   | Descrição    |Prioridade   | Dependências           |
         |------|--------------|-------------|------------------------|
-        ${BussinesRule.map(BussinesRule=> `|${BussinesRule.id.toUpperCase()}|${BussinesRule.description ?? `-`}|${BussinesRule.priority ?? `-`}|${BussinesRule.depend?.id.toUpperCase()?? `-`}${BussinesRule.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
+        ${BussinesRule.map(BussinesRule=> `|${BussinesRule.id.toUpperCase()}|${BussinesRule.description ?? `-`}|${BussinesRule.priority ?? `-`}|${BussinesRule.depends.map(depends => depends.id ? `,${depends.id.toUpperCase()}` : ``).join(`,`)}|`).join(`\n`)}
         `
     }
     
@@ -197,7 +189,7 @@ ${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
 
     private createUseCaseContain(useCase: UseCase):string {
         return expandWithNewLines`
-    ## ${useCase.id.toUpperCase()}: ${useCase.name_fragment}
+    ## ${useCase.id.toUpperCase()}: ${useCase.name}
     ${useCase.description}
     ${useCase.events.map((event, index)=> this.createEventContain(event, useCase, index)).join('\n')}
         `
@@ -205,7 +197,7 @@ ${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
 
     private createEventContain(event:Event, usecase: UseCase, index:number):string{
         return expandWithNewLines`
-    ### ${usecase.id.toUpperCase()}.${index}: ${event.name_fragment}
+    ### ${usecase.id.toUpperCase()}.${index}: ${event.name}
     ${event.action}
     `
     }
@@ -230,7 +222,7 @@ ${project?.miniworld}
 
     }    
     private createAnalysFolder(){
-        
+        console.log("Criando pasta de análise")
         this.ANALYSIS_PATH = createPath( this.DOC_PATH,'analysis')
         console.log("xxxx: "+this.ANALYSIS_PATH)
         this.createCategoryFile(this.ANALYSIS_PATH , 'Analise', '2', 'Documentos de Analise')
