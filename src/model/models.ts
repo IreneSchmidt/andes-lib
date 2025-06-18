@@ -66,6 +66,11 @@ export type Model = {
     project: Project;
 }
 
+export type SparkModel = {
+    project: Project,
+    modules: Module[],
+}
+
 export type ModuleImport = {
     entities: Array<ImportedEntity>;
     library: string;
@@ -77,7 +82,9 @@ export type Module = {
     readonly $container: Model | Module;
     readonly $type: 'Module';
     description: string;
-    elements: Array<AbstractElement | LocalEntity>;
+    enumXs: EnumX[];
+    localEntityes: LocalEntity[];
+    modules: Module[];
     name: QualifiedName;
 }
 

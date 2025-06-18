@@ -4,3 +4,15 @@ Configuration {
     language: java
 }
 
+module MyModule
+{
+    entity MyEntity {
+        _name: string
+        unique blank max: 20 min: 20 other: string
+        _teste uses MyEnum
+    }
+    
+    enum MyEnum {
+
+    }
+}
