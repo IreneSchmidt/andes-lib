@@ -66,7 +66,7 @@ export type Model = {
     project: Project;
 }
 
-export type SparkModel = {
+export type SparkModelData = {
     project: Project,
     modules: Module[],
 }
