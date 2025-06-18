@@ -15,7 +15,7 @@ export class DiagramGeneratorService {
 
     public generate(): void {
         this.CreateModuloEstrutural()
-        const modules = this.model.components.filter(isModule);
+        const modules = this.model.modules;
         
         for (const module of modules) {
             // Define o caminho do arquivo diretamente na pasta targetFolder, sem criar uma nova pasta
@@ -25,8 +25,8 @@ export class DiagramGeneratorService {
     }
 
     private createClassDiagram(module: Module): string {
-        const enums = module.elements.filter(isEnumX);
-        const entities = module.elements.filter(isLocalEntity);
+        const enums = module.enumXs
+        const entities = module.localEntityes;
 
         return expandWithNewLines`
             @startuml ${module.name}
@@ -59,19 +59,23 @@ export class DiagramGeneratorService {
         return `${entity.name} "${sourceCardinality}" -- "${targetCardinality}" ${originModule}${relation.type.name} : ${relation.name.toLowerCase()} >`;
     }
 
+    
     private CreateModuloEstrutural(){
-        const useCases = this.model.components.filter(isModule)
+    
+        const useCases = this.model.modules
 
         const value = `---
-sidebar_position: 4
----
-# Modelo Estrutural
-${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
-`      
-fs.writeFileSync(path.join(this.targetFolder , `modeloestrutural.md`), value)
+    sidebar_position: 4
+    ---
+    # Modelo Estrutural
+    ${useCases.map(usecase=> this.createUseCaseContain(usecase)).join('\n')}
+    `      
+    fs.writeFileSync(path.join(this.targetFolder , `modeloestrutural.md`), value)
 
-}
+    }
+    
     private createUseCaseContain(modulo: Module):string {
+        
         return expandWithNewLines`
         ${modulo.description}
         `

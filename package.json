@@ -1,6 +1,6 @@
 {
   "name": "andes-lib",
-  "version": "0.1.11",
+  "version": "0.1.14",
   "description": "Andes Library to assist in the development of Andes applications.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,6 +8,7 @@
     "generate": "./dist/index.js"
   },
   "scripts": {
+    "testBuild": "tsc",
     "build": "tsup",
     "prepare": "npm run build",
     "dev": "tsup --watch",

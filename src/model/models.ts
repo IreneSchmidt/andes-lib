@@ -142,14 +142,12 @@ export type LocalEntity = {
     $container?: Module;
     attributes: Array<Attribute>;
     comment: string;
-    enumentityatribute?: EnumEntityAtribute;
-    enumentityatributes?: Array<EnumEntityAtribute>;
+    enumentityatributes: Array<EnumEntityAtribute>;
     function?: FunctionEntity;
     functions?: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
-    relation?: Relation;
-    relations?: Array<Relation>;
+    relations: Array<Relation>;
     superType?: Entity;
 }
 
