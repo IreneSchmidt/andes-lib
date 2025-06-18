@@ -20,9 +20,9 @@ export default class SparkEntity implements IRender
     public render(identationStartLevel: number = 0): string
     {
         let docs = this.renderDocs(identationStartLevel);
-        let entity = this.renderName();
+        let entity = this.renderName(identationStartLevel);
         let attributes = this.renderAttributes(identationStartLevel+1);
-        return `${docs}${entity} {${attributes}}`;
+        return `\n${docs}${entity} {\n${attributes}\n${identate(identationStartLevel)}}`;
     }
 
     private renderDocs(identationLevel: number): string
@@ -30,14 +30,14 @@ export default class SparkEntity implements IRender
         return this.description ? `${identate(identationLevel)}// ${this.description}\n` : '';
     }
 
-    private renderName(): string
+    private renderName(identationLevel: number): string
     {
-        return `entity ${this.name}`;
+        return `${identate(identationLevel)}entity ${this.name}`;
     }
 
     private renderAttributes(identationLevel: number): string
     {
-        return this.attributes.map(attr => attr.render(identationLevel+1)).join("\n");
+        return this.attributes.map(attr => attr.render(identationLevel)).join("\n");
     }
 }
 

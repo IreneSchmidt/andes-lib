@@ -1,4 +1,4 @@
-import { SparkModelData } from "../../model/models";
+import { Module, Project } from "../../model/models";
 import IRender from "../IRender";
 import SparkConfiguration from "./SparkConfiguration";
 import SparkModule from "./SparkModule";
@@ -9,10 +9,10 @@ export default class SparkFileRender implements IRender
     private configuration: SparkConfiguration;
     private modules: SparkModule[];
 
-    public constructor(sparkData: SparkModelData)
+    public constructor(project: Project, modules: Module[])
     {
-        this.configuration = new SparkConfiguration(sparkData.project);
-        this.modules = sparkData.modules.map(module => new SparkModule(module));
+        this.configuration = new SparkConfiguration(project);
+        this.modules = modules.map(module => new SparkModule(module));
     }
 
     public render(identationStartLevel: number = 0): string

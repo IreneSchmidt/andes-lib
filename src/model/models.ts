@@ -62,13 +62,9 @@ export type AttributeEnum ={
 }
 
 export type Model = {
-    components: Array<AbstractElement | Actor | ModuleImport | Requirement | UseCase>;
+    modules: Module[];
+    components: Array<Actor | ModuleImport | Requirement | UseCase>;
     project: Project;
-}
-
-export type SparkModelData = {
-    project: Project,
-    modules: Module[],
 }
 
 export type ModuleImport = {
@@ -79,12 +75,12 @@ export type ModuleImport = {
 }
 
 export type Module = {
-    readonly $container: Model | Module;
-    readonly $type: 'Module';
+    readonly $container?: Model | Module;
+    readonly $type?: 'Module';
     description: string;
     enumXs: EnumX[];
     localEntityes: LocalEntity[];
-    modules: Module[];
+    modules?: Module[];
     name: QualifiedName;
 }
 
@@ -143,18 +139,18 @@ export type OneToOne = {
 export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
 
 export type LocalEntity = {
-    $container: Module;
+    $container?: Module;
     attributes: Array<Attribute>;
     comment: string;
-    enumentityatribute: EnumEntityAtribute;
-    enumentityatributes: Array<EnumEntityAtribute>;
-    function: FunctionEntity;
-    functions: Array<FunctionEntity>;
+    enumentityatribute?: EnumEntityAtribute;
+    enumentityatributes?: Array<EnumEntityAtribute>;
+    function?: FunctionEntity;
+    functions?: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
-    relation: Relation;
-    relations: Array<Relation>;
-    superType: Entity;
+    relation?: Relation;
+    relations?: Array<Relation>;
+    superType?: Entity;
 }
 
 export type Attribute = {

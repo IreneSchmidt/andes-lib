@@ -23,7 +23,7 @@ export default class SparkConfiguration implements IRender
         let about = this.appendRow(identationStartLevel+1, this.renderAbout());
         let language = this.appendRow(identationStartLevel+1, this.renderLanguage());
 
-        return `${identate(identationStartLevel)}Configuration {${softwareName}${about}${language}}`;
+        return `${identate(identationStartLevel)}Configuration {${softwareName}${about}${language}\n${identate(identationStartLevel)}}`;
     }
 
     private appendRow(identationLevel: number, data: string): string
@@ -33,12 +33,12 @@ export default class SparkConfiguration implements IRender
 
     private renderSoftwareName(): string
     {
-        return `software_name: ${this.softwareName}`;
+        return `software_name: "${this.softwareName}"`;
     }
 
     private renderAbout(): string
     {
-        return `about: ${this.about}`;
+        return `about: "${this.about}"`;
     }
 
     private renderLanguage(): string

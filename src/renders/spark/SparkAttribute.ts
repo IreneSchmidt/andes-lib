@@ -30,7 +30,7 @@ export default class SparkAttribute implements IRender
         let modifiers = this.defineModifiers();
         let nameAndType = this.renderNameAndType();
 
-        return `${docs}${identate(identationStartLevel)}${modifiers} ${nameAndType}`;    
+        return `${docs}${identate(identationStartLevel)}${nameAndType} ${modifiers}`;    
     }
 
     protected getName(): string
@@ -55,7 +55,7 @@ export default class SparkAttribute implements IRender
 
     private defineModifiers(): string
     {
-        return `${this.unique} ${this.blank} ${this.defineMin()} ${this.defineMax()}`;
+        return `${this.unique} ${this.blank} ${this.defineMax()} ${this.defineMin()}`;
     }
 
     private defineMin(): string

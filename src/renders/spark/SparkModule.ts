@@ -17,7 +17,7 @@ export default class SparkModule implements IRender
         this.name = baseModule.name;
         this.description = baseModule.description;
         this.entityes = [];
-        this.modules = baseModule.modules.map(module => new SparkModule(module));
+        this.modules = baseModule.modules ? baseModule.modules.map(module => new SparkModule(module)) : [];
 
         baseModule.localEntityes.forEach(entity => this.entityes.push(new SparkEntity(entity)));
         baseModule.enumXs.forEach(enumX => this.entityes.push(new SparkEnumEntity(enumX)));
@@ -29,7 +29,7 @@ export default class SparkModule implements IRender
         let docs = this.renderDocs(identationStartLevel);
         let elements = this.renderElements(identationStartLevel+1);
 
-        return `${docs}${declaration}${elements}`;
+        return `\n${docs}${declaration} {${elements}\n${identate(identationStartLevel)}}`;
     }
 
     private renderDocs(identationLevel: number): string
@@ -39,8 +39,8 @@ export default class SparkModule implements IRender
 
     private renderElements(identationLevel: number): string
     {
-        let entityes = this.entityes.map(entity => entity.render(identationLevel+1)).join('\n');
-        let subModules = this.modules.map(subModule => subModule.render(identationLevel+1)).join('\n');
+        let entityes = this.entityes.map(entity => entity.render(identationLevel)).join('\n');
+        let subModules = this.modules.map(subModule => subModule.render(identationLevel)).join('\n');
 
         return `${subModules} ${entityes}`;
     }

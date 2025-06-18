@@ -17,12 +17,12 @@ class SparkEnumOption implements IRender
 
     public render(identationStartLevel: number = 0): string
     {
-        return `${this.renderDescrption(identationStartLevel)}${identate(identationStartLevel)}${this.name}`;
+        return `${identate(identationStartLevel)}${this.name} ${this.renderDescription()}`;
     }
 
-    private renderDescrption(identationLevel: number): string
+    private renderDescription(): string
     {
-        return this.description ? `${identate(identationLevel)}/* ${this.description} */` : '';
+        return this.description ? `/* ${this.description} */` : '';
     }
 }
 
@@ -44,9 +44,9 @@ export default class SparkEnumEntity implements IRender
     public render(identationStartLevel: number = 0): string
     {
         let docs = this.renderDocs(identationStartLevel);
-        let entity = this.renderName();
+        let entity = this.renderName(identationStartLevel);
         let attributes = this.renderOptions(identationStartLevel+1);
-        return `${docs}${entity} {${attributes}}`;
+        return `\n${docs}${entity} {\n${attributes}\n${identate(identationStartLevel)}}`;
     }
 
     private renderDocs(identationLevel: number): string
@@ -54,14 +54,14 @@ export default class SparkEnumEntity implements IRender
         return this.description ? `${identate(identationLevel)}// ${this.description}\n` : '';
     }
 
-    private renderName(): string
+    private renderName(identationLevel: number): string
     {
-        return `enum ${this.name}`;
+        return `${identate(identationLevel)}enum ${this.name}`;
     }
 
     private renderOptions(identationLevel: number): string
     {
-        return this.options.map(opt => opt.render(identationLevel+1)).join("\n");
+        return this.options.map(opt => opt.render(identationLevel)).join("\n");
     }
 }
 
