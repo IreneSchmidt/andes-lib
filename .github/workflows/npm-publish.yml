@@ -24,6 +24,9 @@ jobs:
         run: npm ci 
 
       - name: Run tests
+        # Se você quiser comentar os testes (não executá-los), descomente a linha abaixo:
+        # run: npm test
+        # Se quiser que os testes rodem, mantenha a linha assim:
         run: npm test
 
       - name: Configure Git for npm version
@@ -34,7 +37,6 @@ jobs:
       - name: Determine version bump and publish
         id: versioning
         run: | # incrementa a nova versão e em seguida publica a nova versão. Também pega a nova versão para realizar o envio.
-    
           npm version patch -m "Release: %s" || { echo "::error::npm version failed"; exit 1; }
           
           NEW_VERSION=$(node -p "require('./package.json').version")
@@ -49,7 +51,7 @@ jobs:
           git push origin main
 
       - name: Send success notification to Discord
-        if: success() # Este passo só roda se todos os anteriores tiverem sucesso
+        if: success() 
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d '{
@@ -87,7 +89,7 @@ jobs:
           }' ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send failure notification to Discord
-        if: failure() # Este passo só roda se ALGUM passo anterior falhar
+        if: always()
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d '{
@@ -96,12 +98,12 @@ jobs:
             "embeds": [
               {
                 "title": "❌ Publicação NPM FALHA!",
-                "description": "Houve um erro ao tentar publicar a biblioteca `andes-gps-projeto` no npm.",
+                "description": "Houve um erro ao tentar publicar a biblioteca `andes-gps-projeto` no npm. Verifique os logs do workflow para detalhes.",
                 "color": 15158332, # Cor vermelha
                 "fields": [
                   {
-                    "name": "Erro no Job",
-                    "value": "Verifique os logs do workflow para detalhes.",
+                    "name": "Status do Job",
+                    "value": "${{ job.status }}", # Adicionado para mostrar o status do job
                     "inline": true
                   },
                   {
