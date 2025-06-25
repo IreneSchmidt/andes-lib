@@ -46,4 +46,8 @@ export default class MadeBacklog implements IRender{
     private renderDescription(identationLevel:number):string{
         return `\n description: ${this.descricao}"`;
     }
+
+    public getHeader(){
+        return this.header
+    }
 }
