@@ -1,26 +1,19 @@
-import IRender from "../IRender";
+import MarkdownRender, { alignOptions } from "./MarkdownRender";
 
 
-type alignOptions = "left" | "right" | "center" | "justify" | "start" | "end" | "inherit" | "initial" | "unset";
-
-
-export default class ParagraphRender implements IRender
+export default class ParagraphRender extends MarkdownRender
 {
     private content: string;
-    private align: alignOptions;
 
     public constructor(content: string, align: alignOptions = "left")
     {
+        super(align);
         this.content = content;
-        this.align = align;
     }
 
-    public render(identationStartLevel?: number): string
+    public mdRender(identationStartLevel: number = 0): string
     {
-        if(this.align == "left")
-            { return this.content; }
-
-        return `<div align="${this.align}">\n${this.content}\n</div>`;
+        return this.content;
     }
 }
 

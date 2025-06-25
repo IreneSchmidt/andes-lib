@@ -37,11 +37,11 @@ export class DocusaurusModuleCreator
 
     public create()
     {
-        createFolderAndFile(this.targetFolder, `ModulePropourse.md`, this.modulePropourse.render());
-        createFolderAndFile(this.targetFolder, `Requisites.md`, this.moduleRequisites.render());
-        createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render());
-        createFolderAndFile(this.targetFolder, `ModuleDomain.md`, this.moduleDomainModel.render());
-        createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render());
+        createFolderAndFile(this.targetFolder, `ModulePropourse.md`, this.modulePropourse.render(0));
+        createFolderAndFile(this.targetFolder, `Requisites.md`, this.moduleRequisites.render(1));
+        createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render(2));
+        createFolderAndFile(this.targetFolder, `ModuleDomain.md`, this.moduleDomainModel.render(3));
+        createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render(4));
     }
 
     private buildModuleProporse(): FileRender
@@ -58,6 +58,7 @@ export class DocusaurusModuleCreator
         const requisites = new FileRender("Requisitos do Módulo");
         const requirimentsData = this.moduleReference.requiriments;
 
+        requirimentsData.functional.sort((a, b) => a.compareTo(b));
         const frTable = new TableRender(functionalRequirimentsTableHeaders, requirimentsData.functional.map(fr => this.frToTalbe(fr)), "Requisitos Funcionais do Módulo");
         const nfrTable = new TableRender(nonFunctionalRequirimentsTableHeaders, requirimentsData.nonFunctional.map(nfr => this.nfrToTable(nfr)), "Requisitos Não Funcionais do Módulo");
         const brTable = new TableRender(buisinesRuleTableHeaders, requirimentsData.buisinesRule.map(br => this.brToTable(br)), "Regras de Negócio do Módulo");
@@ -67,11 +68,11 @@ export class DocusaurusModuleCreator
         requisites.addSimpleTableSection("Regras de Negócio", brTable);
 
         const frGraph = this.frsToGraph(requirimentsData.functional);
-        const frCycleGraph = frGraph.cycleGraph();
+        const frCycleGraph = frGraph.generateCycleGraph();
 
         requisites.addSimpleSection("Grafo de Dependências", frGraph.render());
         if(frCycleGraph != null)
-            { requisites.addSimpleSection("Ciclo entre dependências", frCycleGraph.render()); }
+            { requisites.addSimpleSection("Ciclo entre dependências", frCycleGraph.map(cycle => cycle.render()).join("")); }
 
         return requisites;
     }
@@ -79,7 +80,7 @@ export class DocusaurusModuleCreator
     private frToTalbe(fr: FunctionalRequirement): string[]
     {
         let frDependencies = DocusaurusModuleCreator.ptBrMultiJoin(fr.listDependencies());
-        return [fr.getDescription(), fr.getName(), fr.getDescription(), frDependencies, fr.getPriority()];
+        return [fr.getReference(), fr.getName(), fr.getDescription(), frDependencies, fr.getPriority()];
     }
 
     private nfrToTable(nfr: NonFunctionalRequirement): string[]
@@ -102,6 +103,8 @@ export class DocusaurusModuleCreator
                 if(n == undefined)
                     { return; }
 
+                console.log(n);
+
                 fr.listDependencies().forEach(dependencie =>
                     {
                         let sn = frNodes.find(_node => _node.getIdentifier() == dependencie);
@@ -112,7 +115,7 @@ export class DocusaurusModuleCreator
                     })
             });
 
-        const frGraph = new GraphRender("Dependencia Entre Requisitos Funcionais", frNodes, "Grafo esquematizado das dependências entre os requisitos funcionais");
+        const frGraph = new GraphRender("Dependência Entre Requisitos Funcionais", frNodes, "Grafo esquematizado das dependências entre os requisitos funcionais");
 
         return frGraph;
     }
@@ -122,6 +125,8 @@ export class DocusaurusModuleCreator
         let lastStr = strs.pop();
         if(lastStr == undefined)
             { return ""; }
+        if(strs.length <= 0)
+            { return lastStr; }
 
         let completeStr = `${strs.join(',')} e ${lastStr}`;
         strs.push(lastStr); 

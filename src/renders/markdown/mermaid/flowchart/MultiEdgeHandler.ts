@@ -37,7 +37,12 @@ export default class MultiEdgeHandller
 
     public checkConnection(_type: ConnectionTypes, connectionName: string): boolean
     {
-        return this.connectionType == _type && this.connectionName == connectionName;
+        return this.connectionType == _type && this.connectionName == `|${connectionName}|`;
+    }
+
+    public getConnections(): Node[]
+    {
+        return this.connectedWith;
     }
 }
 

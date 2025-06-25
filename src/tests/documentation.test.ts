@@ -3,6 +3,10 @@ import { DocusaurusModuleCreator } from "../application/DocusaurusCreator";
 import { expect, describe, it } from 'vitest'
 
 
+const aux = new FunctionalRequirement("Dependência", "Baixa", "Mais uma descrição");
+const aux2 = new FunctionalRequirement("Outro Teste", "Média", "Outra descrição", [ aux ])
+aux.addDepedencie(aux2);
+
 const justTestIt: ProjectModule = {
     id: "Some ID",
     miniworld: "Module Mini Wolrd",
@@ -14,9 +18,8 @@ const justTestIt: ProjectModule = {
         ],
         functional: [
             new FunctionalRequirement("TESTE", "ALTA", "Feito para Teste"),
-            new FunctionalRequirement("Outro Teste", "Média", "Outra descrição", [
-                new FunctionalRequirement("Dependência", "Baixa", "Mais uma descrição")
-            ])
+            aux,
+            aux2
         ],
         nonFunctional: [new NonFunctionalRequirement("Teste", "Mais um TESTE PQP")],
     }

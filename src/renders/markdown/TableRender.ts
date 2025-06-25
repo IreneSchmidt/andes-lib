@@ -1,10 +1,11 @@
-import { identate } from "../Identation";
 import IRender from "../IRender";
+import MarkdownRender, { alignOptions } from "./MarkdownRender";
 import ParagraphRender from "./ParagraphRender";
 
-export default class TableRender implements IRender
+
+export default class TableRender extends MarkdownRender
 {
-    private static enumeration: number = 0;
+    private static enumeration: number = 1;
 
     private headers: string[];
     private rows: string[][];
@@ -12,8 +13,9 @@ export default class TableRender implements IRender
     private author: string;
     private numeration: number;
 
-    public constructor(headers: string[] = [], rows: string[][] = [], description: string = "", author: string = "Autoria Própria")
+    public constructor(headers: string[] = [], rows: string[][] = [], description: string = "", align: alignOptions = "center", author: string = "Autoria Própria")
     {
+        super(align);
         this.headers = headers;
         this.rows = rows;
         this.description = description ? `: ${description}` : '';
@@ -28,26 +30,26 @@ export default class TableRender implements IRender
         this.rows.forEach(row => row.push(defaultValue));
     }
 
-    public render(identationStartLevel?: number): string
+    public mdRender(identationStartLevel: number = 0): string
     {
         let description = this.renderDescription();
-        let header = this.renderRow(this.headers);
-        let rows = this.rows.map(row => this.renderRow(row)).join(`${identate(identationStartLevel)}${this.renderHLine()}\n`);
+        let header = `${this.renderRow(this.headers)}\n${this.renderHadderLine()}`;
+        let rows = this.rows.map(row => this.renderRow(row)).join('\n');
         let author = this.renderAuthor();
 
-        return `\n${description}${identate(identationStartLevel)}${header}${rows}${author}`;
+        return `${description}\n\n${header}\n${rows}\n\n${author}`;
     }
 
     private renderDescription(): string
     {
-        let paragraph = new ParagraphRender(`Tabela ${this.numeration}${this.description}`, "center");
+        let paragraph = new ParagraphRender(`Tabela ${this.numeration}${this.description}`);
 
         return paragraph.render();
     }
 
     private renderAuthor(): string
     {
-        let paragraph = new ParagraphRender(`Autor: ${this.author}`, "center");
+        let paragraph = new ParagraphRender(`Autor: ${this.author}`);
 
         return paragraph.render();
     }
@@ -57,7 +59,7 @@ export default class TableRender implements IRender
         return `|${values.join("|")}|`;
     }
 
-    private renderHLine(): string
+    private renderHadderLine(): string
     {
         return `|${'-|'.repeat(this.headers.length)}`;
     }

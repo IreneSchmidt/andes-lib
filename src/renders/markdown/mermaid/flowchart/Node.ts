@@ -28,10 +28,10 @@ export default class Node
 
     public renderConnections(identationStartLevel: number = 0): string
     {
-        return `\n${identate(identationStartLevel)}` + this.edges.map(edge => edge.render()).join(`\n ${identate(identationStartLevel)}`);
+        return `\n${identate(identationStartLevel)}${this.identifier}` + this.edges.map(edge => edge.render()).join(`\n ${identate(identationStartLevel)}`);
     }
 
-    public addEdge(node: Node, connectionType: ConnectionTypes, connectionName: string)
+    public addEdge(node: Node, connectionType: ConnectionTypes, connectionName: string = "")
     {
         let edge: MultiEdgeHandller | undefined = this.edges.filter(edge => edge.checkConnection(connectionType, connectionName)).at(0);
 
@@ -44,6 +44,21 @@ export default class Node
         {
             edge.addConnection(node);
         }
+    }
+
+    public getDependsEdges(): Node[]
+    {
+        return this.edges.filter(edge => edge.checkConnection(ConnectionTypes.APPOINTS_TO, "depends")).map(meh => meh.getConnections()).flat();
+    }
+
+    public compareTo(other: Node): boolean
+    {
+        return this.identifier == other.identifier;
+    }
+
+    public cloneEmptyEdges(): Node
+    {
+        return new Node(this.identifier, this.text.getText());
     }
 }
 

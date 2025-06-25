@@ -28,4 +28,9 @@ export default class ChartTextRender implements IRender
     {
         return this.text.split("\n");
     }
+
+    public getText(): string
+    {
+        return this.text;
+    }
 }

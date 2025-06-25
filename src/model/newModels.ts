@@ -44,6 +44,15 @@ export class Requirement
     {
         return `${this.getReference()}: ${this.name}`;
     }
+
+    public compareTo(other: Requirement): number
+    {
+        if(this.numeration > other.numeration)
+            { return 1; }
+        if(this.numeration < other.numeration)
+            { return -1; }
+        return 0;
+    }
 }
 
 
@@ -69,6 +78,11 @@ export class FunctionalRequirement extends Requirement
     public listDependencies(): string[]
     {
         return this.dependencies.map(dependencie => dependencie.getReference());
+    }
+
+    public addDepedencie(depends: Requirement)
+    {
+        this.dependencies.push(depends);
     }
 }
 
