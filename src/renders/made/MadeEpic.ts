@@ -1,7 +1,9 @@
 import IRender from "../IRender";
 import { identate } from "../Identation";
+import MadeBacklog from "./MadeBacklog";
 
 export default class MadeEpic implements IRender{
+    private backlog: string; //Pega o header do backlog
     private storys: IRender[];
     private header: string;
     private nome: string;
@@ -16,10 +18,12 @@ export default class MadeEpic implements IRender{
         return `${header}
         ${nome}
         ${descricao}
+        ${story}
         `
     }
     
-    public constructor(storys: IRender[] = [], header: string, nome: string, descricao: string){
+    public constructor(backlog: MadeBacklog, storys: IRender[] = [], header: string, nome: string, descricao: string){
+            this.backlog = backlog.getHeader();
             this.storys= storys;
             this.header = header;
             this.nome = nome;
@@ -42,5 +46,12 @@ export default class MadeEpic implements IRender{
 
     private renderDescription(identationLevel:number):string{
         return `\n ${identate(identationLevel)}description: "${this.descricao}"`;
+    }
+
+    public getHeader(){
+        return this.header;
+    }
+    public getBacklog(){
+        return this.backlog;
     }
 }
