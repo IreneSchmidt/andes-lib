@@ -1,6 +1,7 @@
 import IRender from "../IRender";
 import ParagraphRender from "./ParagraphRender";
 import SectionRender from "./SectionRender";
+import TableRender from "./TableRender";
 
 
 export default class FileRender implements IRender
@@ -17,7 +18,7 @@ export default class FileRender implements IRender
     public render(identationStartLevel: number = 0): string
     {
         let metaData = this.renderMetaData(identationStartLevel);
-        let elementsData = this.elements.map(element => element.render(0));
+        let elementsData = this.elements.map(element => element.render(0)).join("\n\n");
 
         return `${metaData}\n${elementsData}`;
     }
@@ -27,9 +28,14 @@ export default class FileRender implements IRender
         this.elements.push(new SectionRender(title, [new ParagraphRender(paragraphText)]));
     }
 
+    public addSimpleTableSection(title: string, talbe: TableRender)
+    {
+        this.elements.push(new SectionRender(title, [talbe]));
+    }
+
     private renderMetaData(identationLevel: number): string
     {
-        return `---\ntitle: ${this.name}\nsidebar_position${identationLevel}\n---`;
+        return `---\ntitle: ${this.name}\nsidebar_position ${identationLevel}\n---`;
     }
 }
 

@@ -15,15 +15,15 @@ export default class SectionRender implements IRender
 
     public render(identationStartLevel: number = 0): string
     {
-        let title = this.renderTitle(identationStartLevel);
+        let title = this.renderTitle(identationStartLevel+1);
         let elements = this.elements.map(element => element.render(identationStartLevel+1)).join('\n');
         
         return `${title}\n${elements}`;
     }
 
-    private renderTitle(identationLevel: number)
+    private renderTitle(identationLevel: number): string
     {
-        return `${identate(identationLevel)}${'#'.repeat(identationLevel)} ${this.title}`;
+        return `${'\#'.repeat(identationLevel)} ${this.title}`;
     }
 }
 
