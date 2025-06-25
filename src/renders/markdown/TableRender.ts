@@ -35,7 +35,7 @@ export default class TableRender implements IRender
         let rows = this.rows.map(row => this.renderRow(row)).join(`${identate(identationStartLevel)}${this.renderHLine()}\n`);
         let author = this.renderAuthor();
 
-        return `${description}${identate(identationStartLevel)}${header}${rows}${author}`;
+        return `\n${description}${identate(identationStartLevel)}${header}${rows}${author}`;
     }
 
     private renderDescription(): string
