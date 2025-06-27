@@ -1,5 +1,7 @@
 // ----------------- AST ------------------
 
+import IRender from "../renders/IRender";
+
 export const Module = 'Module';
 
 export function isModule(item: unknown): item is Module {
@@ -62,7 +64,9 @@ export type AttributeEnum ={
 }
 
 export type Model = {
-    components: Array<AbstractElement | Actor | ModuleImport | Requirement | UseCase>;
+    modules: Module[];
+    Usecases: Array<UseCase>;
+    components: Array<Actor | ModuleImport | Requirement>;
     project: Project;
 }
 
@@ -74,10 +78,12 @@ export type ModuleImport = {
 }
 
 export type Module = {
-    readonly $container: Model | Module;
-    readonly $type: 'Module';
+    readonly $container?: Model | Module;
+    readonly $type?: 'Module';
     description: string;
-    elements: Array<AbstractElement | LocalEntity>;
+    enumXs: EnumX[];
+    localEntityes: LocalEntity[];
+    modules?: Module[];
     name: QualifiedName;
 }
 
@@ -136,18 +142,16 @@ export type OneToOne = {
 export type Relation = ManyToMany | ManyToOne | OneToMany | OneToOne;
 
 export type LocalEntity = {
-    $container: Module;
+    $container?: Module;
     attributes: Array<Attribute>;
     comment: string;
-    enumentityatribute: EnumEntityAtribute;
     enumentityatributes: Array<EnumEntityAtribute>;
-    function: FunctionEntity;
-    functions: Array<FunctionEntity>;
+    function?: FunctionEntity;
+    functions?: Array<FunctionEntity>;
     is_abstract: boolean;
     name: string;
-    relation: Relation;
     relations: Array<Relation>;
-    superType: Entity;
+    superType?: Entity;
 }
 
 export type Attribute = {
@@ -166,6 +170,8 @@ export type Project = {
     id: string;
     name: string;
     description: string;
+    startDate: string;
+    dueDate: string;
     purpose: string;
     miniworld: string;
     name_fragment: string;
@@ -214,7 +220,8 @@ export type Actor = {
     superType?: Actor;
 }
 
-export type UseCase = {
+export interface UseCase
+{
     actors: Array<Actor>;
     depends: Array<UseCase>;
     description: string;

@@ -45,6 +45,7 @@ Thumbs.db
 /coverage
 /.nyc_output
 /test-results/
+/generated-files/
 
 # Cache de ferramentas
 /.eslintcache
