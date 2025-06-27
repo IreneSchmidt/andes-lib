@@ -9,8 +9,8 @@ export interface Attributes
 {
     name: string;
     _type: Entity | string;
-    max?: number;
-    min?: number;
+    max: number;
+    min: number;
     unique: boolean;
     blank: boolean;
 }
