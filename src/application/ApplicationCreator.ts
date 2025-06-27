@@ -40,5 +40,12 @@ export default class ApplicationCreator
     {
 
     }
+
+    private createMade(): void{
+        const made = new MadeFileRender(this.model);
+
+        mkdirSync(this.targetFolder, {recursive: true});
+        writeFileSync(`${this.targetFolder}/${this.model.project.name}.made`, made.render());
+    }
 }
 

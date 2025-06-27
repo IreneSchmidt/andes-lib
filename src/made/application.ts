@@ -33,9 +33,9 @@ export class MadeApplication {
         const useCases = this.model.components.filter(isUseCase)
         const project = this.model.project
 
-        const modulesClassDiagram = this.model.components.filter(isModule)
-        
-        console.log (modulesClassDiagram.length)
+        const modulesClassDiagram = this.model.modules.filter(isModule);
+
+        console.log("Modules Class Diagram", modulesClassDiagram);
 
         useCases.map(useCase=>  this.dict[useCase.id]=`${projectID}.${useCase.id.toLocaleLowerCase()}`)
 
@@ -66,15 +66,15 @@ export class MadeApplication {
 
     private createStoryFromModule(module: Module){
         return expandWithNewLines`
-            story createmodule${module.name?.toLocaleLowerCase()}{
+            story createmodule_${module.name?.toLocaleLowerCase()}{
                 name: "Create database infrastruture to module ${module.name}"
                 description: "Create database infrastruture to ${module.name}"
                 
-                task createmodule {
+                task create_module {
                     name: "Implements domain modules"                    
                 }
 
-                task createrepository {
+                task create_repository {
                     name: "Implements data repository"
                     depends: domaindiagram.createmodule${module.name?.toLocaleLowerCase()}.createmodule
                 }
@@ -87,10 +87,6 @@ export class MadeApplication {
         
         const depends:string[] = []
         
-        if (item.depend){
-            
-            depends.push(`${this.dict[item.depend.id||""]}`)
-        }
         item.depends.map(depend => depends.push(`${this.dict[depend.id||""]}`))
 
 
@@ -101,7 +97,7 @@ export class MadeApplication {
     private createEPIC(projectID: string, usecase:UseCase):string {
         return expandWithNewLines`
         epic ${usecase.id.toLocaleLowerCase()} {
-            name:"${usecase.name_fragment}" 
+            name:"${usecase.name}" 
             description: "${usecase.description ?? ""}" 
             ${this.createEPICDependencie(usecase)}         
             ${usecase.events.map((event,index) => this.createUserStory(event, usecase,index,projectID)).join(`\n`)}
@@ -113,7 +109,7 @@ export class MadeApplication {
         // TODO pensar em como fazer assim
         return expandWithNewLines`
         story  ${usecase.id.toLocaleLowerCase()}_${index} {
-            name:"${event.name_fragment}" 
+            name:"${event.name}" 
             description: "${event.description ?? ""}"  
             ${this.createEPICDependencie(event)}
         }
