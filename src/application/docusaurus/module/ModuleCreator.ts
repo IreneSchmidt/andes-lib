@@ -1,0 +1,64 @@
+import { PathLike } from "fs";
+import { BuildModulePourpuse } from "./propourse/BuildMoudulePourpuse";
+import BuildRequisites from "./requisits/BuildRequisites";
+import FileRender from "../../../renders/markdown/FileRender";
+import createFolderAndFile from "../../IO";
+import { Module } from "../../../model/ProjectModels"
+import BuildDomain from "./domain/BuildDomain";
+
+
+export class ModuleCreator
+{
+    private module: Module | null;
+    private originalPath: PathLike;
+    private targetFolder: PathLike;
+
+    private modulePropourse: FileRender| null = null;
+    private moduleRequisites: FileRender | null = null;
+    private moduleUserCases: FileRender | null = null;
+    private moduleDomainModel: FileRender | null = null;
+    private moduleStatesMachines: FileRender | null = null;
+    
+    public constructor(module: Module | null = null, targetFolder: PathLike = "")
+    {
+        this.module = module;
+        this.originalPath = targetFolder;
+        this.targetFolder = `${targetFolder}/${module ? module.name : ''}`;
+    }
+
+    public changeModule(newModule: Module): ModuleCreator
+    {
+        this.module = newModule;
+        this.targetFolder = `${this.originalPath}/${this.module.name}`;
+
+        return this;
+    }
+
+    public create()
+    {
+        if(this.module == null)
+            { return; }
+        this.modulePropourse = BuildModulePourpuse.buildModuleProporse(this.module);
+        this.moduleRequisites = BuildRequisites.buildModuleRequisites(this.module);
+        this.moduleDomainModel = BuildDomain.buildDomainDiagram(this.module.packages[0]);
+        // this.moduleUserCases = this.buildModuleUserCase();
+        // this.moduleDomainModel = this.buildModuleDomainModel();
+        // this.moduleStatesMachines = this.buildModuleDomainModel();
+        createFolderAndFile(this.targetFolder, `ModulePropourse.md`, this.modulePropourse.render(0));
+        createFolderAndFile(this.targetFolder, `Requisites.md`, this.moduleRequisites.render(1));
+        // createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render(2));
+        createFolderAndFile(this.targetFolder, `ModuleDomain.md`, this.moduleDomainModel.render(3));
+        // createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render(4));
+    }
+
+    private buildModuleUserCase(): FileRender
+    {
+
+    }
+
+    private buildModuleStatesMachine(): FileRender
+    {
+
+    }
+}
+

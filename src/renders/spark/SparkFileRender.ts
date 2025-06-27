@@ -1,18 +1,20 @@
-import { Module, Project } from "../../model/models";
+import { Module } from "../../model/models";
+import { Overview, Project } from "../../model/ProjectModels";
+import { Package } from "../../model/SparkModels";
 import IRender from "../IRender";
 import SparkConfiguration from "./SparkConfiguration";
-import SparkModule from "./SparkModule";
+import SparkPackage from "./SparkPackage";
 
 
 export default class SparkFileRender implements IRender
 {
     private configuration: SparkConfiguration;
-    private modules: SparkModule[];
+    private modules: SparkPackage[];
 
-    public constructor(project: Project, modules: Module[])
+    public constructor(projectOverview: Overview, modules: Package[])
     {
-        this.configuration = new SparkConfiguration(project);
-        this.modules = modules.map(module => new SparkModule(module));
+        this.configuration = new SparkConfiguration(projectOverview.name, projectOverview.description, projectOverview.architecture);
+        this.modules = modules.map(module => new SparkPackage(module));
     }
 
     public render(identationStartLevel: number = 0): string

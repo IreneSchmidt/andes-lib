@@ -1,26 +1,27 @@
 import { Module } from "../../model/models";
+import { Package } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 import SparkEntity from "./SparkEntity";
 import SparkEnumEntity from "./SparkEnumEntity";
 
 
-export default class SparkModule implements IRender
+export default class SparkPackage implements IRender
 {
     private name: string;
     private description: string;
     private entityes: (SparkEntity | SparkEnumEntity)[];
-    private modules: SparkModule[];
+    private modules: SparkPackage[];
 
-    public constructor(baseModule: Module)
+    public constructor(_package: Package)
     {
-        this.name = baseModule.name;
-        this.description = baseModule.description;
+        this.name = _package.name;
+        this.description = _package.description;
         this.entityes = [];
-        this.modules = baseModule.modules ? baseModule.modules.map(module => new SparkModule(module)) : [];
+        this.modules = _package.subPackages.map(module => new SparkPackage(module));
 
-        baseModule.localEntityes.forEach(entity => this.entityes.push(new SparkEntity(entity)));
-        baseModule.enumXs.forEach(enumX => this.entityes.push(new SparkEnumEntity(enumX)));
+        _package.entityes.forEach(entity => this.entityes.push(new SparkEntity(entity)));
+        _package.enums.forEach(enumX => this.entityes.push(new SparkEnumEntity(enumX)));
     }
 
     public render(identationStartLevel: number = 0): string

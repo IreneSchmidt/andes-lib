@@ -1,4 +1,4 @@
-import { Attribute } from "../../model/models";
+import { Attributes, Entity } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 
@@ -7,21 +7,22 @@ export default class SparkAttribute implements IRender
 {
     private name: string;
     private type: string;
+    private max: number | undefined;
+    private min: number | undefined;
     private blank: string;
-    private comment: string;
-    private max: number;
-    private min: number;
     private unique: string;
 
-    public constructor(baseAttribute: Attribute)
+    public constructor(attr: Attributes)
     {
-        this.name = baseAttribute.name;
-        this.type = baseAttribute.type;
-        this.blank = baseAttribute.blank ? "blank" : "";
-        this.comment = baseAttribute.comment;
-        this.max = baseAttribute.max;
-        this.min = baseAttribute.min;
-        this.unique = baseAttribute.unique ? "unique" : "";
+        this.name = attr.name;
+        if((attr._type as Entity).name == undefined)
+            { this.type = attr._type as string; }
+        else
+            { this.type = (attr._type as Entity).name; }
+        this.blank = attr.blank ? "blank" : "";
+        this.max = attr.max;
+        this.min = attr.min;
+        this.unique = attr.unique ? "unique" : "";
     }
 
     public render(identationStartLevel: number = 0): string
@@ -50,7 +51,8 @@ export default class SparkAttribute implements IRender
 
     private renderDescription(identationLevel: number): string
     {
-        return this.comment ? `${identate(identationLevel)}/*${this.comment}*/\n` : "";
+        // return this.comment ? `${identate(identationLevel)}/*${this.comment}*/\n` : "";
+        return ""; // comments not implemented yet
     }
 
     private defineModifiers(): string
@@ -60,16 +62,12 @@ export default class SparkAttribute implements IRender
 
     private defineMin(): string
     {
-        let valueAsStr = this.min.toString();
-
-        return isNaN(Number(valueAsStr)) ? "" : `min: ${this.min}`;
+        return this.min == undefined ? "" : `min: ${this.min}`;
     }
 
     private defineMax(): string
     {
-        let valueAsStr = this.max.toString();
-
-        return isNaN(Number(valueAsStr)) ? "" : `max: ${this.min}`;
+        return this.max == undefined ? "" : `max: ${this.max}`;
     }
 }
 

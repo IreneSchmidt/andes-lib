@@ -23,6 +23,11 @@ export default class FileRender implements IRender
         return `${metaData}\n${elementsData}`;
     }
 
+    public add(element: IRender)
+    {
+        this.elements.push(element);
+    }
+
     public addSimpleSection(title: string, paragraphText: string)
     {
         this.elements.push(new SectionRender(title, [new ParagraphRender(paragraphText)]));

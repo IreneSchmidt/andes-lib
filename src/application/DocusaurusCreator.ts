@@ -1,152 +1,28 @@
 import { PathLike } from "fs";
-import { BuisinesRule, FunctionalRequirement, NonFunctionalRequirement, ProjectModule } from "../model/newModels";
-import FileRender from "../renders/markdown/FileRender";
-import createFolderAndFile from "./IO";
-import TableRender from "../renders/markdown/TableRender";
-import GraphRender from "../renders/markdown/mermaid/flowchart/GraphRender";
-import Node from "../renders/markdown/mermaid/flowchart/Node";
-import { ConnectionTypes } from "../renders/markdown/mermaid/flowchart/MultiEdgeHandler";
+import { Project } from "../model/ProjectModels"
+import { ModuleCreator } from "./docusaurus/module/ModuleCreator";
 
 
-const functionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição", "Dependências", "Prioridade"];
-const nonFunctionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição"];
-const buisinesRuleTableHeaders = ["ID", "Nome", "Descrição"];
-
-
-export class DocusaurusModuleCreator
+export class DocusaurusProjectCreator
 {
-    private moduleReference: ProjectModule;
+    private projectReference: Project;
     private targetFolder: PathLike;
 
-    private modulePropourse: FileRender;
-    private moduleRequisites: FileRender;
-    private moduleUserCases: FileRender;
-    private moduleDomainModel: FileRender;
-    private moduleStatesMachines: FileRender;
-    
-    public constructor(module: ProjectModule, targetFolder: PathLike)
+    public constructor(projectReference: Project, targetFolder: PathLike)
     {
-        this.moduleReference = module;
-        this.targetFolder = `${targetFolder}/${this.moduleReference.name}`;
-        this.modulePropourse = this.buildModuleProporse();
-        this.moduleRequisites = this.buildModuleRequisites();
-        this.moduleUserCases = this.buildModuleUserCase();
-        this.moduleDomainModel = this.buildModuleDomainModel();
-        this.moduleStatesMachines = this.buildModuleDomainModel();
+        this.projectReference = projectReference;
+        this.targetFolder = `${targetFolder}`;
     }
 
     public create()
     {
-        createFolderAndFile(this.targetFolder, `ModulePropourse.md`, this.modulePropourse.render(0));
-        createFolderAndFile(this.targetFolder, `Requisites.md`, this.moduleRequisites.render(1));
-        createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render(2));
-        createFolderAndFile(this.targetFolder, `ModuleDomain.md`, this.moduleDomainModel.render(3));
-        createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render(4));
+        this.buildModules();
     }
 
-    private buildModuleProporse(): FileRender
+    private buildModules(): void
     {
-        let porpourse = new FileRender("Proósito do Módulo");
-        porpourse.addSimpleSection("Propósito", this.moduleReference.purpose);
-        porpourse.addSimpleSection("Minimundo", this.moduleReference.miniworld);
-
-        return porpourse;
-    }
-
-    private buildModuleRequisites(): FileRender
-    {
-        const requisites = new FileRender("Requisitos do Módulo");
-        const requirimentsData = this.moduleReference.requiriments;
-
-        requirimentsData.functional.sort((a, b) => a.compareTo(b));
-        const frTable = new TableRender(functionalRequirimentsTableHeaders, requirimentsData.functional.map(fr => this.frToTalbe(fr)), "Requisitos Funcionais do Módulo");
-        const nfrTable = new TableRender(nonFunctionalRequirimentsTableHeaders, requirimentsData.nonFunctional.map(nfr => this.nfrToTable(nfr)), "Requisitos Não Funcionais do Módulo");
-        const brTable = new TableRender(buisinesRuleTableHeaders, requirimentsData.buisinesRule.map(br => this.brToTable(br)), "Regras de Negócio do Módulo");
-
-        requisites.addSimpleTableSection("Requisitos Funcionais", frTable);
-        requisites.addSimpleTableSection("Requisitos Não Funcionais", nfrTable);
-        requisites.addSimpleTableSection("Regras de Negócio", brTable);
-
-        const frGraph = this.frsToGraph(requirimentsData.functional);
-        const frCycleGraph = frGraph.generateCycleGraph();
-
-        requisites.addSimpleSection("Grafo de Dependências", frGraph.render());
-        if(frCycleGraph != null)
-            { requisites.addSimpleSection("Ciclo entre dependências", frCycleGraph.map(cycle => cycle.render()).join("")); }
-
-        return requisites;
-    }
-
-    private frToTalbe(fr: FunctionalRequirement): string[]
-    {
-        let frDependencies = DocusaurusModuleCreator.ptBrMultiJoin(fr.listDependencies());
-        return [fr.getReference(), fr.getName(), fr.getDescription(), frDependencies, fr.getPriority()];
-    }
-
-    private nfrToTable(nfr: NonFunctionalRequirement): string[]
-    {
-        return [nfr.getReference(), nfr.getName(), nfr.getDescription()];   
-    }
-
-    private brToTable(br: BuisinesRule): string[]
-    {
-        return [br.getReference(), br.getName(), br.getDescription()];   
-    }
-
-    private frsToGraph(functional: FunctionalRequirement[]): GraphRender
-    {
-        const frNodes: Node[] = [];
-        functional.forEach(fr => frNodes.push(new Node(fr.getReference(), fr.getName())));
-        functional.forEach(fr =>
-            { 
-                let n = frNodes.find(node => node.getIdentifier() == fr.getReference())
-                if(n == undefined)
-                    { return; }
-
-                console.log(n);
-
-                fr.listDependencies().forEach(dependencie =>
-                    {
-                        let sn = frNodes.find(_node => _node.getIdentifier() == dependencie);
-                        if(sn != undefined)
-                        {
-                            n.addEdge(sn, ConnectionTypes.APPOINTS_TO, "depends");
-                        }
-                    })
-            });
-
-        const frGraph = new GraphRender("Dependência Entre Requisitos Funcionais", frNodes, "Grafo esquematizado das dependências entre os requisitos funcionais");
-
-        return frGraph;
-    }
-
-    private static ptBrMultiJoin(strs: string[]): string
-    {
-        let lastStr = strs.pop();
-        if(lastStr == undefined)
-            { return ""; }
-        if(strs.length <= 0)
-            { return lastStr; }
-
-        let completeStr = `${strs.join(',')} e ${lastStr}`;
-        strs.push(lastStr); 
-        
-        return completeStr;
-    }
-
-    private buildModuleUserCase(): FileRender
-    {
-
-    }
-
-    private buildModuleDomainModel(): FileRender
-    {
-
-    }
-
-    private buildModuleStatesMachine(): FileRender
-    {
-
+        const module = new ModuleCreator(null, this.targetFolder);
+        this.projectReference.modules.forEach(m => module.changeModule(m).create())
     }
 }
 

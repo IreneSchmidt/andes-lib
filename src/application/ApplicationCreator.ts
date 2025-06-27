@@ -1,21 +1,18 @@
-import { Model } from "../model/models";
-
-import { PathLike, writeFileSync, mkdirSync } from "fs"
+import { PathLike } from "fs"
 import SparkFileRender from "../renders/spark/SparkFileRender";
-import FileRender from "../renders/markdown/FileRender";
 import createFolderAndFile from "./IO";
-import { DocusaurusModuleCreator } from "./DocusaurusCreator";
-import { BuisinesRule, FunctionalRequirement, NonFunctionalRequirement, ProjectModule } from "../model/newModels";
+import { DocusaurusProjectCreator } from "./DocusaurusCreator";
+import { Project } from "../model/ProjectModels";
 
 
 export default class ApplicationCreator
 {
-    private model: Model;
+    private project: Project;
     private targetFolder: PathLike;
 
-    public constructor(model: Model, targetFolder: PathLike)
+    public constructor(project: Project, targetFolder: PathLike)
     {
-        this.model = model;
+        this.project = project;
         this.targetFolder = targetFolder;
     }
 
@@ -27,34 +24,21 @@ export default class ApplicationCreator
 
     private createSpark(): void
     {
-        const spark = new SparkFileRender(this.model.project, this.model.modules);
-        createFolderAndFile(this.targetFolder, `${this.model.project.name}.spark`, spark.render());
+        const spark = new SparkFileRender(this.project.overview, this.project.modules.map(_module => { return {name: _module.name, description: _module.description, entityes: [], enums: [], subPackages: _module.packages}; }));
+        createFolderAndFile(this.targetFolder, `${this.project.overview.name}.spark`, spark.render());
     }
 
     private createDocusaurus(): void
     {
-        const justTestIt: ProjectModule = {
-            id: "Some ID",
-            miniworld: "Module Mini Wolrd",
-            name: "Module Test Name",
-            purpose: "Module Propourse",
-            requiriments: {
-                buisinesRule: [
-                    new BuisinesRule("Test", "Não pode dar merda né!"),
-                ],
-                functional: [
-                    new FunctionalRequirement("TESTE", "ALTA", "Feito para Teste"),
-                    new FunctionalRequirement("Outro Teste", "Média", "Outra descrição", [
-                        new FunctionalRequirement("Dependência", "Baixa", "Mais uma descrição")
-                    ])
-                ],
-                nonFunctional: [new NonFunctionalRequirement("Teste", "Mais um TESTE PQP")],
-            }
-        };
 
-        const docusaurus = new DocusaurusModuleCreator(justTestIt, `${this.targetFolder}/documentation`);
+        const docusaurus = new DocusaurusProjectCreator(this.project, `${this.targetFolder}/documentation`);
 
         docusaurus.create();
+    }
+
+    private createMade(): void
+    {
+
     }
 }
 

@@ -1,4 +1,5 @@
-import { AttributeEnum, EnumX} from "../../model/models";
+import { AttributeEnum } from "../../model/models";
+import { Enumerate } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 
@@ -9,10 +10,10 @@ class SparkEnumOption implements IRender
     private description: string;
 
 
-    public constructor(baseOption: AttributeEnum)
+    public constructor(baseOption: string)
     {
-        this.name = baseOption.name;
-        this.description = baseOption.comment;
+        this.name = baseOption;
+        this.description = ""; // not implemented yet baseOption.comment;
     }
 
     public render(identationStartLevel: number = 0): string
@@ -34,11 +35,11 @@ export default class SparkEnumEntity implements IRender
     private options: SparkEnumOption[];
 
 
-    public constructor(baseEnum: EnumX)
+    public constructor(baseEnum: Enumerate)
     {
-        this.description = baseEnum.comment;
+        this.description = ""; // comment not implemented yet baseEnum.comment;
         this.name = baseEnum.name;
-        this.options = baseEnum.attributes.map(attr => new SparkEnumOption(attr));
+        this.options = baseEnum.options.map(attr => new SparkEnumOption(attr));
     }
 
     public render(identationStartLevel: number = 0): string

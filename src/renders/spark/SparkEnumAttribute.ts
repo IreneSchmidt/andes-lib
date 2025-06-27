@@ -1,20 +1,17 @@
-import { EnumEntityAtribute } from "../../model/models";
+import { EnumAttribute } from "../../model/SparkModels";
 import SparkAttribute from "./SparkAttribute";
 
 
 export default class SparkEnumAttribute extends SparkAttribute
 {
-    public constructor(baseEnumAttribute: EnumEntityAtribute)
+    public constructor(baseEnumAttribute: EnumAttribute)
     {
         super({
-            name: baseEnumAttribute.name,
+            _type: {name: baseEnumAttribute._type.name, attributes: [], relashionShips: [], enumAttributes: []},
             blank: false,
-            comment: baseEnumAttribute.comment,
-            fullName: "",
-            max: 0,
-            min: 0,
-            //@ts-expect-error
-            type: baseEnumAttribute.type,
+            max: undefined,
+            min: undefined,
+            name: baseEnumAttribute.name,
             unique: false,
         });
     }

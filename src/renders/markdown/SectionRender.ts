@@ -1,5 +1,5 @@
-import { identate } from "../Identation";
 import IRender from "../IRender";
+import ParagraphRender from "./ParagraphRender";
 
 
 export default class SectionRender implements IRender
@@ -13,12 +13,22 @@ export default class SectionRender implements IRender
         this.elements = elements;
     }
 
+    public addSimpleParagraph(text: string)
+    {
+        this.elements.push(new ParagraphRender(text));
+    }
+
+    public addSimpleSubsection(title: string, content: string)
+    {
+        this.elements.push(new SectionRender(title, [new ParagraphRender(content)]));
+    }
+
     public render(identationStartLevel: number = 0): string
     {
         let title = this.renderTitle(identationStartLevel+1);
         let elements = this.elements.map(element => element.render(identationStartLevel+1)).join('\n');
         
-        return `${title}\n${elements}`;
+        return `\n${title}\n${elements}`;
     }
 
     private renderTitle(identationLevel: number): string

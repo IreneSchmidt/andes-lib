@@ -10,11 +10,11 @@ export default class SparkConfiguration implements IRender
     private about: string;
     private language: string;
 
-    public constructor(andesProject: Project)
+    public constructor(softwareName: string, description: string, language: string)
     {
-        this.softwareName = andesProject.name;
-        this.about = andesProject.description;
-        this.language = andesProject.architecture;
+        this.softwareName = softwareName;
+        this.about = description;
+        this.language = language;
     }
 
     public render(identationStartLevel: number = 0  ): string

@@ -69,7 +69,7 @@ export default class GraphRender extends MermaidRender
                 newCycle.push(currentNode);
             }
 
-            graphs.push(new GraphRender(`Grafo de Ciclos (${this.name})`, newCycle, "Grafo que contém um dos ciclos encontrados no grafo ${this.name}"))
+            graphs.push(new GraphRender(`Grafo de Ciclos (${this.name})`, newCycle, `Grafo que contém um dos ciclos encontrados no grafo ${this.name}`))
         })
 
         return graphs;
