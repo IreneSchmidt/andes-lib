@@ -1,14 +1,17 @@
 import { identate } from "../Identation";
 import IRender from "../IRender";
+import MadeEpic from "./MadeEpic";
 import MadeTask from "./MadeTask";
 
 export default class MadeStoryFromModule implements IRender{
+    private epic: MadeEpic; //Pega o header do epic
     private tasks: MadeTask[];
     private id: string;
     private nome: string;
     private descricao: string;
 
-    public constructor(xtasks: MadeTask[] = [], id: string, nome: string, descricao: string){
+    public constructor(epic:MadeEpic,xtasks: MadeTask[] = [], id: string, nome: string, descricao: string){
+        this.epic = epic;
         this.tasks=xtasks;
         this.id = id;
         this.nome = nome;
@@ -39,6 +42,13 @@ export default class MadeStoryFromModule implements IRender{
 
     private renderDescription(identationLevel:number):string{
         return `\n ${identate(identationLevel)}description: "${this.descricao}"`;
+    }
+
+    getEpic(): MadeEpic {
+        return this.epic;
+    }
+    getId(): string {
+        return this.id;
     }
 }
 

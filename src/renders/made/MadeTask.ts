@@ -1,13 +1,16 @@
 import { identate } from "../Identation";
 import IRender from "../IRender";
+import MadeStoryFromModule from "./MadeStoryFromModule";
 
 export default class MadeTask implements IRender
 {
+    private story:MadeStoryFromModule
     private name: string;
     private id: string;
     private depends: string;
 
-    public constructor(name: string, id: string, depends: string = ''){
+    public constructor(story: MadeStoryFromModule,name: string, id: string, depends: string = ''){
+        this.story = story;
         this.name = name;
         this.id = id;
         this.depends = depends;
@@ -32,5 +35,12 @@ export default class MadeTask implements IRender
 
     private renderDependencies(identationLevel: number):string {
         return this.depends ? `\n${identate(identationLevel)}depends: domaindiagram.createmodule${this.name.toLocaleLowerCase()}.createmodule` : '';
+    }
+
+    getStory(): MadeStoryFromModule {
+        return this.story;
+    }
+    getId(): string {
+        return this.id;
     }
 }

@@ -3,7 +3,7 @@ import { identate } from "../Identation";
 import MadeBacklog from "./MadeBacklog";
 
 export default class MadeEpic implements IRender{
-    private backlog: string; //Pega o header do backlog
+    private backlog: MadeBacklog;
     private storys: IRender[];
     private header: string;
     private nome: string;
@@ -23,7 +23,7 @@ export default class MadeEpic implements IRender{
     }
     
     public constructor(backlog: MadeBacklog, storys: IRender[] = [], header: string, nome: string, descricao: string){
-            this.backlog = backlog.getHeader();
+            this.backlog = backlog;
             this.storys= storys;
             this.header = header;
             this.nome = nome;

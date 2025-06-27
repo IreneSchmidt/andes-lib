@@ -46,7 +46,7 @@ export default class MadeRelease implements IRender{
 
     private renderItems():string{
         const items = this.item
-        .map(epic => `${epic.getBacklog()}.${epic.getHeader()}`)
+        .map(epic => `${epic.getBacklog().getHeader()}.${epic.getHeader()}`)
         .join(',');
 
         return `item: ${items}`;
