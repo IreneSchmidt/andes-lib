@@ -1,4 +1,4 @@
-import { Actor, Requirements, Event} from "./models";
+import { Actor, Requirements} from "./models";
 
 export type Sprint = {
     id: string;

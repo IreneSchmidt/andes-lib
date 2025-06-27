@@ -1,5 +1,7 @@
 // ----------------- AST ------------------
 
+import IRender from "../renders/IRender";
+
 export const Module = 'Module';
 
 export function isModule(item: unknown): item is Module {
@@ -63,7 +65,8 @@ export type AttributeEnum ={
 
 export type Model = {
     modules: Module[];
-    components: Array<Actor | ModuleImport | Requirement | UseCase>;
+    Usecases: Array<UseCase>;
+    components: Array<Actor | ModuleImport | Requirement>;
     project: Project;
 }
 
@@ -167,6 +170,8 @@ export type Project = {
     id: string;
     name: string;
     description: string;
+    startDate: string;
+    dueDate: string;
     purpose: string;
     miniworld: string;
     name_fragment: string;
@@ -215,7 +220,8 @@ export type Actor = {
     superType?: Actor;
 }
 
-export type UseCase = {
+export interface UseCase
+{
     actors: Array<Actor>;
     depends: Array<UseCase>;
     description: string;

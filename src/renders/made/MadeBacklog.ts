@@ -8,18 +8,17 @@ export default class MadeBacklog implements IRender{
     private descricao: string;
 
     public render(identationStartLevel : number = 0): string {
-        let epic = `${this.renderEpics(identationStartLevel+1)}`
+        let epic = `${this.renderEpics(identationStartLevel)}`
         let header = `${identate(identationStartLevel)}${this.renderHeader()}`
-        let nome = `${identate(identationStartLevel+1)}${this.renderName()}`
-        let descricao = `${this.renderDescription(identationStartLevel+1)}`
+        let nome = `${identate(identationStartLevel)}${this.renderName()}`
+        let descricao = `${this.renderDescription(identationStartLevel)}`
     
         
     return `${header} {
         ${nome}
         ${descricao}
         ${epic}
-        }
-        `
+    }`
     }
         
     public constructor(epicos: IRender[] = [], header: string, nome: string, descricao: string){
@@ -31,11 +30,11 @@ export default class MadeBacklog implements IRender{
     
     private renderEpics(identationLevel: number)
     {
-        return this.epics.map(epic => epic.render(identationLevel)).join("\n");
+        return `${this.epics.map(epic => epic.render(identationLevel)).join("")}`;
     }
 
     private renderHeader(): string {
-        return `epic ${this.header}`;
+        return `backlog ${this.header}`;
     }
 
     private renderName(): string
@@ -44,10 +43,6 @@ export default class MadeBacklog implements IRender{
     }
 
     private renderDescription(identationLevel:number):string{
-        return `\n description: ${this.descricao}"`;
-    }
-
-    public getHeader(){
-        return this.header
+        return `description: ${this.descricao}"`;
     }
 }

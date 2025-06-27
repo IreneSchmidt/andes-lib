@@ -1,4 +1,5 @@
 import IRender from "../IRender";
+import { identate } from "../Identation";
 
 export default class MadeUserStory implements IRender{
     private header: string;
@@ -12,8 +13,17 @@ export default class MadeUserStory implements IRender{
         this.descricao = descricao;
         this.dependencia = dependencia;
     }
-    public render(identationStartLevel?: number): string {
-        throw new Error("Method not implemented.");
+
+    public render(identationStartLevel: number): string {
+        let declaration = `${identate(identationStartLevel)}${this.renderHeader()}`
+        let name = `${identate(identationStartLevel+1)}${this.renderName()}`
+        let dependencies = `${identate(identationStartLevel+1)}${this.renderDependency(identationStartLevel)}`
+        let description = `${identate(identationStartLevel+1)}${this.renderDescription(identationStartLevel)}`
+        return ` ${declaration} {
+            ${name}
+            ${description}
+            ${dependencies}
+             }`;
     }
 
     private renderName():string{
@@ -22,5 +32,13 @@ export default class MadeUserStory implements IRender{
 
     private renderHeader():string{
         return `story ${this.header}`;
+    }
+
+    private renderDescription(identationLevel:number):string{
+        return `description: "${this.descricao}"`;
+    }
+    
+    private renderDependency(identationLevel:number):string{
+        return `dependency: "${this.dependencia}"`;
     }
 }

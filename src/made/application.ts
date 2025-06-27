@@ -33,9 +33,9 @@ export class MadeApplication {
         const useCases = this.model.components.filter(isUseCase)
         const project = this.model.project
 
-        const modulesClassDiagram = this.model.modules
-        
-        console.log (modulesClassDiagram.length)
+        const modulesClassDiagram = this.model.modules.filter(isModule);
+
+        console.log("Modules Class Diagram", modulesClassDiagram);
 
         useCases.map(useCase=>  this.dict[useCase.id]=`${projectID}.${useCase.id.toLocaleLowerCase()}`)
 
