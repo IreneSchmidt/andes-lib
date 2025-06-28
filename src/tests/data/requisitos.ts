@@ -14,6 +14,10 @@ rf5.addDepedencie(rf3); // Edição de perfil depende do cadastro de usuário
 rf6.addDepedencie(rf1); // Histórico acessado após login
 rf7.addDepedencie(rf6); // Relatório depende do histórico de atividades
 
+// Adicionando Ciclos Intencionais
+rf1.addDepedencie(rf2)
+rf1.addDepedencie(rf7)
+
 export const rnf1 = new NonFunctionalRequirement("Requisito Não Funcional 1", "O sistema deve estar disponível 99,9% do tempo.");
 export const rnf2 = new NonFunctionalRequirement("Requisito Não Funcional 2", "O tempo de resposta das páginas não deve exceder 2 segundos.");
 export const rnf3 = new NonFunctionalRequirement("Requisito Não Funcional 3", "O sistema deve suportar até 10 mil usuários simultâneos.");

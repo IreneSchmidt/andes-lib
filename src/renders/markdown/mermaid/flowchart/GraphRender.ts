@@ -29,11 +29,6 @@ export default class GraphRender extends MermaidRender
         return `\n${title}\n${body}\n`;    
     }
 
-    public cycleGraph(): GraphRender | null
-    {
-        return null;
-    }
-
     public addNode(node: Node)
     {
         this.nodes.push(node);
@@ -94,13 +89,14 @@ export default class GraphRender extends MermaidRender
             for (let e of current.getDependsEdges())
             {
                 if (e.compareTo(n))
-                    {
-                    // Cycle
+                {
+                    // Achou um Ciclo
                     stackTrace.push(e);
 
-                    if (cycles.length === 0)
+                    if (cycles.length === 0) // caso base
                         { cycles.push(stackTrace.slice()); }
-                    else {
+                    else
+                    {
                         let onlyHaveSize = true;
                         for (let cycle of cycles)
                         {
@@ -109,7 +105,7 @@ export default class GraphRender extends MermaidRender
                                 onlyHaveSize = false;
                                 for (let osn of cycle)
                                 {
-                                    if(!stackTrace.includes(osn))
+                                    if(cycle.find(obj => obj.compareTo(osn)) == undefined)
                                     {
                                         cycles.push(stackTrace.slice());
                                         break;

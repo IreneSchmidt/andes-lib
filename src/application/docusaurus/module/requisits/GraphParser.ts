@@ -33,12 +33,11 @@ export default class GraphParser
                 {
                     let frAddNode = GraphParser.addFrAsNode(nodes, dependencie);
                     GraphParser.addDependencie(node, frAddNode);
-                    return node;
                 }
             )
+            return node;
         }
 
-        // @ts-expect-error
         return foundedNode;
     }
 
