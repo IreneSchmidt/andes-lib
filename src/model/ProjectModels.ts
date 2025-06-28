@@ -1,5 +1,5 @@
 import { Requirements } from "./RequirimentsModels";
-import { Package } from "./SparkModels";
+import { Package } from "./sparkModels";
 
 export interface Overview
 {

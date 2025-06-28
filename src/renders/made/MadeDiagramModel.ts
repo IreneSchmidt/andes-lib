@@ -1,7 +1,9 @@
 import IRender from "../IRender";
 import { identate } from "../Identation";
 
-export default class MadeDiagramModel implements IRender{
+
+export default class MadeDiagramModel implements IRender
+{
     private storys: IRender[];
         
     public render(identationStartLevel : number = 0): string {
@@ -40,3 +42,4 @@ export default class MadeDiagramModel implements IRender{
         return `\n description: "Create Problem Domain Modules""`;
     }
 }
+

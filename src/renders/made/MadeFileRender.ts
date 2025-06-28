@@ -1,31 +1,40 @@
-import { UseCase } from "../../model/madeModels";
-import { isUseCase, Model } from "../../model/models";
 import IRender from "../IRender";
-import MadeBacklog from "./MadeBacklog";
 import MadeProjectRender from "./MadeProjectRender";
-import {Epic as UseCaseClass} from "./Epic";
+import MadeTeamRender from "./MadeTeamRender";
+import MadeRoadmapRender from "./MadeRoadmapRender";
+import MadeBacklogRender from "./MadeBacklogRender";
+import MadeSprintRender from "./MadeSprint";
+import { Module, Project } from "../../model/ProjectModels";
 
-export default class MadeFileRender implements IRender {
+
+export default class MadeFileRender implements IRender
+{
     private project: MadeProjectRender;
-    private backlog: MadeBacklog;
+    private teams: MadeTeamRender[];
+    private roadmaps: MadeRoadmapRender[];
+    private backlogs: MadeBacklogRender[];
+    private sprints: MadeSprintRender[];
 
 
 
-    public constructor(model: Model) {
-        this.project = new MadeProjectRender(model.project.startDate, model.project.dueDate,model.project.id, model.project.name, model.project.description);
-        this.backlog = new MadeBacklog(this.parseUsecase(model.Usecases), model.project.id, model.project.name, model.project.description);
-    }
-
-    private parseUsecase(ucs: UseCase[]): UseCaseClass[]
+    public constructor(module: Module)
     {
-        return ucs.map(uc => new UseCaseClass(uc.actors, this.parseUsecase(uc.depends), uc.description, uc.events, uc.id, uc.name, uc.requirements))
+        this.project = new MadeProjectRender(new Date(), new Date(), module.name, module.name, module.description);
+        this.teams = [];
+        this.roadmaps = roadmaps;
+        this.backlogs = backlogs;
+        this.sprints = sprints;
     }
-
     
-    public render(identationStartLevel: number = 0): string {
-        let project = `${this.project.render(identationStartLevel)}`;
-        let backlog = `${this.backlog.render(identationStartLevel)}`;
+    public render(identationStartLevel: number = 0): string
+    {
+        const projct = this.project.render();
+        const teams = this.teams.map(t => t.render()).join('\n');
+        const roadmap = this.roadmaps.map(r => r.render()).join('\n');
+        const backlog = this.backlogs.map(b => b.render()).join('\n');
+        const sprint = this.sprints.map(s => s.render()).join('\n');
 
-        return `${project}\n${backlog}`;
+        return `${projct}\n${teams}\n${roadmap}\n${backlog}\n${sprint}`;
     }
 }
+

@@ -1,4 +1,3 @@
-import { start } from "repl";
 import IRender from "../IRender";
 import { identate } from "../Identation";
 
@@ -9,12 +8,12 @@ export default class MadeBacklog implements IRender{
     private duedate: string;
     private descricao: string;
 
-    public render(identationStartLevel : number = 1): string {
-        let startdate = `${identate(identationStartLevel)}${this.renderStartDate()}`
-        let duedate = `${identate(identationStartLevel)}${this.renderDueDate()}`;
+    public render(identationStartLevel: number = 0): string {
+        let startdate = `${identate(identationStartLevel+1)}${this.renderStartDate()}`
+        let duedate = `${identate(identationStartLevel+1)}${this.renderDueDate()}`;
         let header = `${identate(identationStartLevel)}${this.renderHeader()}`
-        let nome = `${identate(identationStartLevel)}${this.renderName()}`
-        let descricao = `${identate(identationStartLevel)}${this.renderDescription()}`
+        let nome = `${identate(identationStartLevel+1)}${this.renderName()}`
+        let descricao = `${identate(identationStartLevel+1)}${this.renderDescription()}`
     
         
     return `${header} {
@@ -26,9 +25,9 @@ export default class MadeBacklog implements IRender{
         `
     }
         
-    public constructor(startdate: string, duedate:string, header: string, nome: string, descricao: string){
-        this.startdate= startdate;
-        this.duedate = duedate;
+    public constructor(startdate: Date, duedate:Date, header: string, nome: string, descricao: string){
+        this.startdate= startdate.toDateString();
+        this.duedate = duedate.toDateString();
         this.header = header;
         this.nome = nome;
         this.descricao = descricao;

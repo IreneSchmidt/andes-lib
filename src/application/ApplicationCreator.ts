@@ -36,7 +36,8 @@ export default class ApplicationCreator
         docusaurus.create();
     }
 
-    private createMade(): void{
+    private createMade(): void
+    {
         const made = new MadeFileRender(this.model);
 
         mkdirSync(this.targetFolder, {recursive: true});
