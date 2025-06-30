@@ -1,58 +1,59 @@
 import IRender from "../IRender";
 import { identate } from "../Identation";
 
-export default class MadeBacklog implements IRender{
-    private header: string;
+
+export default class MadeProjectRender implements IRender{
+    private identifier: string;
     private nome: string;
     private startdate: string;
     private duedate: string;
     private descricao: string;
 
-    public render(identationStartLevel: number = 0): string {
-        let startdate = `${identate(identationStartLevel+1)}${this.renderStartDate()}`
-        let duedate = `${identate(identationStartLevel+1)}${this.renderDueDate()}`;
-        let header = `${identate(identationStartLevel)}${this.renderHeader()}`
-        let nome = `${identate(identationStartLevel+1)}${this.renderName()}`
-        let descricao = `${identate(identationStartLevel+1)}${this.renderDescription()}`
-    
-        
-    return `${header} {
-        ${nome}
-        ${descricao}
-        ${startdate}
-        ${duedate}
-        }
-        `
-    }
-        
-    public constructor(startdate: Date, duedate:Date, header: string, nome: string, descricao: string){
-        this.startdate= startdate.toDateString();
-        this.duedate = duedate.toDateString();
-        this.header = header;
+    public constructor(startdate: Date, duedate:Date, header: string, nome: string, descricao: string)
+    {
+        this.startdate= startdate.toISOString();
+        this.duedate = duedate.toISOString();
+        this.identifier = header;
         this.nome = nome;
         this.descricao = descricao;
     }
+
+    public render(identationStartLevel: number = 0): string
+    {
+        const identifier = this.renderIdentifier(identationStartLevel);
+        const name = this.renderName(identationStartLevel+1);
+        const description = this.renderDescription(identationStartLevel+1);
+        const startdate = this.renderStartDate(identationStartLevel+1);
+        const duedate = this.renderDueDate(identationStartLevel+1);
+        
+        return `${identifier} {\n${name}${description}\n${startdate}\n${duedate}\n${identate(identationStartLevel)}}`;
+    }
     
-    private renderStartDate()
+    private renderStartDate(identation: number = 0)
     {
-        return `startDate: ${this.startdate}`;
+        return `${identate(identation)}startDate: ${this.startdate}`;
     }
 
-    private renderHeader(): string {
-        return `project ${this.header}`;
-    }
-
-    private renderDueDate(): string {
-        return `duedate: ${this.duedate}`;
-    }
-
-    private renderName(): string
+    private renderIdentifier(identation: number = 0): string
     {
-        return `name: ${this.nome}`;
+        return `${identate(identation)}project ${this.identifier}`;
     }
 
-    private renderDescription():string{
-        return `description: ${this.descricao}"`;
+    private renderDueDate(identation: number = 0): string
+    {
+        return `${identate(identation)}duedate: ${this.duedate}`;
     }
 
+    private renderName(identation: number = 0): string
+    {
+        return `${identate(identation)}name: "${this.nome}"`;
+    }
+
+    private renderDescription(identation: number = 0): string
+    {
+        if(!this.descricao)
+            { return ""; }
+        return `\n${identate(identation)}description: "${this.descricao}"`;
+    }
 }
+

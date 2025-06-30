@@ -4,7 +4,6 @@ import MadeTeamRender from "./MadeTeamRender";
 import MadeRoadmapRender from "./MadeRoadmapRender";
 import MadeBacklogRender from "./MadeBacklogRender";
 import MadeSprintRender from "./MadeSprint";
-import { Module, Project } from "../../model/ProjectModels";
 
 
 export default class MadeFileRender implements IRender
@@ -17,10 +16,10 @@ export default class MadeFileRender implements IRender
 
 
 
-    public constructor(module: Module)
+    public constructor(project: MadeProjectRender, teams: MadeTeamRender[], roadmaps: MadeRoadmapRender[], backlogs: MadeBacklogRender[], sprints: MadeSprintRender[])
     {
-        this.project = new MadeProjectRender(new Date(), new Date(), module.name, module.name, module.description);
-        this.teams = [];
+        this.project = project;
+        this.teams = teams;
         this.roadmaps = roadmaps;
         this.backlogs = backlogs;
         this.sprints = sprints;
@@ -34,7 +33,7 @@ export default class MadeFileRender implements IRender
         const backlog = this.backlogs.map(b => b.render()).join('\n');
         const sprint = this.sprints.map(s => s.render()).join('\n');
 
-        return `${projct}\n${teams}\n${roadmap}\n${backlog}\n${sprint}`;
+        return `${projct}\n\n${teams}\n\n${roadmap}\n\n${backlog}\n\n${sprint}`;
     }
 }
 

@@ -44,6 +44,7 @@ export class MadeSprintBacklogRender implements IRender
 
 export default class MadeSprintRender implements IRender
 {
+    private identifier: string;
     private name: string;
     private description: string; 
     private startDate: Date;
@@ -51,8 +52,9 @@ export default class MadeSprintRender implements IRender
     private status: string;
     private backlogs: MadeSprintBacklogRender[];
 
-    public constructor(name: string, description: string,  startDate: Date, endDate: Date, status: string, backlog: MadeSprintBacklogRender[] = [])
+    public constructor(identifier: string, name: string, description: string,  startDate: Date, endDate: Date, status: string, backlog: MadeSprintBacklogRender[] = [])
     {
+        this.identifier = identifier;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -76,7 +78,7 @@ export default class MadeSprintRender implements IRender
 
     private renderIdentifier(identation: number = 0): string
     {
-        return `${identate(identation)}sprint ${this.name}`;
+        return `${identate(identation)}sprint ${this.identifier}`;
     }
 
     private renderName(identation: number = 0): string
@@ -86,7 +88,9 @@ export default class MadeSprintRender implements IRender
 
     private renderDescription(identation: number = 0): string
     {
-        return `${identate(identation)}description: "${this.description}"`;
+        if(!this.description)
+            { return ""; }
+        return `\n${identate(identation)}description: "${this.description}"`;
     }
 
     private renderStatus(identation: number = 0): string
@@ -96,7 +100,7 @@ export default class MadeSprintRender implements IRender
 
     private renderDates(identation: number = 0): string
     {
-        return `${identate(identation)}startDate: ${this.startDate.toDateString()}\n${identate(identation)}dueDate: ${this.endDate.toDateString()}`;
+        return `${identate(identation)}startDate: ${this.startDate.toISOString()}\n${identate(identation)}dueDate: ${this.endDate.toISOString()}`;
     }
 
     private renderItems(identation: number = 0): string

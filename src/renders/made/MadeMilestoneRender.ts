@@ -50,7 +50,7 @@ export default class MadeMileStoneRender implements IRender
     {
         if(!this.description)
             { return ""; }
-        return `${identate(identation)}description: "${this.description}"`;
+        return `\n${identate(identation)}description: "${this.description}"`;
     }
 
         private renderStatus(identation: number = 0): string
@@ -60,7 +60,7 @@ export default class MadeMileStoneRender implements IRender
 
     private renderDates(identation: number = 0): string
     {
-        return `${identate(identation)}startDate: ${this.startDate.toDateString()}\n${identate(identation)}dueDate: ${this.dueDate.toDateString()}`;
+        return `${identate(identation)}startDate: ${this.startDate.toISOString()}\n${identate(identation)}dueDate: ${this.dueDate.toISOString()}`;
     }
 }
 

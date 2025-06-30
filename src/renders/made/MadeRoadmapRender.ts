@@ -35,14 +35,14 @@ export default class MadeRoadmapRender implements IRender
 
     private renderName(identation: number = 0): string
     {
-        return `${identate(identation)}name: "${this.identifier}"`;
+        return `${identate(identation)}name: "${this.name}"`;
     }
 
     private renderDescription(identation: number = 0): string
     {
         if(!this.description)
             { return ""; }
-        return `${identate(identation)}description: "${this.description}"`;
+        return `\n${identate(identation)}description: "${this.description}"`;
     }
 }
 

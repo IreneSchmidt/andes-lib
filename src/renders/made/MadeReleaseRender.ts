@@ -57,7 +57,7 @@ export default class MadeReleaseRender implements IRender
 
     private renderDates(identation: number = 0): string
     {
-        return `${identate(identation)}startDate: ${this.startDate.toDateString()}\n${identate(identation)}dueDate: ${this.dueDate.toDateString()}`;
+        return `${identate(identation)}startDate: ${this.startDate.toISOString()}\n${identate(identation)}dueDate: ${this.dueDate.toISOString()}`;
     }
 
     private renderVersion(identation: number = 0): string

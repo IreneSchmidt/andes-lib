@@ -25,7 +25,7 @@ export default class MadeTeamRender implements IRender
         const name = this.renderName(identationStartLevel+1);
         const members = this.renderTeamsMembers(identationStartLevel+1);
 
-        return `${identifier}{\n${name}\n${descrip}\n${members}}`;
+        return `${identifier}{\n${name}\n${descrip}\n${members}\n${identate(identationStartLevel)}}`;
     }
 
     private renderIdentifier(identation: number): string
@@ -35,17 +35,17 @@ export default class MadeTeamRender implements IRender
 
     private renderName(identation: number): string
     {
-        return `${identate(identation)}name: ${this.name}`;
+        return `${identate(identation)}name: "${this.name}"`;
     }
 
     private renderDescription(identation: number): string
     {
-        return `${identate(identation)}description: ${this.description}`;
+        return `${identate(identation)}description: "${this.description}"`;
     }
 
     private renderTeamsMembers(identation: number): string
     {
-        return `${identate(identation)}${this.members.map(m => m.render(identation)).join(`\n${identate(identation)}`)}`;
+        return `${this.members.map(m => m.render(identation)).join('\n')}`;
     }
 }
 

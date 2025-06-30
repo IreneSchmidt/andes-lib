@@ -36,9 +36,9 @@ export abstract class MadeBacklogItem implements IRender
 export class MadeTaskRender extends MadeBacklogItem
 {
     private deliverables: string[];
-    private dependencie: MadeTaskRender[]
+    private dependencie: string[]
 
-    public constructor(identifier: string, name: string, deliverables: string[], dependencies: MadeTaskRender[] = [])
+    public constructor(identifier: string, name: string, deliverables: string[], dependencies: string[] = [])
     {
         super(identifier, name);
         this.deliverables = deliverables;
@@ -50,7 +50,7 @@ export class MadeTaskRender extends MadeBacklogItem
         this.deliverables.push(obj);
     }
 
-    public addDependencie(dpd: MadeTaskRender)
+    public addDependencie(dpd: string)
     {
         this.dependencie.push(dpd);
     }
@@ -67,12 +67,12 @@ export class MadeTaskRender extends MadeBacklogItem
 
     private renderDependencie(identation: number = 0): string
     {
-        return `${identate(identation)}depends: ${this.dependencie.map(d => d.render()).join(', ')}`;
+        return `${identate(identation)}depends: ${this.dependencie.join(',')}`;
     }
 
     private renderDeliverables(identation: number = 0): string
     {
-        return `${identate(identation)}Deliverables: ${this.deliverables.join(', ')}`;
+        return `${identate(identation)}Deliverables: ${this.deliverables.map(d=>`"${d}"`).join(', ')}`;
     }
 
     public equalsTo(other: MadeTaskRender): boolean
@@ -151,7 +151,7 @@ export class MadeEpicRender extends MadeStoryRender
 
     override render(identationStartLevel: number = 0): string
     {
-        const decl = this.renderIdentifier("story", identationStartLevel);
+        const decl = this.renderIdentifier("epic", identationStartLevel);
         const name = this.renderName(identationStartLevel+1);
         const criteria = this.renderCriterios(identationStartLevel+1);
         const obs = this.renderObs(identationStartLevel+1);
