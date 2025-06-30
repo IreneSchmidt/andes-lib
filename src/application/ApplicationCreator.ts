@@ -35,6 +35,8 @@ export default class ApplicationCreator
 
     private modulesToPackages(): Package[]
     {
+        /*
+        // Esse códio aqui é o certo. Quando o spark for corrijido, utilize ele.
         return this.project.modules.map(
             module => { return {
                 name: module.name,
@@ -46,6 +48,9 @@ export default class ApplicationCreator
             }
         }
         )
+        */
+
+        return this.project.modules.map( module => { return module.packages } ).flat()
     }
 
     private createDocusaurus(): void
