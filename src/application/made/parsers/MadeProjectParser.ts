@@ -1,8 +1,8 @@
 import { normalize } from "path";
-import { Module } from "../../../model/ProjectModels";
+import { ModuleInterface } from "../../../model/ProjectModels";
 import MadeProjectRender from "../../../renders/made/MadeProjectRender";
 import { MadeEpicRender } from "../../../renders/made/MadeBacklogItems";
-import { UseCase } from "../../../model/madeModels";
+import { UseCaseType } from "../../../model/madeModels";
 import DefaultStories from "../defaults/DefaultStories";
 import MadeTeamRender from "../../../renders/made/MadeTeamRender";
 import MadeRoadmapRender from "../../../renders/made/MadeRoadmapRender";
@@ -24,7 +24,7 @@ export interface MadeCompleteData
 
 export class MadeProjectParser
 {
-    static parse(module: Module): MadeCompleteData
+    static parse(module: ModuleInterface): MadeCompleteData
     {
         return {
             project: MadeProjectParser.toMadeProject(module),
@@ -35,7 +35,7 @@ export class MadeProjectParser
         }
     }
 
-    private static toMadeProject(module: Module): MadeProjectRender
+    private static toMadeProject(module: ModuleInterface): MadeProjectRender
     {
         return new MadeProjectRender(
             new Date(),

@@ -1,4 +1,4 @@
-import { Entity, Package, Attributes, Enumerate } from "../../model/sparkModels";
+import { SparkEntity, Package, Attributes, Enumerate } from "../../model/sparkModels";
 
 
 export const nome: Attributes = {
@@ -17,7 +17,7 @@ export const codigo: Attributes = {
 }
 
 
-export const escola: Entity = {
+export const escola: SparkEntity = {
     name: "Escola",
     attributes: [nome],
     relashionShips: [],
@@ -31,7 +31,7 @@ export const simpleEnum: Enumerate = {
 }
 
 
-export const matricula: Entity = {
+export const matricula: SparkEntity = {
     name: "Matricula",
     attributes: [codigo],
     enumAttributes: [],
@@ -39,7 +39,7 @@ export const matricula: Entity = {
 }
 
 
-export const aluno: Entity = {
+export const aluno: SparkEntity = {
     name: "Aluno",
     attributes: [nome],
     enumAttributes: [{ name: "SemestreIngresso", _type: simpleEnum }],

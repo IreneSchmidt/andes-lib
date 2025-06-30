@@ -1,6 +1,6 @@
-import { UseCase } from "./madeModels";
+import { UseCaseType } from "./madeModels";
 import { Actor } from "./models";
-import { Requirements } from "./RequirimentsModels";
+import { RequirementsInterface } from "./RequirimentsModels";
 import { Package } from "./sparkModels";
 
 export interface Overview
@@ -13,7 +13,7 @@ export interface Overview
 }
 
 
-export interface Module
+export interface ModuleInterface
 {
     identifier: string;
     name: string;
@@ -21,15 +21,15 @@ export interface Module
     purpose: string;
     miniwolrd: string;
     packages: Package[];
-    requisites: Requirements;
-    useCases: UseCase[];
+    requisites: RequirementsInterface;
+    useCases: UseCaseType[];
     actors: Actor[];
 }
 
 
-export interface Project
+export interface ProjectInterface
 {
     overview: Overview;
-    modules: Module[];
+    modules: ModuleInterface[];
 }
 

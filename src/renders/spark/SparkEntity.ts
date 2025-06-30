@@ -1,4 +1,4 @@
-import { Entity } from "../../model/SparkModels";
+import { SparkEntity } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 import SparkAttribute from "./SparkAttribute";
@@ -12,7 +12,7 @@ export default class SparkEntity implements IRender
     private attributes: SparkAttribute[];
     private enums: SparkEnumAttribute[];
 
-    public constructor(entity: Entity)
+    public constructor(entity: SparkEntity)
     {
         this.description = ""; // Not implemented yet
         this.name = entity.name;

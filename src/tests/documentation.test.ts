@@ -1,4 +1,4 @@
-import { BuisinesRule, FunctionalRequirement, NonFunctionalRequirement, ProjectModule } from "../model/newModels";
+import { BuisinesRuleSimpleCLass, FunctionalRequirementSimpleClass, NonFunctionalRequirementSimpleClass, ProjectModuleType } from "../model/newModels";
 import { expect, describe, it } from 'vitest'
 import { DocusaurusProjectCreator } from '../application/DocusaurusCreator'
 import { project } from "./data/projeto";

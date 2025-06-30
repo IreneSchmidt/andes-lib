@@ -1,4 +1,4 @@
-import { BuisinesRule, FunctionalRequirement, NonFunctionalRequirement } from "../../../../model/RequirimentsModels";
+import { BuisinesRuleClass, FunctionalRequirementClass, NonFunctionalRequirementClass } from "../../../../model/RequirimentsModels";
 import TableRender from "../../../../renders/markdown/TableRender";
 
 const functionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição", "Dependências", "Prioridade"];
@@ -8,7 +8,7 @@ const buisinesRuleTableHeaders = ["ID", "Nome", "Descrição"];
 
 export default class TableParser
 {
-    static frToTable(frs: FunctionalRequirement[]): TableRender
+    static frToTable(frs: FunctionalRequirementClass[]): TableRender
     {
         return new TableRender(
             functionalRequirimentsTableHeaders,
@@ -17,7 +17,7 @@ export default class TableParser
         )
     }
 
-    static nfrToTalbe(nfrs: NonFunctionalRequirement[]): TableRender
+    static nfrToTalbe(nfrs: NonFunctionalRequirementClass[]): TableRender
     {
         return new TableRender(
             nonFunctionalRequirimentsTableHeaders,
@@ -26,7 +26,7 @@ export default class TableParser
         )
     }
 
-    static brToTalbe(brs: BuisinesRule[]): TableRender
+    static brToTalbe(brs: BuisinesRuleClass[]): TableRender
     {
         return new TableRender(
             buisinesRuleTableHeaders,

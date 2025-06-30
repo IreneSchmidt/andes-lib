@@ -1,15 +1,15 @@
-import { BuisinesRule, FunctionalRequirement, NonFunctionalRequirement, Requirements } from "../../../../model/RequirimentsModels";
+import { BuisinesRuleClass, FunctionalRequirementClass, NonFunctionalRequirementClass, RequirementsInterface } from "../../../../model/RequirimentsModels";
 
 export interface RequirimentExtracted
 {
-    fr: FunctionalRequirement[];
-    nfr: NonFunctionalRequirement[];
-    br: BuisinesRule[]
+    fr: FunctionalRequirementClass[];
+    nfr: NonFunctionalRequirementClass[];
+    br: BuisinesRuleClass[]
 }
 
 export default class RequirimentExtractor
 {
-    static extract(requiriments: Requirements): RequirimentExtracted
+    static extract(requiriments: RequirementsInterface): RequirimentExtracted
     {
         const fr = requiriments.functionalRequiriment.sort((a, b) => a.compareTo(b));
         const nfr = requiriments.nonFunctionalRequiriment.sort((a, b) => a.compareTo(b));

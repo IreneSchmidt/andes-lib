@@ -2,19 +2,19 @@ import { PathLike } from "fs"
 import SparkFileRender from "../renders/spark/SparkFileRender";
 import createFolderAndFile from "./IO";
 import { DocusaurusProjectCreator } from "./DocusaurusCreator";
-import { Project } from "../model/ProjectModels";
+import { ProjectInterface } from "../model/ProjectModels";
 import { MadeProjectParser } from "./made/parsers/MadeProjectParser";
-import { Module } from "../model/ProjectModels";
+import { ModuleInterface } from "../model/ProjectModels";
 import MadeFileRender from "../renders/made/MadeFileRender";
 import { Package } from "../model/sparkModels";
 
 
 export default class ApplicationCreator
 {
-    private project: Project;
+    private project: ProjectInterface;
     private targetFolder: PathLike;
 
-    public constructor(project: Project, targetFolder: PathLike)
+    public constructor(project: ProjectInterface, targetFolder: PathLike)
     {
         this.project = project;
         this.targetFolder = targetFolder;
@@ -61,7 +61,7 @@ export default class ApplicationCreator
         this.project.modules.forEach(module => this.createMadeModule(module));
     }
 
-    private createMadeModule(module: Module): void
+    private createMadeModule(module: ModuleInterface): void
     {
         const madeData = MadeProjectParser.parse(module);
         const made = new MadeFileRender(madeData.project, madeData.teams, madeData.roadmaps, madeData.backlogs, madeData.sprints);

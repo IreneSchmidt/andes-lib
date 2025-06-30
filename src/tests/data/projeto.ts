@@ -1,8 +1,8 @@
-import { Project } from "../../model/ProjectModels"
+import { ProjectInterface } from "../../model/ProjectModels"
 import { module1 } from "./modulos"
 
 
-export const project: Project = {
+export const project: ProjectInterface = {
     overview: {
         name: "Projeto de Teste",
         description: "Descrição do meu projeto de Teste",

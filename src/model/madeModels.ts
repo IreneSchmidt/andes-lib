@@ -1,5 +1,5 @@
 import { Actor, Requirements} from "./models";
-import { Requirement } from "./RequirimentsModels";
+import { RequirementClass } from "./RequirimentsModels";
 
 export type TeamMember = {
     name: string;
@@ -37,24 +37,24 @@ export type Sprint = {
     backlogs: SprintBacklog;
 }
 
-export type UseCase = {
+export type UseCaseType = {
     identifier: string;
     name: string;
     description: string;
 
-    depends: UseCase[];
+    depends: UseCaseType[];
     actors: Actor[];
-    events: Event[];
-    requirements: Requirement[]
+    events: EventType[];
+    requirements: RequirementClass[]
 }
 
-export type Event = {
+export type EventType = {
     identifier: string;
     name: string;
     description: string;
     action: string;
     requirements: Array<Requirements>;
-    depends: Array<Event>;
+    depends: Array<EventType>;
     performer: Actor
 }
 

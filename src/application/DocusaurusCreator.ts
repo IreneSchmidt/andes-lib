@@ -1,14 +1,14 @@
 import { PathLike } from "fs";
-import { Project } from "../model/ProjectModels"
+import { ProjectInterface } from "../model/ProjectModels"
 import { ModuleCreator } from "./docusaurus/module/ModuleCreator";
 
 
 export class DocusaurusProjectCreator
 {
-    private projectReference: Project;
+    private projectReference: ProjectInterface;
     private targetFolder: PathLike;
 
-    public constructor(projectReference: Project, targetFolder: PathLike)
+    public constructor(projectReference: ProjectInterface, targetFolder: PathLike)
     {
         this.projectReference = projectReference;
         this.targetFolder = `${targetFolder}`;

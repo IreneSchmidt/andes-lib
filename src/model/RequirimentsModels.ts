@@ -1,4 +1,4 @@
-export class Requirement
+export class RequirementClass
 {
     private name: string;
     private descritpion: string;
@@ -33,7 +33,7 @@ export class Requirement
         return `${this.getReference()}: ${this.name}`;
     }
 
-    public compareTo(other: Requirement): number
+    public compareTo(other: RequirementClass): number
     {
         if(this.numeration > other.numeration)
             { return 1; }
@@ -44,16 +44,16 @@ export class Requirement
 }
 
 
-export class FunctionalRequirement extends Requirement
+export class FunctionalRequirementClass extends RequirementClass
 {
     private static numeration: number = 0;
-    private dependencies: FunctionalRequirement[];
+    private dependencies: FunctionalRequirementClass[];
     private priority: string;
 
-    public constructor(name: string, priority: string, description: string = "", dependencies: FunctionalRequirement[] = [])
+    public constructor(name: string, priority: string, description: string = "", dependencies: FunctionalRequirementClass[] = [])
     {
-        super(name, FunctionalRequirement.numeration, "RF", description);
-        FunctionalRequirement.numeration++;
+        super(name, FunctionalRequirementClass.numeration, "RF", description);
+        FunctionalRequirementClass.numeration++;
         this.dependencies = dependencies;
         this.priority = priority;
     }
@@ -68,42 +68,42 @@ export class FunctionalRequirement extends Requirement
         return this.dependencies.map(dependencie => dependencie.getReference());
     }
 
-    public getDependencies(): FunctionalRequirement[]
+    public getDependencies(): FunctionalRequirementClass[]
     {
         return this.dependencies;
     }
 
-    public addDepedencie(depends: FunctionalRequirement)
+    public addDepedencie(depends: FunctionalRequirementClass)
     {
         this.dependencies.push(depends);
     }
 }
 
-export class NonFunctionalRequirement extends Requirement
+export class NonFunctionalRequirementClass extends RequirementClass
 {
     private static numeration: number = 0;
 
     public constructor(name: string, description: string = "")
     {
-        super(name, NonFunctionalRequirement.numeration, "RNF", description);
-        NonFunctionalRequirement.numeration++;
+        super(name, NonFunctionalRequirementClass.numeration, "RNF", description);
+        NonFunctionalRequirementClass.numeration++;
     }
 }
 
-export class BuisinesRule extends Requirement
+export class BuisinesRuleClass extends RequirementClass
 {
     private static numeration: number = 0;
 
     public constructor(name: string, description: string = "")
     {
-        super(name, BuisinesRule.numeration, "RN", description);
-        BuisinesRule.numeration++;
+        super(name, BuisinesRuleClass.numeration, "RN", description);
+        BuisinesRuleClass.numeration++;
     }
 }
 
-export interface Requirements
+export interface RequirementsInterface
 {
-    functionalRequiriment: FunctionalRequirement[];
-    nonFunctionalRequiriment: NonFunctionalRequirement[];
-    buiinesRule: BuisinesRule[];
+    functionalRequiriment: FunctionalRequirementClass[];
+    nonFunctionalRequiriment: NonFunctionalRequirementClass[];
+    buiinesRule: BuisinesRuleClass[];
 }

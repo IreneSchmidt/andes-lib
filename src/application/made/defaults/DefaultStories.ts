@@ -1,8 +1,8 @@
-import { UseCase } from "../../../model/madeModels";
-import { Module } from "../../../model/ProjectModels";
+import { UseCaseType } from "../../../model/madeModels";
+import { ModuleInterface } from "../../../model/ProjectModels";
 import { Package } from "../../../model/sparkModels";
 import { MadeStoryRender, MadeTaskRender } from "../../../renders/made/MadeBacklogItems";
-import { Event } from "../../../model/madeModels";
+import { EventType } from "../../../model/madeModels";
 
 
 export default class DefaultStories
@@ -25,7 +25,7 @@ export default class DefaultStories
         ]
     }
 
-    static buildDefaultStoryToEvent(event: Event, index: number = 0): MadeStoryRender
+    static buildDefaultStoryToEvent(event: EventType, index: number = 0): MadeStoryRender
     {
         return new MadeStoryRender(
             `${event.identifier}_${index}`,

@@ -1,4 +1,4 @@
-import { Entity, Package } from "../../../../model/sparkModels";
+import { SparkEntity, Package } from "../../../../model/sparkModels";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import AttributeRender from "../../../../renders/markdown/plantuml/classDiagram.ts/AttributeRender";
 import ClassDiagramRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassDiagramRender";
@@ -26,7 +26,7 @@ export default class BuildDomain
             entity.name,
             entity.attributes.map(attr => new AttributeRender(
                 attr.name,
-                (attr._type as Entity).name == undefined ? attr._type as string : (attr._type as Entity).name    
+                (attr._type as SparkEntity).name == undefined ? attr._type as string : (attr._type as SparkEntity).name    
             )),
             [],
             [],
@@ -40,7 +40,7 @@ export default class BuildDomain
         return section;
     }
     
-    private static createEntityDescription (e: Entity): string {
+    private static createEntityDescription (e: SparkEntity): string {
         if (!BuildDomain.hasNoRelation(e)){
             const descrpt = `Entidade ${e.name}, possuí relação com ${e.relashionShips.map(r => `${r.name}`).join(', ').toUpperCase()}`
             return descrpt  
@@ -49,7 +49,7 @@ export default class BuildDomain
         
     }
 
-    private static hasNoRelation (e: Entity): boolean{
+    private static hasNoRelation (e: SparkEntity): boolean{
         return e.relashionShips == null || e.relashionShips.length == 0;
     }
 }   

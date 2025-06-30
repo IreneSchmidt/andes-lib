@@ -1,4 +1,4 @@
-import { UseCase } from "../../../../model/madeModels";
+import { UseCaseType } from "../../../../model/madeModels";
 import { Actor } from "../../../../model/models";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import SectionRender from "../../../../renders/markdown/SectionRender";
@@ -6,7 +6,7 @@ import TableRender from "../../../../renders/markdown/TableRender";
 
 export default class BuildUserCase
 {
-    static build(useCases: UseCase[], actors: Actor[]): MarkdownFileRender
+    static build(useCases: UseCaseType[], actors: Actor[]): MarkdownFileRender
     {
         const uc = new MarkdownFileRender("Casos de Uso");
 
@@ -31,7 +31,7 @@ export default class BuildUserCase
         return startSection;
     }
 
-    private static buildUsercaseSection(uc: UseCase): SectionRender
+    private static buildUsercaseSection(uc: UseCaseType): SectionRender
     {
         const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
 

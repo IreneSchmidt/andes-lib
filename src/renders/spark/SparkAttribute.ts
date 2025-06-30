@@ -1,4 +1,4 @@
-import { Attributes, Entity } from "../../model/SparkModels";
+import { Attributes, SparkEntity } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 
@@ -15,10 +15,10 @@ export default class SparkAttribute implements IRender
     public constructor(attr: Attributes)
     {
         this.name = attr.name;
-        if((attr._type as Entity).name == undefined)
+        if((attr._type as SparkEntity).name == undefined)
             { this.type = attr._type as string; }
         else
-            { this.type = (attr._type as Entity).name; }
+            { this.type = (attr._type as SparkEntity).name; }
         this.blank = attr.blank ? "blank" : "";
         this.max = attr.max;
         this.min = attr.min;

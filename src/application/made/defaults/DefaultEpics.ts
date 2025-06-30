@@ -1,4 +1,4 @@
-import { UseCase } from "../../../model/madeModels";
+import { UseCaseType } from "../../../model/madeModels";
 import { Package } from "../../../model/sparkModels";
 import { MadeEpicRender, MadeStoryRender, MadeTaskRender } from "../../../renders/made/MadeBacklogItems";
 import DefaultStories from "./DefaultStories";
@@ -18,7 +18,7 @@ export default class DefaultEpics
         );
     }
 
-    static defaultEpicFromUsecase(uc: UseCase): MadeEpicRender
+    static defaultEpicFromUsecase(uc: UseCaseType): MadeEpicRender
     {
         return new MadeEpicRender(
             uc.identifier,

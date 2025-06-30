@@ -1,5 +1,5 @@
 import { Actor, Requirements } from "../../model/models";
-import { Event } from "../../model/madeModels";
+import { EventType } from "../../model/madeModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 import MadeUserStory from "./MadeUserStory";
@@ -13,7 +13,7 @@ export class Epic implements IRender
     private id: string;
     private name: string;
 
-    public constructor(actors: Array<Actor>, depends: Array<Epic>, description: string, events: Array<Event>, id: string, name: string, requirements: Array<Requirements>)
+    public constructor(actors: Array<Actor>, depends: Array<Epic>, description: string, events: Array<EventType>, id: string, name: string, requirements: Array<Requirements>)
     {
         this.depends = depends;
         this.description = description;
