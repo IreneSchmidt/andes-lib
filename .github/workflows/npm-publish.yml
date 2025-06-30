@@ -71,12 +71,12 @@ jobs:
 
           if [ "$JOB_STATUS" == "success" ]; then
             TITLE="✅ Publicação NPM SUCESSO!"
-            DESCRIPTION="A biblioteca \`andes-gps-projeto\` foi publicada com sucesso no npm."
+            DESCRIPTION="A biblioteca \`andes-lib\` foi publicada com sucesso no npm."
             COLOR=3066993 # Verde
             NEW_VERSION_VALUE="${{ needs.publish.outputs.new_version_published }}"
           else
             TITLE="❌ Publicação NPM FALHA!"
-            DESCRIPTION="Houve um erro ao tentar publicar a biblioteca \`andes-gps-projeto\` no npm. Verifique os logs do workflow para detalhes."
+            DESCRIPTION="Houve um erro ao tentar publicar a biblioteca \`andes-lib\` no npm. Verifique os logs do workflow para detalhes."
             COLOR=15158332 # Vermelho
             NEW_VERSION_VALUE="N/A" 
           fi
