@@ -2,7 +2,7 @@ import { Module } from "../../model/models";
 import { Package } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
-import SparkEntity from "./SparkEntity";
+import SparkEntityRender from "./SparkEntity";
 import SparkEnumEntity from "./SparkEnumEntity";
 
 
@@ -10,7 +10,7 @@ export default class SparkPackage implements IRender
 {
     private name: string;
     private description: string;
-    private entityes: (SparkEntity | SparkEnumEntity)[];
+    private entityes: (SparkEntityRender | SparkEnumEntity)[];
     private modules: SparkPackage[];
 
     public constructor(_package: Package)
@@ -20,7 +20,7 @@ export default class SparkPackage implements IRender
         this.entityes = [];
         this.modules = _package.subPackages.map(module => new SparkPackage(module));
 
-        _package.entityes.forEach(entity => this.entityes.push(new SparkEntity(entity)));
+        _package.entityes.forEach(entity => this.entityes.push(new SparkEntityRender(entity)));
         _package.enums.forEach(enumX => this.entityes.push(new SparkEnumEntity(enumX)));
     }
 
