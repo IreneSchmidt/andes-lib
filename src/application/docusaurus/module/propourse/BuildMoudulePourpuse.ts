@@ -1,12 +1,12 @@
 import { Module } from "../../../../model/ProjectModels"
-import FileRender from "../../../../renders/markdown/FileRender";
+import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 
 
 export class BuildModulePourpuse
 {
-    static buildModuleProporse(module: Module): FileRender
+    static buildModuleProporse(module: Module): MarkdownFileRender
     {
-        let porpourse = new FileRender("Proósito do Módulo");
+        let porpourse = new MarkdownFileRender("Proósito do Módulo");
         porpourse.addSimpleSection("Propósito", module.purpose);
         porpourse.addSimpleSection("Minimundo", module.miniwolrd);
 

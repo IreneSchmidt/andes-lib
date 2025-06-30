@@ -17,7 +17,7 @@ export class Epic implements IRender
     {
         this.depends = depends;
         this.description = description;
-        this.storys = events.map(event =>new MadeUserStory(event.id,event.name,event.description,event.depends.map(dep => dep.id).join(', '))
+        this.storys = events.map(event =>new MadeUserStory(event.identifier,event.name,event.description,event.depends.map(dep => dep.identifier).join(', '))
 );
 
         this.id = id;

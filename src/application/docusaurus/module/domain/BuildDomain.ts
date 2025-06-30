@@ -1,21 +1,22 @@
-import { Entity, Package } from "../../../../model/SparkModels";
-import FileRender from "../../../../renders/markdown/FileRender";
+import { Entity, Package } from "../../../../model/sparkModels";
+import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import AttributeRender from "../../../../renders/markdown/plantuml/classDiagram.ts/AttributeRender";
 import ClassDiagramRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassDiagramRender";
 import ClassRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassRender";
+import SectionRender from "../../../../renders/markdown/SectionRender";
 
 
 export default class BuildDomain
 {
-    static buildDomainDiagram(_package: Package): FileRender
+    static buildDomainDiagram(_package: Package): MarkdownFileRender
     {
-        const domain = new FileRender("Domain");
+        const domain = new MarkdownFileRender("Domain");
 
         const classes = BuildDomain.packageToMermaid(_package);
         const diagram = new ClassDiagramRender(classes);
 
        domain.addSimpleSection("Diagrama de Domínio", diagram.render());
-
+       domain.add(BuildDomain.classesDescription(_package)) 
        return domain;
     }
 
@@ -32,5 +33,25 @@ export default class BuildDomain
             []
         ));
     }
-}
+
+    private static classesDescription (pkg: Package): SectionRender{
+        const section = new SectionRender(pkg.name)
+        pkg.entityes.forEach(e => section.addSimpleSubsection(e.name, BuildDomain.createEntityDescription(e)))
+        return section;
+    }
+    
+    private static createEntityDescription (e: Entity): string {
+        if (!BuildDomain.hasNoRelation(e)){
+            const descrpt = `Entidade ${e.name}, possuí relação com ${e.relashionShips.map(r => `${r.name}`).join(', ').toUpperCase()}`
+            return descrpt  
+        }
+        return `Entidade ${e.name}, não possui relações.`
+        
+    }
+
+    private static hasNoRelation (e: Entity): boolean{
+        return e.relashionShips == null || e.relashionShips.length == 0;
+    }
+}   
+
 

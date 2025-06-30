@@ -1,10 +1,11 @@
 import { PathLike } from "fs";
 import { BuildModulePourpuse } from "./propourse/BuildMoudulePourpuse";
 import BuildRequisites from "./requisits/BuildRequisites";
-import FileRender from "../../../renders/markdown/FileRender";
+import MarkdownFileRender from "../../../renders/markdown/FileRender";
 import createFolderAndFile from "../../IO";
 import { Module } from "../../../model/ProjectModels"
 import BuildDomain from "./domain/BuildDomain";
+import BuildUserCase from "./usercase/BuildUsercase";
 
 
 export class ModuleCreator
@@ -13,11 +14,11 @@ export class ModuleCreator
     private originalPath: PathLike;
     private targetFolder: PathLike;
 
-    private modulePropourse: FileRender| null = null;
-    private moduleRequisites: FileRender | null = null;
-    private moduleUserCases: FileRender | null = null;
-    private moduleDomainModel: FileRender | null = null;
-    private moduleStatesMachines: FileRender | null = null;
+    private modulePropourse: MarkdownFileRender| null = null;
+    private moduleRequisites: MarkdownFileRender | null = null;
+    private moduleUserCases: MarkdownFileRender | null = null;
+    private moduleDomainModel: MarkdownFileRender | null = null;
+    private moduleStatesMachines: MarkdownFileRender | null = null;
     
     public constructor(module: Module | null = null, targetFolder: PathLike = "")
     {
@@ -41,22 +42,21 @@ export class ModuleCreator
         this.modulePropourse = BuildModulePourpuse.buildModuleProporse(this.module);
         this.moduleRequisites = BuildRequisites.buildModuleRequisites(this.module);
         this.moduleDomainModel = BuildDomain.buildDomainDiagram(this.module.packages[0]);
-        // this.moduleUserCases = this.buildModuleUserCase();
-        // this.moduleDomainModel = this.buildModuleDomainModel();
-        // this.moduleStatesMachines = this.buildModuleDomainModel();
+        this.moduleUserCases = this.buildModuleUserCase(this.module);
+        // this.moduleStatesMachines = this.buildModuleStatesMachine();
         createFolderAndFile(this.targetFolder, `ModulePropourse.md`, this.modulePropourse.render(0));
         createFolderAndFile(this.targetFolder, `Requisites.md`, this.moduleRequisites.render(1));
-        // createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render(2));
+        createFolderAndFile(this.targetFolder, `UserCase.md`, this.moduleUserCases.render(2));
         createFolderAndFile(this.targetFolder, `ModuleDomain.md`, this.moduleDomainModel.render(3));
         // createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render(4));
     }
 
-    private buildModuleUserCase(): FileRender
+    private buildModuleUserCase(module: Module): MarkdownFileRender
     {
-
+        return BuildUserCase.build(module.useCases, module.actors);
     }
 
-    private buildModuleStatesMachine(): FileRender
+    private buildModuleStatesMachine(): MarkdownFileRender
     {
 
     }

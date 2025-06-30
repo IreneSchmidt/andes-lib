@@ -4,7 +4,7 @@ import SectionRender from "./SectionRender";
 import TableRender from "./TableRender";
 
 
-export default class FileRender implements IRender
+export default class MarkdownFileRender implements IRender
 {
     private name: string;
     private elements: IRender[];

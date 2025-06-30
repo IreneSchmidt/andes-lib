@@ -1,6 +1,8 @@
 import { Module } from "../../model/ProjectModels"
+import { actors1, actors2 } from "./actors"
 import { package1 } from "./packages"
 import { requiriments } from "./requisitos"
+import { uc1 } from "./usecases"
 
 
 export const module1: Module = {
@@ -10,5 +12,7 @@ export const module1: Module = {
     purpose: "Propósito do Módulo",
     requisites: requiriments,
     packages: [package1],
+    actors: [actors1, actors2],
+    useCases: [uc1]
 }
 

@@ -3,6 +3,10 @@ import SparkFileRender from "../renders/spark/SparkFileRender";
 import createFolderAndFile from "./IO";
 import { DocusaurusProjectCreator } from "./DocusaurusCreator";
 import { Project } from "../model/ProjectModels";
+import { MadeProjectParser } from "./made/parsers/MadeProjectParser";
+import { Module } from "../model/ProjectModels";
+import MadeFileRender from "../renders/made/MadeFileRender";
+import { Package } from "../model/sparkModels";
 
 
 export default class ApplicationCreator
@@ -20,12 +24,28 @@ export default class ApplicationCreator
     {
         this.createSpark();
         this.createDocusaurus();
+        this.createMade();
     }
 
     private createSpark(): void
     {
-        const spark = new SparkFileRender(this.project.overview, this.project.modules.map(_module => { return {name: _module.name, description: _module.description, entityes: [], enums: [], subPackages: _module.packages}; }));
+        const spark = new SparkFileRender(this.project.overview, this.modulesToPackages());
         createFolderAndFile(this.targetFolder, `${this.project.overview.name}.spark`, spark.render());
+    }
+
+    private modulesToPackages(): Package[]
+    {
+        return this.project.modules.map(
+            module => { return {
+                name: module.name,
+                description: module.description,
+                entityes: [],
+                enums: [],
+                identifier: module.identifier,
+                subPackages: module.packages
+            }
+        }
+        )
     }
 
     private createDocusaurus(): void
@@ -38,10 +58,15 @@ export default class ApplicationCreator
 
     private createMade(): void
     {
-        const made = new MadeFileRender(this.model);
+        this.project.modules.forEach(module => this.createMadeModule(module));
+    }
 
-        mkdirSync(this.targetFolder, {recursive: true});
-        writeFileSync(`${this.targetFolder}/${this.model.project.name}.made`, made.render());
+    private createMadeModule(module: Module): void
+    {
+        const madeData = MadeProjectParser.parse(module);
+        const made = new MadeFileRender(madeData.project, madeData.teams, madeData.roadmaps, madeData.backlogs, madeData.sprints);
+
+        createFolderAndFile(`${this.targetFolder}/made`, `${module.identifier}.made`, made.render());
     }
 }
 

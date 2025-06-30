@@ -1,14 +1,14 @@
 import IRender from "../IRender";
-import FileRender from "./FileRender";
+import MarkdownFileRender from "./FileRender";
 
 
 export default class PageHandler
 {
-    private files: FileRender[];
+    private files: MarkdownFileRender[];
     private folderName: string;
     private subPages: PageHandler[];
 
-    public constructor(folderName: string, files: FileRender[] = [], subPages: PageHandler[])
+    public constructor(folderName: string, files: MarkdownFileRender[] = [], subPages: PageHandler[])
     {
         this.folderName = folderName;
         this.files = files;
@@ -31,7 +31,7 @@ export default class PageHandler
         return this.folderName;
     }
 
-    public foreachFile(exec: { (file: FileRender, index: number): void }): void
+    public foreachFile(exec: { (file: MarkdownFileRender, index: number): void }): void
     {
         this.files.forEach((file, index)=>{ exec(file, index); });
     }

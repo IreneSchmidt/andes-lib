@@ -1,6 +1,6 @@
 import { Module } from "../../model/models";
 import { Overview, Project } from "../../model/ProjectModels";
-import { Package } from "../../model/SparkModels";
+import { Package } from "../../model/sparkModels";
 import IRender from "../IRender";
 import SparkConfiguration from "./SparkConfiguration";
 import SparkPackage from "./SparkPackage";

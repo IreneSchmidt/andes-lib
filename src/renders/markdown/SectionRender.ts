@@ -13,6 +13,11 @@ export default class SectionRender implements IRender
         this.elements = elements;
     }
 
+    public addElement(element: IRender)
+    {
+        this.elements.push(element);
+    }
+
     public addSimpleParagraph(text: string)
     {
         this.elements.push(new ParagraphRender(text));
