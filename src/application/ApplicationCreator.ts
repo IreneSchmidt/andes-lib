@@ -71,7 +71,9 @@ export default class ApplicationCreator
         const madeData = MadeProjectParser.parse(module);
         const made = new MadeFileRender(madeData.project, madeData.teams, madeData.roadmaps, madeData.backlogs, madeData.sprints);
 
-        createFolderAndFile(`${this.targetFolder}/made`, `${module.identifier}.made`, made.render());
+        console.log(module);
+
+        createFolderAndFile(`${this.targetFolder}`, `${module.identifier}.made`, made.render());
     }
 }
 

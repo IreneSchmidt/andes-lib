@@ -13,6 +13,7 @@ export const module1: ModuleInterface = {
     requisites: requiriments,
     packages: [package1],
     actors: [actors1, actors2],
-    useCases: [uc1]
+    useCases: [uc1],
+    identifier: "Modulo1"
 }
 

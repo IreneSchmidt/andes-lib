@@ -62,14 +62,14 @@ export class MadeTaskRender extends MadeBacklogItem
         const dependencies = this.renderDependencie(identationStartLevel+1);
         const deliverables = this.renderDeliverables(identationStartLevel+1);
 
-        return `${decl} {\n${name}\n${dependencies}\n${deliverables}\n${identate(identationStartLevel)}}`;
+        return `${decl} {\n${name}${dependencies}${deliverables}\n${identate(identationStartLevel)}}`;
     }
 
     private renderDependencie(identation: number = 0): string
     {
         if(this.dependencie.length == 0)
             { return ""; }
-        return `${identate(identation)}depends: ${this.dependencie.join(',')}`;
+        return `\n${identate(identation)}depends: ${this.dependencie.join(',')}`;
     }
 
     private renderDeliverables(identation: number = 0): string
@@ -108,7 +108,7 @@ export class MadeStoryRender extends MadeBacklogItem
         const obs = this.renderObs(identationStartLevel+1);
         const items = this.renderItems(identationStartLevel+1);
 
-        return `${decl} {\n${name}${criteria}${obs}\n${items}}`;
+        return `${decl} {\n${name}${criteria}${obs}${items}\n${identate(identationStartLevel)}}`;
     }
 
     public add(item: MadeTaskRender)
@@ -132,7 +132,9 @@ export class MadeStoryRender extends MadeBacklogItem
 
     protected renderItems(identation: number = 0): string
     {
-        return this.items.map(i => i.render(identation)).join("\n");
+        if(this.items.length == 0)
+            { return ""; }
+        return `\n${this.items.map(i => i.render(identation)).join("\n")}`;
     }
 
     public getItems(): IRender[]
@@ -162,7 +164,7 @@ export class MadeEpicRender extends MadeStoryRender
         const items = this.renderItems(identationStartLevel+1);
         const description = this.renderDescription(identationStartLevel+1);
 
-        return `${decl} {\n${name}${description}${criteria}${obs}\n${items}}`;
+        return `${decl} {\n${name}${description}${criteria}${obs}${items}\n${identate(identationStartLevel)}}`;
     }
 
     public addStory(story: MadeStoryRender)
@@ -174,7 +176,7 @@ export class MadeEpicRender extends MadeStoryRender
     {
         if(!this.description)
             { return ""; }
-        return `${identate(identation)}description: "${this.description}"`;
+        return `\n${identate(identation)}description: "${this.description}"`;
     }
 
     public findTaskReference(task: MadeTaskRender): string

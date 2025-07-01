@@ -26,7 +26,7 @@ export default class MadeProjectRender implements IRender{
         const startdate = this.renderStartDate(identationStartLevel+1);
         const duedate = this.renderDueDate(identationStartLevel+1);
         
-        return `${identifier} {\n${name}${description}\n${startdate}\n${duedate}\n${identate(identationStartLevel)}}`;
+        return `${identifier} {\n${name}${description}\n${startdate}${duedate}\n${identate(identationStartLevel)}}`;
     }
     
     private renderStartDate(identation: number = 0)
@@ -42,7 +42,7 @@ export default class MadeProjectRender implements IRender{
     private renderDueDate(identation: number = 0): string
     {
         return "";
-        // return `${identate(identation)}duedate: ${this.duedate}`;
+        // return `\n${identate(identation)}duedate: ${this.duedate}`;
     }
 
     private renderName(identation: number = 0): string

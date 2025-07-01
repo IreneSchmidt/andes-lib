@@ -1,7 +1,7 @@
 import { UseCaseType } from "./madeModels";
 import { Actor } from "./models";
 import { RequirementsInterface } from "./RequirimentsModels";
-import { Package } from "./sparkModels";
+import { Package } from "./SparkModels";
 
 export interface Overview
 {

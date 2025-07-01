@@ -28,12 +28,19 @@ export default class MadeFileRender implements IRender
     public render(identationStartLevel: number = 0): string
     {
         const projct = this.project.render();
-        const teams = this.teams.map(t => t.render()).join('\n');
-        const roadmap = this.roadmaps.map(r => r.render()).join('\n');
-        const backlog = this.backlogs.map(b => b.render()).join('\n');
-        const sprint = this.sprints.map(s => s.render()).join('\n');
+        const teams = this.renderArray(this.teams);
+        const roadmap = this.renderArray(this.roadmaps);
+        const backlog = this.renderArray(this.backlogs);
+        const sprint = this.renderArray(this.sprints);
 
-        return `${projct}\n\n${teams}\n\n${roadmap}\n\n${backlog}\n\n${sprint}`;
+        return `${projct}${teams}${roadmap}${backlog}${sprint}`;
+    }
+
+    private renderArray(array: IRender[]): string
+    {
+        if (array.length == 0)
+            { return ""; }
+        return `\n\n${array.map(item => item.render()).join('\n')}`;
     }
 }
 
