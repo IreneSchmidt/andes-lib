@@ -1,6 +1,8 @@
 import { UseCaseType } from "../../../../model/madeModels";
 import { Actor } from "../../../../model/models";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
+import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
+import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
 
@@ -11,10 +13,11 @@ export default class BuildUserCase
         const uc = new MarkdownFileRender("Casos de Uso");
 
         const startSection = BuildUserCase.buildStartSection(actors);
-
+        const depGraph = BuildUserCase.buildDependenceGraph(useCases);
         useCases.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
 
         uc.add(startSection);
+        uc.addSimpleSection("Grafo de dependencias ", depGraph.render())
 
         return uc;
     }
@@ -38,6 +41,18 @@ export default class BuildUserCase
         uc.events.map(e => section.addSimpleSubsection(`${e.identifier}: ${e.name}`, `Descrição: ${e.description}\nTODO: Código gerado automaticamente`));
 
         return section;
+    }
+
+    private static buildDependenceGraph(useCases: UseCaseType[]): SectionRender {
+    const nodes = useCases.flatMap(uc => 
+        uc.events.map(e => new Node(`NODE ${e.identifier}`, e.name))
+    );
+
+    const section = new SectionRender(
+        new GraphRender("Grafo de dependências", nodes).render()
+    );
+
+    return section;
     }
 }
 
