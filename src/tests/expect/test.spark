@@ -1,0 +1,31 @@
+Configuration {
+        software_name: "Projeto de Teste"
+        about: "Descrição do meu projeto de Teste"
+        language: arquitetura-solicitada-pelo-usuário
+}
+
+// Descrição do Módulo 1
+module Módulo 1 {
+        // Descrição do Pacote 1
+        module Pacote1 {
+                entity Escola {
+                        Nome: string
+
+                }
+
+                entity Matricula {
+                        codigo: string
+
+                }
+
+                entity Aluno {
+                        Nome: string
+                        SemestreIngresso uses Semestre
+                }
+
+                enum Semestre {
+                        primeiro
+                        segundo
+                }
+        }
+}

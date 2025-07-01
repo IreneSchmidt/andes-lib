@@ -2,13 +2,13 @@ export interface Relashioship
 {
     name: string;
     _relationType: string;
-    relationDestination: SparkEntity;
+    relationDestination: Entity;
 }
 
 export interface Attributes
 {
     name: string;
-    _type: SparkEntity | string;
+    _type: Entity | string;
     max?: number;
     min?: number;
     unique: boolean;
@@ -21,7 +21,7 @@ export interface EnumAttribute
     _type: Enumerate;
 }
 
-export interface SparkEntity
+export interface Entity
 {
     name: string;
     attributes: Attributes[];
@@ -38,10 +38,9 @@ export interface Enumerate
 
 export interface Package
 {
-    identifier: string;
     name: string;
     description: string;
-    entityes: SparkEntity[];
+    entityes: Entity[];
     enums: Enumerate[];
     subPackages: Package[];
 }
