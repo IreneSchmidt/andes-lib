@@ -6,7 +6,7 @@ import { ProjectInterface } from "../model/ProjectModels";
 import { MadeProjectParser } from "./made/parsers/MadeProjectParser";
 import { ModuleInterface } from "../model/ProjectModels";
 import MadeFileRender from "../renders/made/MadeFileRender";
-import { Package } from "../model/sparkModels";
+import { Package } from "../model/SparkModels";
 
 
 export default class ApplicationCreator

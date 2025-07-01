@@ -1,6 +1,6 @@
 import { UseCaseType } from "../../../model/madeModels";
 import { ModuleInterface } from "../../../model/ProjectModels";
-import { Package } from "../../../model/sparkModels";
+import { Package } from "../../../model/SparkModels";
 import { MadeStoryRender, MadeTaskRender } from "../../../renders/made/MadeBacklogItems";
 import { EventType } from "../../../model/madeModels";
 

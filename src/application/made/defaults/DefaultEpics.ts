@@ -1,5 +1,5 @@
 import { UseCaseType } from "../../../model/madeModels";
-import { Package } from "../../../model/sparkModels";
+import { Package } from "../../../model/SparkModels";
 import { MadeEpicRender, MadeStoryRender, MadeTaskRender } from "../../../renders/made/MadeBacklogItems";
 import DefaultStories from "./DefaultStories";
 

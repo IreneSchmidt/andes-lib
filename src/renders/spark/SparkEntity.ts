@@ -1,4 +1,4 @@
-import { SparkEntity } from "../../model/sparkModels";
+import { Entity as SparkEntity } from "../../model/SparkModels";
 import { identate } from "../Identation";
 import IRender from "../IRender";
 import SparkAttribute from "./SparkAttribute";
@@ -53,7 +53,7 @@ export default class SparkEntityRender implements IRender
         let enumsattrs = this.renderEnumAttributes(identationStartLevel+1);
         let relations = this.relations.map(r => r.render(identationStartLevel+1)).join('\n');
 
-        return `\n${docs}${entity} {\n${attributes}\n${enumsattrs}\n${identate(identationStartLevel)}${relations}\n${identate(identationStartLevel)}}`;
+        return `\n${docs}${entity} {${attributes}${enumsattrs}${relations}\n${identate(identationStartLevel)}}`;
     }
 
     private renderDocs(identationLevel: number): string
@@ -68,12 +68,16 @@ export default class SparkEntityRender implements IRender
 
     private renderAttributes(identationLevel: number): string
     {
-        return this.attributes.map(attr => attr.render(identationLevel)).join("\n");
+        if(this.attributes.length == 0)
+            { return ""; }
+        return `\n${this.attributes.map(attr => attr.render(identationLevel)).join("\n")}`;
     }
 
     private renderEnumAttributes(identationLevel: number): string
     {
-        return this.enums.map(attr => attr.render(identationLevel)).join("\n");
+        if(this.enums.length == 0)
+            { return ""; }
+        return `\n${this.enums.map(attr => attr.render(identationLevel)).join("\n")}`;
     }
 
     public toString(): string

@@ -62,7 +62,7 @@ export default class SparkEnumEntity implements IRender
 
     private renderOptions(identationLevel: number): string
     {
-        return this.options.map(opt => opt.render(identationLevel)).join("\n");
+        return this.options.map(opt => opt.render(identationLevel).toUpperCase()).join("\n");
     }
 }
 
