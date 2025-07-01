@@ -85,7 +85,7 @@ jobs:
 
           if [ "$JOB_STATUS" == "success" ]; then
             FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Nova Versão", "value": "v'"$NEW_VERSION_VALUE"'", "inline": true}' '. += [$field]')
-            FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Link NPM", "value": "https://www.npmjs.com/package/andes-gps-projeto", "inline": true}' '. += [$field]')
+            FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Link NPM", "value": "https://www.npmjs.com/package/andes-lib", "inline": true}' '. += [$field]')
           fi
           
           FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Status Final do Job", "value": "'"$JOB_STATUS"'", "inline": true}' '. += [$field]')
