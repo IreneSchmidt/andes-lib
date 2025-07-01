@@ -1,4 +1,3 @@
-import SparkFileRender from "../renders/spark/SparkFileRender.ts"
 import { expect, describe, it } from 'vitest'
 
 import { readFileSync } from 'fs'
@@ -6,19 +5,16 @@ import { readFileSync } from 'fs'
 import { project } from "./data/projeto.ts"
 import { normalize } from "path";
 
+import createFolderAndFile from "../application/IO.ts"
+
+import SparkFileRender from "../renders/dsl/spark/SparkFileRender.ts"
+
 
 describe("Generate Spark", ()=> {
     
-    let sparkFR = new SparkFileRender(
-        project.overview,
-        project.modules.map(_module => { return {
-                name: _module.name,
-                description: _module.description,
-                entityes: [],
-                enums: [],
-                subPackages: _module.packages,
-        }})
-    );
+    let sparkFR = new SparkFileRender(project);
+
+    createFolderAndFile("out/tests/spark", "spark.spark", sparkFR.render());
 
     let expectContent = readFileSync("./src/tests/expect/test.spark", "utf-8");
     it("Generate Spark file content", () => {

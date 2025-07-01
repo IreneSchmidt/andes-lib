@@ -1,57 +1,58 @@
-import { SparkEntity, Package, Attributes, Enumerate } from "../../model/sparkModels";
+import { AttributeType, EntityType, EnumAttributeType } from "../../model/spark/EntityTypes";
+import { EnumEntityType } from "../../model/spark/EnumTypes";
+import { PackageType } from "../../model/spark/PackageTypes";
 
 
-export const nome: Attributes = {
-    name: "Nome",
-    _type: "string",
+export const nome: AttributeType = {
+    identifier: "nome",
+    blank: false,
+    unique: false,
+    type: "string",
+}
+
+
+export const codigo: AttributeType = {
+    identifier: "codigo",
+    type: "string",
     blank: false,
     unique: false,
 }
 
 
-export const codigo: Attributes = {
-    name: "codigo",
-    _type: "string",
-    blank: false,
-    unique: false,
-}
-
-
-export const escola: SparkEntity = {
-    name: "Escola",
+export const escola: EntityType = {
     attributes: [nome],
-    relashionShips: [],
-    enumAttributes: []
+    relationsAttr: [],
+    enums: [],
+    identifier: "Escola"
 }
 
 
-export const simpleEnum: Enumerate = {
-    name: "Semestre",
+export const simpleEnum: EnumEntityType = {
+    identifier: "Semestre",
     options: ["primeiro", "segundo"]
 }
 
 
-export const matricula: SparkEntity = {
-    name: "Matricula",
+export const matricula: EntityType = {
+    identifier: "Matricula",
     attributes: [codigo],
-    enumAttributes: [],
-    relashionShips: [{name: "escola", _relationType: "ManyToOne", relationDestination: escola}],
+    enums: [],
+    relationsAttr: [{identifier: "escola", relationType: "ManyToOne", targetObject: escola}],
 }
 
 
-export const aluno: SparkEntity = {
-    name: "Aluno",
+export const aluno: EntityType = {
+    identifier: "Aluno",
     attributes: [nome],
-    enumAttributes: [{ name: "SemestreIngresso", _type: simpleEnum }],
-    relashionShips: [{name: "Matrícula", _relationType: "OneToOne", relationDestination: matricula}],
+    enums: [{ identifier: "SemestreIngresso", type: simpleEnum }],
+    relationsAttr: [{identifier: "matricula", relationType: "OneToOne", targetObject: matricula}],
 }
 
 
-export const package1: Package = {
-    name: "Pacote1",
+export const package1: PackageType = {
+    identifier: "Pacote1",
     description: "Descrição do Pacote 1",
-    entityes: [escola, matricula, aluno],
+    entities: [escola, matricula, aluno],
     enums: [simpleEnum],
-    subPackages: []
 } 
 

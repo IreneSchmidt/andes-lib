@@ -1,37 +1,148 @@
-import { BuisinesRuleClass, FunctionalRequirementClass, NonFunctionalRequirementClass, RequirementsInterface } from "../../model/RequirimentsModels";
+import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentAgregationType } from "../../model/andes/RequirimentsTypes";
 
-export const rf1 = new FunctionalRequirementClass("Requisito Funcional 1", "Alta", "O sistema deve permitir que o usuário realize login com e-mail e senha.");
-export const rf2 = new FunctionalRequirementClass("Requisito Funcional 2", "Média", "O sistema deve permitir a recuperação de senha via e-mail.");
-export const rf3 = new FunctionalRequirementClass("Requisito Funcional 3", "Alta", "O sistema deve permitir o cadastro de novos usuários.");
-export const rf4 = new FunctionalRequirementClass("Requisito Funcional 4", "Baixa", "O sistema deve enviar um e-mail de boas-vindas após o cadastro.");
-export const rf5 = new FunctionalRequirementClass("Requisito Funcional 5", "Média", "O sistema deve permitir que o usuário edite seu perfil.");
-export const rf6 = new FunctionalRequirementClass("Requisito Funcional 6", "Alta", "O sistema deve permitir que o usuário visualize o histórico de atividades.");
-export const rf7 = new FunctionalRequirementClass("Requisito Funcional 7", "Média", "O sistema deve gerar relatórios mensais de uso.");
-export const rf8 = new FunctionalRequirementClass("Requisito Funcional 8", "Alta", "O sistema deve permitir o logout seguro do usuário.");
-rf2.addDepedencie(rf1); // Recuperação de senha depende do login implementado
-rf4.addDepedencie(rf3); // Envio de boas-vindas depende do cadastro de usuário
-rf5.addDepedencie(rf3); // Edição de perfil depende do cadastro de usuário
-rf6.addDepedencie(rf1); // Histórico acessado após login
-rf7.addDepedencie(rf6); // Relatório depende do histórico de atividades
+// Agregação de Requisitos
+export const requiriments: RequirimentAgregationType = {
+    fr: [],
+    nfr: [],
+    br: [],
+    name: "Conjunto 1",
+    identifier: "Conjunto1",
+};
+
+
+export const rf1: FunctionalRequirimentType = {
+    name: "Requisito Funcional 1",
+    priority: "Alta",
+    depends: [],
+    identifier: "RF01",
+    ref: requiriments,
+};
+
+export const rf2: FunctionalRequirimentType = {
+    name: "Requisito Funcional 2",
+    priority: "Média",
+    depends: ["Requisito Funcional 1"], // Recuperação de senha depende do login implementado
+    identifier: "RF02",
+    ref: requiriments,
+};
+
+export const rf3: FunctionalRequirimentType = {
+    name: "Requisito Funcional 3",
+    priority: "Alta",
+    depends: [],
+    identifier: "RF03",
+    ref: requiriments,
+};
+
+export const rf4: FunctionalRequirimentType = {
+    name: "Requisito Funcional 4",
+    priority: "Baixa",
+    depends: ["Requisito Funcional 3"], // Envio de boas-vindas depende do cadastro de usuário
+    identifier: "RF04",
+    ref: requiriments,
+};
+
+export const rf5: FunctionalRequirimentType = {
+    name: "Requisito Funcional 5",
+    priority: "Média",
+    depends: ["Requisito Funcional 3"], // Edição de perfil depende do cadastro de usuário
+    identifier: "RF05",
+    ref: requiriments,
+};
+
+export const rf6: FunctionalRequirimentType = {
+    name: "Requisito Funcional 6",
+    priority: "Alta",
+    depends: ["Requisito Funcional 1"], // Histórico acessado após login
+    identifier: "RF06",
+    ref: requiriments,
+};
+
+export const rf7: FunctionalRequirimentType = {
+    name: "Requisito Funcional 7",
+    priority: "Média",
+    depends: ["Requisito Funcional 6"], // Relatório depende do histórico de atividades
+    identifier: "RF07",
+    ref: requiriments,
+};
+
+export const rf8: FunctionalRequirimentType = {
+    name: "Requisito Funcional 8",
+    priority: "Alta",
+    depends: [],
+    identifier: "RF08",
+    ref: requiriments,
+};
 
 // Adicionando Ciclos Intencionais
-rf1.addDepedencie(rf2)
-rf1.addDepedencie(rf7)
+rf1.depends.push("Requisito Funcional 2", "Requisito Funcional 7"); // Ciclo entre rf1 e rf2, rf1 e rf7
 
-export const rnf1 = new NonFunctionalRequirementClass("Requisito Não Funcional 1", "O sistema deve estar disponível 99,9% do tempo.");
-export const rnf2 = new NonFunctionalRequirementClass("Requisito Não Funcional 2", "O tempo de resposta das páginas não deve exceder 2 segundos.");
-export const rnf3 = new NonFunctionalRequirementClass("Requisito Não Funcional 3", "O sistema deve suportar até 10 mil usuários simultâneos.");
-export const rnf4 = new NonFunctionalRequirementClass("Requisito Não Funcional 4", "A interface deve ser compatível com dispositivos móveis.");
+export const rnf1: NonFunctionalRequirimentType = {
+    name: "Requisito Não Funcional 1",
+    priority: "",
+    depends: [],
+    identifier: "RNF01",
+    ref: requiriments,
+};
 
-export const rn1 = new BuisinesRuleClass("Regra de Negócio 1", "Usuários menores de 18 anos não podem se cadastrar.");
-export const rn2 = new BuisinesRuleClass("Regra de Negócio 2", "O e-mail fornecido no cadastro deve ser único.");
-export const rn3 = new BuisinesRuleClass("Regra de Negócio 3", "A alteração de e-mail exige confirmação por código enviado.");
-export const rn4 = new BuisinesRuleClass("Regra de Negócio 4", "Usuários inativos por 6 meses devem ser notificados.");
+export const rnf2: NonFunctionalRequirimentType = {
+    name: "Requisito Não Funcional 2",
+    priority: "",
+    depends: [],
+    identifier: "RNF02",
+    ref: requiriments,
+};
+
+export const rnf3: NonFunctionalRequirimentType = {
+    name: "Requisito Não Funcional 3",
+    priority: "",
+    depends: [],
+    identifier: "RNF03",
+    ref: requiriments,
+};
+
+export const rnf4: NonFunctionalRequirimentType = {
+    name: "Requisito Não Funcional 4",
+    priority: "",
+    depends: [],
+    identifier: "RNF04",
+    ref: requiriments,
+};
+
+export const rn1: BuisinessRuleType = {
+    name: "Regra de Negócio 1",
+    priority: "",
+    depends: [],
+    identifier: "RNF05",
+    ref: requiriments,
+};
+
+export const rn2: BuisinessRuleType = {
+    name: "Regra de Negócio 2",
+    priority: "",
+    depends: [],
+    identifier: "RNF06",
+    ref: requiriments,
+};
+
+export const rn3: BuisinessRuleType = {
+    name: "Regra de Negócio 3",
+    priority: "",
+    depends: [],
+    identifier: "RNF07",
+    ref: requiriments,
+};
+
+export const rn4: BuisinessRuleType = {
+    name: "Regra de Negócio 4",
+    priority: "",
+    depends: [],
+    identifier: "RNF08",
+    ref: requiriments,
+};
 
 
-export const requiriments: RequirementsInterface = {
-    functionalRequiriment: [rf1, rf2, rf3, rf4, rf5, rf6, rf7, rf8],
-    nonFunctionalRequiriment: [rnf1, rnf2, rnf3, rnf4],
-    buiinesRule: [rn1, rn2, rn3, rn4],
-}
+requiriments.fr = [rf1, rf2, rf3, rf4, rf5, rf6, rf7, rf8];
+requiriments.nfr = [rnf1, rnf2, rnf3, rnf4];
+requiriments.br = [rn1, rn2, rn3, rn4];
 

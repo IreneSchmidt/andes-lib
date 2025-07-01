@@ -1,11 +1,11 @@
-import { ModuleInterface } from "../../model/ProjectModels"
+import { ProjectModuleType } from "../../model/andes/ProjectTypes"
 import { actors1, actors2 } from "./actors"
 import { package1 } from "./packages"
 import { requiriments } from "./requisitos"
 import { uc1 } from "./usecases"
 
 
-export const module1: ModuleInterface = {
+export const module1: ProjectModuleType = {
     name: "Módulo 1",
     description: "Descrição do Módulo 1",
     miniwolrd: "Minimundo do módulo",

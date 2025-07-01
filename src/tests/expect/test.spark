@@ -9,7 +9,7 @@ module Módulo 1 {
         // Descrição do Pacote 1
         module Pacote1 {
                 entity Escola {
-                        Nome: string
+                        Nome: string unique blank
 
                 }
 
@@ -19,8 +19,10 @@ module Módulo 1 {
                 }
 
                 entity Aluno {
-                        Nome: string
+                        Nome: string max: 10 min: 10
                         SemestreIngresso uses Semestre
+
+                        matricula OneToMany Matricula
                 }
 
                 enum Semestre {
