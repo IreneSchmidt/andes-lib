@@ -11,8 +11,8 @@ export default class MadeProjectRender implements IRender{
 
     public constructor(startdate: Date, duedate:Date, header: string, nome: string, descricao: string)
     {
-        this.startdate= startdate.toISOString();
-        this.duedate = duedate.toISOString();
+        this.startdate= startdate.toISOString().split("T")[0];
+        this.duedate = duedate.toISOString().split("T")[0];
         this.identifier = header;
         this.nome = nome;
         this.descricao = descricao;
@@ -41,7 +41,8 @@ export default class MadeProjectRender implements IRender{
 
     private renderDueDate(identation: number = 0): string
     {
-        return `${identate(identation)}duedate: ${this.duedate}`;
+        return "";
+        // return `${identate(identation)}duedate: ${this.duedate}`;
     }
 
     private renderName(identation: number = 0): string
