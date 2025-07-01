@@ -67,6 +67,8 @@ export class MadeTaskRender extends MadeBacklogItem
 
     private renderDependencie(identation: number = 0): string
     {
+        if(this.dependencie.length == 0)
+            { return ""; }
         return `${identate(identation)}depends: ${this.dependencie.join(',')}`;
     }
 
