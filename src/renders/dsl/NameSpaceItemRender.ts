@@ -22,7 +22,7 @@ export default abstract class NameSpaceItemRender implements IRender
 
 export class NameSpaceSimpleItemRender extends NameSpaceItemRender
 {
-    private value: string;
+    protected value: string;
 
     public constructor(reference: string, value: string)
     {
@@ -32,6 +32,8 @@ export class NameSpaceSimpleItemRender extends NameSpaceItemRender
 
     public renderValue(identationStartLevel: number = 0): string
     {
+        if(this.value.length == 0)
+            { return ""; }
         return this.value;    
     }
 }
@@ -42,6 +44,25 @@ export class NameSpaceSimpleStringItemRender extends NameSpaceSimpleItemRender
     override renderValue(identationStartLevel: number = 0): string
     {
         return `"${super.renderValue(identationStartLevel)}"`;    
+    }
+}
+
+export class NameSpaceSimpleMultStringItemRender extends NameSpaceItemRender
+{
+    protected values: string[];
+
+    public constructor(reference: string, values: string[])
+    {
+        super(reference);
+        this.values = values;
+    }
+
+    public override renderValue(identationStartLevel?: number): string
+    {
+        if(this.values.length == 0)
+            { return ""; }
+
+        return `${this.values.map(v => `"${v}"`).join(', ')}`
     }
 }
 

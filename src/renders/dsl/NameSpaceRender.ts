@@ -9,7 +9,7 @@ export default class NameSpaceRender implements IRender
     private identifier: string;
     protected items: IRender[];
 
-    public constructor(keyword: string, identifier: string, items: NameSpaceItemRender[])
+    public constructor(keyword: string, identifier: string, items: IRender[])
     {
         this.keyword = keyword;
         this.identifier = identifier;
