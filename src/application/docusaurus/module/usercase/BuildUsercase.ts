@@ -13,11 +13,11 @@ export default class BuildUserCase
         const uc = new MarkdownFileRender("Casos de Uso");
 
         const startSection = BuildUserCase.buildStartSection(actors);
-        const depGraph = BuildUserCase.buildDependenceGraph(useCases);
+        // const depGraph = BuildUserCase.buildEventDependenceGraph(useCases);
         useCases.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
 
         uc.add(startSection);
-        uc.addSimpleSection("Grafo de dependencias ", depGraph.render())
+        // uc.addSimpleSection("Grafo de dependencias ", depGraph.render())
 
         return uc;
     }
@@ -43,16 +43,23 @@ export default class BuildUserCase
         return section;
     }
 
-    private static buildDependenceGraph(useCases: UseCaseType[]): SectionRender {
-    const nodes = useCases.flatMap(uc => 
-        uc.events.map(e => new Node(`NODE ${e.identifier}`, e.name))
-    );
+    // private static buildEventDependenceGraph(useCases: UseCaseType[]): SectionRender {
+    //     const nodes = useCases.flatMap(uc => 
+    //         uc.events.map(e => new Node(e.identifier, e.name))
+    //     );
 
-    const section = new SectionRender(
-        new GraphRender("Grafo de dependências", nodes).render()
-    );
 
-    return section;
-    }
+    //     const mygraph = new GraphRender("Grafo de dependências", nodes)
+    //     nodes.forEach(node => node.addEdge(mygraph.))
+    //     const section = new SectionRender(
+    //         mygraph.render()
+    //     );
+    //     const cycleGraphs = mygraph.generateCycleGraph()
+    //     if (cycleGraphs){
+    //         section.addSimpleSubsection("Subgrafos envolvidos", cycleGraphs.map(graph => graph.render()).join(`\n`))
+    //     }
+
+    //     return section;
+    //     }
 }
 
