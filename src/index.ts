@@ -17,5 +17,5 @@ export * from "./model/spark/EnumTypes.d"
 export * from "./model/spark/PackageTypes.d"
 
 
-export { ApplicationCreator } from "./application/ApplicationCreator"
+export { default as ApplicationCreator } from "./application/ApplicationCreator"
 
