@@ -38,6 +38,7 @@ export interface Enumerate
 
 export interface Package
 {
+    identifier: string;
     name: string;
     description: string;
     entityes: SparkEntity[];

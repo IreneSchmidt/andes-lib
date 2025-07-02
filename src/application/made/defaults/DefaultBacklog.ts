@@ -7,7 +7,7 @@ export default class DefaultBacklog
     static create(module: ModuleInterface): MadeBacklogRender
     {
         const epics = module.useCases.map(uc => DefaultEpics.defaultEpicFromUsecase(uc));
-        epics.push(DefaultEpics.createDiagramModel(module.packages, module.identifier));
+        epics.push(DefaultEpics.createDiagramModel(module.packages));
 
         return new MadeBacklogRender(
             module.identifier,

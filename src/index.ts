@@ -9,6 +9,3 @@ export * from "./model/RequirimentsModels"
 export * from "./model/madeModels"
 export * from "./model/newModels"
 export * from "./application/ApplicationCreator"
-
-export { default as ApplicationCreator } from "./application/ApplicationCreator"
-

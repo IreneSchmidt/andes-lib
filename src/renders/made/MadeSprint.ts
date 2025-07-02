@@ -100,7 +100,7 @@ export default class MadeSprintRender implements IRender
 
     private renderDates(identation: number = 0): string
     {
-        return `${identate(identation)}startDate: ${this.startDate.toISOString().split("T")[0]}\n${identate(identation)}dueDate: ${this.endDate.toISOString().split("T")[0]}`;
+        return `${identate(identation)}startDate: ${this.startDate.toISOString()}\n${identate(identation)}dueDate: ${this.endDate.toISOString()}`;
     }
 
     private renderItems(identation: number = 0): string

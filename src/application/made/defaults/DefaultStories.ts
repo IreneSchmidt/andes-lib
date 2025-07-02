@@ -7,21 +7,21 @@ import { EventType } from "../../../model/madeModels";
 
 export default class DefaultStories
 {
-    static buildDefaultStoryToPackage(pkg: Package, backlogName: string): MadeStoryRender
+    static buildDefaultStoryToPackage(pkg: Package): MadeStoryRender
     {
         return new MadeStoryRender(
             `createmodule_${pkg.name}`,
             `Create database infrastruture to module ${pkg.name}`,
             "", [],
-            DefaultStories.buildDefaultTasks(pkg, backlogName),
+            DefaultStories.buildDefaultTasks(pkg),
         )
     }
 
-    private static buildDefaultTasks(pkg: Package, backlogName: string): MadeTaskRender[]
+    private static buildDefaultTasks(pkg: Package): MadeTaskRender[]
     {
         return [
             new MadeTaskRender("create_module", "Implements domain modules", []),
-            new MadeTaskRender("create_repository", "Implements data repository", [], [`${backlogName}.domaindiagram.createmodule_${pkg.name}.create_module`]),
+            new MadeTaskRender("create_repository", "Implements data repository", [], [`domaindiagram.createmodule_${pkg.name}.create_module`]),
         ]
     }
 

@@ -18,7 +18,7 @@ export class ModuleCreator
     private moduleRequisites: MarkdownFileRender | null = null;
     private moduleUserCases: MarkdownFileRender | null = null;
     private moduleDomainModel: MarkdownFileRender | null = null;
-    private moduleStatesMachines: MarkdownFileRender | null = null;
+    // private moduleStatesMachines: MarkdownFileRender | null = null;
     
     public constructor(module: ModuleInterface | null = null, targetFolder: PathLike = "")
     {
@@ -56,9 +56,9 @@ export class ModuleCreator
         return BuildUserCase.build(module.useCases, module.actors);
     }
 
-    private buildModuleStatesMachine(): MarkdownFileRender
-    {
+    // private buildModuleStatesMachine(): MarkdownFileRender
+    // {
 
-    }
+    // }
 }
 

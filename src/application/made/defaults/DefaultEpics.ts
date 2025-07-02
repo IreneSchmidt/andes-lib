@@ -6,14 +6,14 @@ import DefaultStories from "./DefaultStories";
 
 export default class DefaultEpics
 {
-    static createDiagramModel(pkgs: Package[], backlogName: string): MadeEpicRender
+    static createDiagramModel(pkgs: Package[]): MadeEpicRender
     {
         return new MadeEpicRender(
             "domaindiagram",
             "Create Problem Domain Modules",
             "",
             [],
-            pkgs.map(pkg => DefaultStories.buildDefaultStoryToPackage(pkg, backlogName)),
+            pkgs.map(pkg => DefaultStories.buildDefaultStoryToPackage(pkg)),
             "Create Problem Domain Modules"
         );
     }

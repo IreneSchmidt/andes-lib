@@ -1,6 +1,5 @@
 import { Actor, Requirements} from "./models";
-import { BuisinesRuleSimpleCLass, FunctionalRequirementSimpleClass, NonFunctionalRequirementSimpleClass } from "./newModels";
-import { BuisinesRuleClass, FunctionalRequirementClass, NonFunctionalRequirementClass, RequirementClass } from "./RequirimentsModels";
+import { RequirementClass } from "./RequirimentsModels";
 
 export type TeamMember = {
     name: string;
@@ -54,8 +53,8 @@ export type EventType = {
     name: string;
     description: string;
     action: string;
-    requirements: (Requirements | FunctionalRequirementClass | FunctionalRequirementSimpleClass | NonFunctionalRequirementClass | NonFunctionalRequirementSimpleClass | BuisinesRuleClass | BuisinesRuleSimpleCLass)[];
-    depends: (Requirements | FunctionalRequirementClass | FunctionalRequirementSimpleClass | NonFunctionalRequirementClass | NonFunctionalRequirementSimpleClass | BuisinesRuleClass | BuisinesRuleSimpleCLass | EventType)[];
+    requirements: Array<Requirements>;
+    depends: Array<EventType>;
     performer: Actor
 }
 
