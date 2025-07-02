@@ -1,7 +1,7 @@
 import { EntityType } from "../spark/EntityTypes";
 import { NameSpaceStarter } from "../superclasses";
 import { BaseSuperType, DependableSuperType, NameableSuperType } from "../supertypes";
-import { RequirimentsBaseType } from "./RequirimentsTypes";
+import { RequirimentsBaseClass } from "./RequirimentsClass";
 
 
 export interface ActorType extends BaseSuperType
@@ -13,7 +13,7 @@ export interface ActorType extends BaseSuperType
 export interface EventType extends DependableSuperType<EventType>
 {
     action?: string;
-    requiriments?: RequirimentsBaseType[];
+    requiriments?: RequirimentsBaseClass[];
     performer?: ActorType[];
 
     ucRef: UseCaseClass;
@@ -23,11 +23,11 @@ export interface EventType extends DependableSuperType<EventType>
 export class UseCaseClass extends NameSpaceStarter implements DependableSuperType<UseCaseClass>, NameableSuperType
 {
     name: string;
-    requiriments?: RequirimentsBaseType[];
+    requiriments?: RequirimentsBaseClass[];
     performer?: ActorType[];
     event?: EventType[];
 
-    public constructor(identifier: string, name: string, description: string = "", requiriments: RequirimentsBaseType[] = [], actors: ActorType = [], events: EventType[] = [])
+    public constructor(identifier: string, name: string, description: string = "", requiriments: RequirimentsBaseClass[] = [], actors: ActorType = [], events: EventType[] = [])
     {
         super(identifier, description);
         this.name = name;

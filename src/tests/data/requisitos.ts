@@ -1,7 +1,7 @@
-import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentAgregationType } from "../../model/andes/RequirimentsTypes";
+import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentAgregationClass } from "../../model/andes/RequirimentsClass";
 
 // Agregação de Requisitos
-export const requiriments: RequirimentAgregationType = {
+export const requiriments: RequirimentAgregationClass = {
     fr: [],
     nfr: [],
     br: [],

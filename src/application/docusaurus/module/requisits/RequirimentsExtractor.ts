@@ -1,4 +1,4 @@
-import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentAgregationType, RequirimentsBaseType } from "../../../../model/andes/RequirimentsTypes";
+import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentAgregationClass, RequirimentsBaseClass } from "../../../../model/andes/RequirimentsClass";
 
 export interface RequirimentExtracted
 {
@@ -7,7 +7,7 @@ export interface RequirimentExtracted
     br: BuisinessRuleType[]
 }
 
-export function compareRequiriments(a: RequirimentsBaseType, b: RequirimentsBaseType): number
+export function compareRequiriments(a: RequirimentsBaseClass, b: RequirimentsBaseClass): number
 {
     if(a.identifier > b.identifier)
         { return 1; }
@@ -19,7 +19,7 @@ export function compareRequiriments(a: RequirimentsBaseType, b: RequirimentsBase
 
 export default class RequirimentExtractor
 {
-    static extract(requiriments: RequirimentAgregationType): RequirimentExtracted
+    static extract(requiriments: RequirimentAgregationClass): RequirimentExtracted
     {
         const fr = requiriments.fr.sort(compareRequiriments);
         const nfr = requiriments.nfr.sort(compareRequiriments);
