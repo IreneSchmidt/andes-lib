@@ -6,7 +6,7 @@ import SparkFileRender from "../renders/dsl/spark/SparkFileRender";
 import MadeFileRender from "../renders/dsl/made/MadeFileRender";
 
 
-export default class ApplicationCreator
+export class ApplicationCreator
 {
     private project: ProjectType;
     private targetFolder: PathLike;

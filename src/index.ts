@@ -1,8 +1,5 @@
-import ApplicationCreator from "./application/ApplicationCreator"
-
 export * from "./application/ApplicationCreator"
 export * from "./graph/graph"
-export * from "./application/ApplicationCreator"
 
 export * from "./model/supertypes.d"
 export * from "./model/superclasses"
@@ -19,5 +16,6 @@ export * from "./model/spark/EntityTypes.d"
 export * from "./model/spark/EnumTypes.d"
 export * from "./model/spark/PackageTypes.d"
 
-export default { ApplicationCreator }
+
+export { ApplicationCreator } from "./application/ApplicationCreator"
 

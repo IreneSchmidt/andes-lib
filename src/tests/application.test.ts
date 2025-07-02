@@ -1,6 +1,6 @@
 import { it } from "node:test";
 
-import ApplicationCreator from "../application/ApplicationCreator"
+import { ApplicationCreator } from "../application/ApplicationCreator"
 import { project } from "./data/projeto";
 
 

@@ -63,3 +63,5 @@ Thumbs.db
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+commit_analysis_report.md
