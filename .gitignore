@@ -2,7 +2,7 @@
 /dist
 /build
 /out
-
+/src/tests
 # Arquivos do TypeScript
 *.tsbuildinfo
 
