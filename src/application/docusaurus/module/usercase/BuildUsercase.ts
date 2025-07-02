@@ -3,7 +3,7 @@ import { Actor } from "../../../../model/models";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
-import UserCaseGraphParser from "./UseCaseGraphParser";
+import UserCaseGraphParser from "./UseCaseGraphParser"; // ⬅️ importado
 
 export default class BuildUserCase
 {
@@ -33,12 +33,30 @@ export default class BuildUserCase
         return startSection;
     }
 
-    private static buildUsercaseSection(uc: UseCaseType): SectionRender
-    {
-        const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
-        uc.events.map(e => section.addSimpleSubsection(`${e.identifier}: ${e.name}`, `Descrição: ${e.description}\n`));
-        return section;
+    private static buildUsercaseSection(uc: UseCaseType): SectionRender {
+    const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
+
+    section.addSimpleParagraph(`Descrição: ${uc.description}`);
+
+    if (uc.events.length > 0) {
+        const headers = ["Evento", "Nome", "Descrição", "Ação", "Executor"];
+        const rows: string[][] = uc.events.map(e => [
+            e.identifier,
+            e.name,
+            e.description,
+            e.action,
+            e.performer?.name || "-"
+        ]);
+
+        const eventTable = new TableRender(headers, rows, "Eventos Associados ao Caso de Uso");
+        section.addElement(eventTable);
+    } else {
+        section.addSimpleParagraph("_Nenhum evento registrado._");
     }
+
+    return section;
+}
+
 
     private static buildGraphSection(useCases: UseCaseType[]): SectionRender {
         const section = new SectionRender("Grafos de Dependência");
