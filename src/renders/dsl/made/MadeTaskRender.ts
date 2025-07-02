@@ -12,6 +12,10 @@ export default class MadeTaskRender extends NameSpaceRender
             new NameSpaceSimpleItemRender("description", t.description??""),
             new NameSpaceSimpleMultStringItemRender("Deliverables", t.deliverables),
         ])
+
+        t.depends.forEach(d => this.items.push(new NameSpaceSimpleItemRender("depends", d.getNameSpaceReference())));
+
+        console.log(t.depends.at(0)?.getNameSpaceReference())
     }
 }
 

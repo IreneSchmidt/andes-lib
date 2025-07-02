@@ -1,15 +1,11 @@
 import { normalize } from "path";
-import { ModuleInterface } from "../../../model/ProjectModels";
 import MadeProjectRender from "../../../renders/made/MadeProjectRender";
-import { MadeEpicRender } from "../../../renders/made/MadeBacklogItems";
-import { UseCaseType } from "../../../model/madeModels";
-import DefaultStories from "../defaults/DefaultStories";
 import MadeTeamRender from "../../../renders/made/MadeTeamRender";
 import MadeRoadmapRender from "../../../renders/made/MadeRoadmapRender";
-import MadeBacklogRender from "../../../renders/made/MadeBacklogRender";
 import MadeSprintRender from "../../../renders/made/MadeSprint";
-import DefaultEpics from "../defaults/DefaultEpics";
 import DefaultBacklog from "../defaults/DefaultBacklog";
+import { ProjectModuleType } from "../../../model/andes/ProjectTypes";
+import MadeBacklogRender from "../../../renders/dsl/made/MadeBacklogRender";
 
 
 export interface MadeCompleteData
@@ -24,7 +20,7 @@ export interface MadeCompleteData
 
 export class MadeProjectParser
 {
-    static parse(module: ModuleInterface): MadeCompleteData
+    static parse(module: ProjectModuleType): MadeCompleteData
     {
         return {
             project: MadeProjectParser.toMadeProject(module),
@@ -35,14 +31,14 @@ export class MadeProjectParser
         }
     }
 
-    private static toMadeProject(module: ModuleInterface): MadeProjectRender
+    private static toMadeProject(module: ProjectModuleType): MadeProjectRender
     {
         return new MadeProjectRender(
             new Date(),
             new Date(),
             normalize(module.name),
             module.name,
-            module.description,
+            module.description??"",
         );
     }
 }

@@ -1,20 +1,21 @@
-import { ModuleInterface } from "../../../model/ProjectModels";
-import MadeBacklogRender from "../../../renders/made/MadeBacklogRender";
+import { ProjectModuleType } from "../../../model/andes/ProjectTypes";
+import { BacklogClass } from "../../../model/made/BacklogClass";
+import MadeBacklogRender from "../../../renders/dsl/made/MadeBacklogRender";
 import DefaultEpics from "./DefaultEpics";
 
 export default class DefaultBacklog
 {
-    static create(module: ModuleInterface): MadeBacklogRender
+    static create(module: ProjectModuleType): MadeBacklogRender
     {
-        const epics = module.useCases.map(uc => DefaultEpics.defaultEpicFromUsecase(uc));
-        epics.push(DefaultEpics.createDiagramModel(module.packages, module.identifier));
+        const epics = module.uc.map(uc => DefaultEpics.defaultEpicFromUsecase(uc));
+        const backlogClass = new BacklogClass(module.name, module.identifier, module.description, []);
+        epics.push(DefaultEpics.createDiagramModel(module.packages, backlogClass));
 
-        return new MadeBacklogRender(
-            module.identifier,
-            module.name,
-            module.description,
-            epics
-        )
+        const backlog = new MadeBacklogRender(backlogClass);
+
+        epics.forEach(e=>backlog.addEpicRender(e));
+
+        return backlog;
     }
 }
 

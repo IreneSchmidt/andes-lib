@@ -34,6 +34,8 @@ export class NameSpacePertencer implements BaseSuperType, NameSpaceSuperType
 
     getNameSpaceReference(): string
     {
+        if(this.identifier.length == 0)
+            { return this.nameSpaceRef.getNameSpaceReference(); }
         return `${this.nameSpaceRef.getNameSpaceReference()}.${this.identifier}`;
     }
 }

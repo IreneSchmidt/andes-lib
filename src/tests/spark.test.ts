@@ -55,6 +55,6 @@ test("Generate Spark", ()=>
         testEnum();
         testEntity();
         testPackage();
-    }
+    }   
 );
 

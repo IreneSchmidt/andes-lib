@@ -27,9 +27,9 @@ export class EpicClass extends NameSpacePertencer implements NameableSuperType
     name: string;
     stories: StoryClass[];
     tastks: TaskClass[];
-    process: ProcessClass;
+    process: ProcessClass | null;
 
-    public constructor(identifier: string, name: string, namespaceRef: NameSpaceSuperType, description: string = "", process: ProcessClass, stories: StoryClass[] = [], tasks: TaskClass[] = [])
+    public constructor(identifier: string, name: string, namespaceRef: NameSpaceSuperType, description: string = "", process: ProcessClass | null = null, stories: StoryClass[] = [], tasks: TaskClass[] = [])
     {
         super(identifier, namespaceRef, description);
         this.name = name;

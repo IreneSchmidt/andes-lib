@@ -13,7 +13,11 @@ export default abstract class NameSpaceItemRender implements IRender
 
     public render(identationStartLevel: number = 0): string
     {
-        return `\n${identate(identationStartLevel)}${this.reference}: ${this.renderValue(identationStartLevel)}`;    
+        const value = this.renderValue(identationStartLevel);
+
+        if(value.length == 0)
+            { return ""; }
+        return `\n${identate(identationStartLevel)}${this.reference}: ${value}`;    
     }
 
     public abstract renderValue(identationStartLevel?: number): string
@@ -32,8 +36,6 @@ export class NameSpaceSimpleItemRender extends NameSpaceItemRender
 
     public renderValue(identationStartLevel: number = 0): string
     {
-        if(this.value.length == 0)
-            { return ""; }
         return this.value;    
     }
 }

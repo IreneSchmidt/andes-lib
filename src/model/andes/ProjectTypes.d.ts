@@ -1,6 +1,6 @@
 import { PackageType } from "../spark/PackageTypes";
 import { NameableSuperType } from "../supertypes";
-import { ActorType, UseCaseType } from "./AnalisysTypes";
+import { ActorType, UseCaseClass } from "./AnalisysTypes";
 import { RequirimentAgregationType } from "./RequirimentsTypes";
 
 
@@ -18,7 +18,7 @@ export interface ProjectModuleType extends NameableSuperType
     purpose: string;
     requisites: RequirimentAgregationType;
     actors: ActorType[],
-    uc: UseCaseType[];
+    uc: UseCaseClass[];
     packages: PackageType[];
 }
 

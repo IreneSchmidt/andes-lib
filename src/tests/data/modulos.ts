@@ -13,7 +13,7 @@ export const module1: ProjectModuleType = {
     requisites: requiriments,
     packages: [package1],
     actors: [actors1, actors2],
-    useCases: [uc1],
+    uc: [uc1],
     identifier: "Modulo1"
 }
 
