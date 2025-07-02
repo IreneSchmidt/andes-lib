@@ -24,7 +24,7 @@ export default class BuildUserCase
 
     private static buildStartSection(actors: Actor[]): SectionRender
     {
-        const startSection = new SectionRender("Casos de Uso");
+        const startSection = new SectionRender("Casos de Uso: ");
 
         startSection.addSimpleParagraph("Modelo de caso de uso...");
 
