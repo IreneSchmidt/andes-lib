@@ -14,8 +14,6 @@ export default class MadeTaskRender extends NameSpaceRender
         ])
 
         t.depends.forEach(d => this.items.push(new NameSpaceSimpleItemRender("depends", d.getNameSpaceReference())));
-
-        console.log(t.depends.at(0)?.getNameSpaceReference())
     }
 }
 

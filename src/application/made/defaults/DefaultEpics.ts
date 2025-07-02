@@ -19,7 +19,6 @@ export default class DefaultEpics
             )
         );
 
-        console.log(e);
         return e;
     }
 
