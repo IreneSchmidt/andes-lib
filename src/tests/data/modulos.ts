@@ -2,7 +2,7 @@ import { ModuleInterface } from "../../model/ProjectModels"
 import { actors1, actors2 } from "./actors"
 import { package1 } from "./packages"
 import { requiriments } from "./requisitos"
-import { uc1 } from "./usecases"
+import { uc1, uc2,uc3, uc4 } from "./usecases"
 
 
 export const module1: ModuleInterface = {
@@ -14,6 +14,6 @@ export const module1: ModuleInterface = {
     requisites: requiriments,
     packages: [package1],
     actors: [actors1, actors2],
-    useCases: [uc1]
+    useCases: [uc1, uc2, uc3,uc4]
 }
 

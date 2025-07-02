@@ -38,10 +38,11 @@ export default class BuildUserCase
     {
         const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
 
-        uc.events.map(e => section.addSimpleSubsection(`${e.identifier}: ${e.name}`, `Descrição: ${e.description}\nTODO: Código gerado automaticamente`));
+        uc.events.map(e => section.addSimpleSubsection(`${e.identifier}: ${e.name}`, `Descrição: ${e.description}\n`));
 
         return section;
     }
+
 
     // private static buildEventDependenceGraph(useCases: UseCaseType[]): SectionRender {
     //     const nodes = useCases.flatMap(uc => 
