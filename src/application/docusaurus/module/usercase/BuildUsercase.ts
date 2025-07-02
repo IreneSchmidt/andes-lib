@@ -1,10 +1,9 @@
 import { UseCaseType } from "../../../../model/madeModels";
 import { Actor } from "../../../../model/models";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
-import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
-import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
+import UserCaseGraphParser from "./UseCaseGraphParser";
 
 export default class BuildUserCase
 {
@@ -13,11 +12,12 @@ export default class BuildUserCase
         const uc = new MarkdownFileRender("Casos de Uso");
 
         const startSection = BuildUserCase.buildStartSection(actors);
-        // const depGraph = BuildUserCase.buildEventDependenceGraph(useCases);
         useCases.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
-
         uc.add(startSection);
-        // uc.addSimpleSection("Grafo de dependencias ", depGraph.render())
+
+        // 🔽 Adicionando os grafos
+        const dependencySection = BuildUserCase.buildGraphSection(useCases);
+        uc.add(dependencySection);
 
         return uc;
     }
@@ -25,7 +25,6 @@ export default class BuildUserCase
     private static buildStartSection(actors: Actor[]): SectionRender
     {
         const startSection = new SectionRender("Casos de Uso");
-
         startSection.addSimpleParagraph("Modelo de caso de uso...");
 
         const actorsTable = new TableRender(["Atores", "Descrição"], actors.map(a => [a.name, a.comment]), "Lista de Atores e suas Descrições");
@@ -37,30 +36,27 @@ export default class BuildUserCase
     private static buildUsercaseSection(uc: UseCaseType): SectionRender
     {
         const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
-
         uc.events.map(e => section.addSimpleSubsection(`${e.identifier}: ${e.name}`, `Descrição: ${e.description}\n`));
-
         return section;
     }
 
+    private static buildGraphSection(useCases: UseCaseType[]): SectionRender {
+        const section = new SectionRender("Grafos de Dependência");
 
-    // private static buildEventDependenceGraph(useCases: UseCaseType[]): SectionRender {
-    //     const nodes = useCases.flatMap(uc => 
-    //         uc.events.map(e => new Node(e.identifier, e.name))
-    //     );
+        const ucGraph = UserCaseGraphParser.ucToGraph(useCases);
+        section.addElement(ucGraph);
 
+        const ucCycle = ucGraph.generateCycleGraph();
+        if (ucCycle)
+            section.addSimpleSubsection("Ciclos entre Casos de Uso", ucCycle.map(g => g.render()).join(""));
 
-    //     const mygraph = new GraphRender("Grafo de dependências", nodes)
-    //     nodes.forEach(node => node.addEdge(mygraph.))
-    //     const section = new SectionRender(
-    //         mygraph.render()
-    //     );
-    //     const cycleGraphs = mygraph.generateCycleGraph()
-    //     if (cycleGraphs){
-    //         section.addSimpleSubsection("Subgrafos envolvidos", cycleGraphs.map(graph => graph.render()).join(`\n`))
-    //     }
+        const evGraph = UserCaseGraphParser.eventToGraph(useCases);
+        section.addElement(evGraph);
 
-    //     return section;
-    //     }
+        const evCycle = evGraph.generateCycleGraph();
+        if (evCycle)
+            section.addSimpleSubsection("Ciclos entre Eventos", evCycle.map(g => g.render()).join(""));
+
+        return section;
+    }
 }
-
