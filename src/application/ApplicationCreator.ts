@@ -1,20 +1,17 @@
 import { PathLike } from "fs"
-import SparkFileRender from "../renders/spark/SparkFileRender";
 import createFolderAndFile from "./IO";
 import { DocusaurusProjectCreator } from "./DocusaurusCreator";
-import { ProjectInterface } from "../model/ProjectModels";
-import { MadeProjectParser } from "./made/parsers/MadeProjectParser";
-import { ModuleInterface } from "../model/ProjectModels";
-import MadeFileRender from "../renders/made/MadeFileRender";
-import { Package } from "../model/sparkModels";
+import { ProjectModuleType, ProjectType } from "../model/andes/ProjectTypes";
+import SparkFileRender from "../renders/dsl/spark/SparkFileRender";
+import MadeFileRender from "../renders/dsl/made/MadeFileRender";
 
 
 export default class ApplicationCreator
 {
-    private project: ProjectInterface;
+    private project: ProjectType;
     private targetFolder: PathLike;
 
-    public constructor(project: ProjectInterface, targetFolder: PathLike)
+    public constructor(project: ProjectType, targetFolder: PathLike)
     {
         this.project = project;
         this.targetFolder = targetFolder;
@@ -23,34 +20,14 @@ export default class ApplicationCreator
     public create(): void
     {
         this.createSpark();
-        this.createDocusaurus();
+        // this.createDocusaurus();
         this.createMade();
     }
 
     private createSpark(): void
     {
-        const spark = new SparkFileRender(this.project.overview, this.modulesToPackages());
+        const spark = new SparkFileRender(this.project);
         createFolderAndFile(this.targetFolder, `${this.project.overview.name}.spark`, spark.render());
-    }
-
-    private modulesToPackages(): Package[]
-    {
-        /*
-        // Esse códio aqui é o certo. Quando o spark for corrijido, utilize ele.
-        return this.project.modules.map(
-            module => { return {
-                name: module.name,
-                description: module.description,
-                entityes: [],
-                enums: [],
-                identifier: module.identifier,
-                subPackages: module.packages
-            }
-        }
-        )
-        */
-
-        return this.project.modules.map( module => { return module.packages } ).flat()
     }
 
     private createDocusaurus(): void
@@ -66,12 +43,11 @@ export default class ApplicationCreator
         this.project.modules.forEach(module => this.createMadeModule(module));
     }
 
-    private createMadeModule(module: ModuleInterface): void
+    private createMadeModule(module: ProjectModuleType): void
     {
-        const madeData = MadeProjectParser.parse(module);
-        const made = new MadeFileRender(madeData.project, madeData.teams, madeData.roadmaps, madeData.backlogs, madeData.sprints);
+        const made = new MadeFileRender(module);
 
-        createFolderAndFile(`${this.targetFolder}/made`, `${module.identifier}.made`, made.render());
+        createFolderAndFile(`${this.targetFolder}`, `${module.identifier}.made`, made.render());
     }
 }
 
