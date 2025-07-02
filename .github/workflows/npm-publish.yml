@@ -71,12 +71,12 @@ jobs:
 
           if [ "$JOB_STATUS" == "success" ]; then
             TITLE="✅ Publicação NPM SUCESSO!"
-            DESCRIPTION="A biblioteca \`andes-gps-projeto\` foi publicada com sucesso no npm."
+            DESCRIPTION="A biblioteca \`andes-lib\` foi publicada com sucesso no npm."
             COLOR=3066993 # Verde
             NEW_VERSION_VALUE="${{ needs.publish.outputs.new_version_published }}"
           else
             TITLE="❌ Publicação NPM FALHA!"
-            DESCRIPTION="Houve um erro ao tentar publicar a biblioteca \`andes-gps-projeto\` no npm. Verifique os logs do workflow para detalhes."
+            DESCRIPTION="Houve um erro ao tentar publicar a biblioteca \`andes-lib\` no npm. Verifique os logs do workflow para detalhes."
             COLOR=15158332 # Vermelho
             NEW_VERSION_VALUE="N/A" 
           fi
@@ -85,7 +85,7 @@ jobs:
 
           if [ "$JOB_STATUS" == "success" ]; then
             FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Nova Versão", "value": "v'"$NEW_VERSION_VALUE"'", "inline": true}' '. += [$field]')
-            FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Link NPM", "value": "https://www.npmjs.com/package/andes-gps-projeto", "inline": true}' '. += [$field]')
+            FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Link NPM", "value": "https://www.npmjs.com/package/andes-lib", "inline": true}' '. += [$field]')
           fi
           
           FIELDS=$(echo "$FIELDS" | jq --argjson field '{"name": "Status Final do Job", "value": "'"$JOB_STATUS"'", "inline": true}' '. += [$field]')
