@@ -48,7 +48,7 @@ export type EnumEntityAtribute = {
     type: EnumX;
 }
 
-type Entity = ImportedEntity | LocalEntity;
+export type Entity = ImportedEntity | LocalEntity;
 
 
 export type EnumX = {
