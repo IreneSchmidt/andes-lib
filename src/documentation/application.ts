@@ -1,5 +1,4 @@
-import { Model } from "../model/models";
-import { DocksaurusService } from "../documentation/docsaurus/DocksaurusService.js";
+/*import { DocksaurusService } from "../documentation/docsaurus/DocksaurusService.js";
 
 export class DocumentationApplication {
     private docksaurusService: DocksaurusService;
@@ -12,3 +11,4 @@ export class DocumentationApplication {
         this.docksaurusService.create();
     }
 }
+*/
