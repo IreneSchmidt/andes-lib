@@ -1,4 +1,5 @@
-import { SparkEntity, Package } from "../../../../model/sparkModels";
+import { PackageType } from "../../../../model/spark/PackageTypes";
+import { EntityType } from "../../../../model/spark/EntityTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import AttributeRender from "../../../../renders/markdown/plantuml/classDiagram.ts/AttributeRender";
 import ClassDiagramRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassDiagramRender";
@@ -8,7 +9,7 @@ import SectionRender from "../../../../renders/markdown/SectionRender";
 
 export default class BuildDomain
 {
-    static buildDomainDiagram(_package: Package): MarkdownFileRender
+    static buildDomainDiagram(_package: PackageType): MarkdownFileRender
     {
         const domain = new MarkdownFileRender("Domain");
 
@@ -20,13 +21,13 @@ export default class BuildDomain
        return domain;
     }
 
-    private static packageToMermaid(pkg: Package): ClassRender[]
+    private static packageToMermaid(pkg: PackageType): ClassRender[]
     {
-        return pkg.entityes.map(entity => new ClassRender(
-            entity.name,
-            entity.attributes.map(attr => new AttributeRender(
-                attr.name,
-                (attr._type as SparkEntity).name == undefined ? attr._type as string : (attr._type as SparkEntity).name    
+        return pkg.entities.map(entity => new ClassRender(
+            entity.identifier,
+            (entity.attributes ?? []).map(attr => new AttributeRender(
+                attr.identifier,
+                (attr.type as unknown as EntityType).identifier == undefined ? attr.type as string : (attr.type as unknown as EntityType).identifier    
             )),
             [],
             [],
@@ -34,23 +35,23 @@ export default class BuildDomain
         ));
     }
 
-    private static classesDescription (pkg: Package): SectionRender{
-        const section = new SectionRender(pkg.name)
-        pkg.entityes.forEach(e => section.addSimpleSubsection(e.name, BuildDomain.createEntityDescription(e)))
+    private static classesDescription (pkg: PackageType): SectionRender{
+        const section = new SectionRender(pkg.identifier)
+        pkg.entities.forEach(e => section.addSimpleSubsection(e.identifier, BuildDomain.createEntityDescription(e)))
         return section;
     }
     
-    private static createEntityDescription (e: SparkEntity): string {
+    private static createEntityDescription (e: EntityType): string {
         if (!BuildDomain.hasNoRelation(e)){
-            const descrpt = `Entidade ${e.name}, possuí relação com ${e.relashionShips.map(r => `${r.name}`).join(', ').toUpperCase()}`
+            const descrpt = `Entidade ${e.identifier}, possuí relação com ${(e.relationsAttr ?? []).map(r => `${r.identifier}`).join(', ').toUpperCase()}`
             return descrpt  
         }
-        return `Entidade ${e.name}, não possui relações.`
+        return `Entidade ${e.identifier}, não possui relações.`
         
     }
 
-    private static hasNoRelation (e: SparkEntity): boolean{
-        return e.relashionShips == null || e.relashionShips.length == 0;
+    private static hasNoRelation (e: EntityType): boolean{
+        return e.relationsAttr == null || e.relationsAttr.length == 0;
     }
 }   
 

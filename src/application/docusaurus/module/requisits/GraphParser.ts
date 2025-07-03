@@ -1,4 +1,4 @@
-import { FunctionalRequirementClass } from "../../../../model/RequirimentsModels";
+import { FunctionalRequirimentType } from "../../../../model/andes/RequirimentsClass";
 import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
 import { ConnectionTypes } from "../../../../renders/markdown/mermaid/flowchart/MultiEdgeHandler";
 import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
@@ -6,14 +6,14 @@ import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 
 export default class GraphParser
 {
-    static frToGraph(frs: FunctionalRequirementClass[]): GraphRender
+    static frToGraph(frs: FunctionalRequirimentType[]): GraphRender
     {
         const frNodes = GraphParser.frToNode(frs);
 
         return new GraphRender("Dependência Entre Requisitos Funcionais", frNodes, "Grafo esquematizado das dependências entre os requisitos funcionais");
     }
 
-    private static frToNode(frs: FunctionalRequirementClass[]): Node[]
+    private static frToNode(frs: FunctionalRequirimentType[]): Node[]
     {
         const nodes: Node[] = [];
 
@@ -22,14 +22,14 @@ export default class GraphParser
         return nodes;   
     }
 
-    private static addFrAsNode(nodes: Node[], fr: FunctionalRequirementClass): Node
+    private static addFrAsNode(nodes: Node[], fr: FunctionalRequirimentType): Node
     {
-        let foundedNode = GraphParser.findInNodes(nodes, fr.getReference());
+        let foundedNode = GraphParser.findInNodes(nodes, fr.identifier);
         if(foundedNode == undefined)
         {
-            const node = new Node(fr.getReference(), fr.getName());
+            const node = new Node(fr.identifier, fr.name);
             nodes.push(node);
-            fr.getDependencies().forEach(dependencie =>
+            fr.depends.forEach(dependencie =>
                 {
                     let frAddNode = GraphParser.addFrAsNode(nodes, dependencie);
                     GraphParser.addDependencie(node, frAddNode);
