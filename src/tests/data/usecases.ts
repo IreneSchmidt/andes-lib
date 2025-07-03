@@ -36,8 +36,8 @@ export const event3: EventType = {
     requiriments: [rf1]
 }
 
-event1.depends?.push(event2);
-event2.depends?.push(event1);
+// event1.depends?.push(event2);
+// event2.depends?.push(event1);
 
 
 uc1.event?.push(event1);

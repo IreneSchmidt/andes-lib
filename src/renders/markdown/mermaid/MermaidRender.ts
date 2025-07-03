@@ -21,7 +21,7 @@ export default abstract class MermaidRender implements IRender
 
     public render(identationStartLevel: number = 0): string
     {
-        let author = (new ParagraphRender(`Fonte: ${this.author}`, "center")).render();
+        let author = (new ParagraphRender(`Fonte: ${this.author}`, "left")).render();
         let mermaidBody = "```mermaid\n" + this.mermaidRender(identationStartLevel) + "\n```";
 
         return `${this.renderDescreption()}\n\n${mermaidBody}\n\n${author}`;
@@ -29,7 +29,7 @@ export default abstract class MermaidRender implements IRender
 
     protected renderDescreption(): string
     {
-        return (new ParagraphRender(`${this.label} ${this.numeration}: ${this.description}`, "center")).render();
+        return (new ParagraphRender(`${this.label} ${this.numeration}: ${this.description}`, "left")).render();
     }
 }
 

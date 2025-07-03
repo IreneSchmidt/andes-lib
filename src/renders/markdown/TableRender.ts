@@ -13,7 +13,7 @@ export default class TableRender extends MarkdownRender
     private author: string;
     private numeration: number;
 
-    public constructor(headers: string[] = [], rows: string[][] = [], description: string = "", align: alignOptions = "center", author: string = "Autoria Própria")
+    public constructor(headers: string[] = [], rows: string[][] = [], description: string = "", align: alignOptions = "left", author: string = "Autoria Própria")
     {
         super(align);
         this.headers = headers;

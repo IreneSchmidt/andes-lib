@@ -1,3 +1,4 @@
+import { Graph } from "../../../../graph/graph";
 import { UseCaseClass } from "../../../../model/andes/AnalisysTypes";
 import { ProjectModuleType, ProjectType } from "../../../../model/andes/ProjectTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
@@ -7,6 +8,7 @@ import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
 import UserCaseGraphParser from "./UseCaseGraphParser";
+
 
 export default class BuildUserCase
 {
@@ -51,6 +53,8 @@ export default class BuildUserCase
     {
         const allEvents = module.uc.map(uc => uc.event).flat().filter(obj => obj != undefined);
 
+        allEvents.forEach(e => console.log(e.identifier, e.depends));
+
         console.log(allEvents);
 
         const table = new TableRender(
@@ -94,12 +98,28 @@ export default class BuildUserCase
         if (ucCycle)
             section.addSimpleSubsection("Ciclos entre Casos de Uso", ucCycle.map(g => g.render()).join(""));
 
-        const evGraph = UserCaseGraphParser.eventToGraph(useCases);
-        section.addElement(evGraph);
+        // const evGraph = UserCaseGraphParser.eventToGraph(useCases);
+        // section.addElement(evGraph);
+        // const evCycle = evGraph.generateCycleGraph();
+        // if (evCycle)
+        //     section.addSimpleSubsection("Ciclos entre Eventos", evCycle.map(g => g.render()).join(""));
 
-        const evCycle = evGraph.generateCycleGraph();
-        if (evCycle)
-            section.addSimpleSubsection("Ciclos entre Eventos", evCycle.map(g => g.render()).join(""));
+        const graph = new Graph();
+
+        useCases.forEach(uc => {
+            uc.event?.forEach(event => {
+                graph.addVertex(event.identifier, event.description??"", event.performer?.map(a=>a.identifier)??[]);
+            })
+        })
+
+        useCases.forEach(uc => {
+            uc.event?.forEach(event => {
+                event.depends?.forEach(d => graph.addEdge(event.identifier, d.identifier));
+            })
+        })
+
+        section.addSimpleParagraph('\n```mermaid\n' + graph.generateMermaidDiagram() + '\n```');
+        section.addSimpleParagraph(graph.generateMarkdownTable());
 
         return section;
     }
@@ -129,3 +149,4 @@ export default class BuildUserCase
         return section;
     }
 }
+
