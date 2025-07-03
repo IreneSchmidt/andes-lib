@@ -15,6 +15,11 @@ export class RequirimentsBaseClass extends NameSpacePertencer implements Nameabl
         this.priority = priority;
         this.depends = depends;
     }
+
+    public addDependencie(dependicie: RequirimentsBaseClass)
+    {
+        this.depends.push(dependicie);
+    }
 }
 
 /**
