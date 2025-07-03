@@ -9,7 +9,6 @@ import IRender from "../../../../renders/IRender";
 import TableRender from "../../../../renders/markdown/TableRender";
 import { VisibilityOptions } from "../../../../renders/markdown/plantuml/classDiagram.ts/VisibilityOptions";
 
-
 export default class BuildDomain
 {
     static buildDomainDiagram(_package: PackageType): MarkdownFileRender

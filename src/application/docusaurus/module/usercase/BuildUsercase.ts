@@ -51,13 +51,17 @@ export default class BuildUserCase
     {
         const allEvents = module.uc.map(uc => uc.event).flat().filter(obj => obj != undefined);
 
+        console.log(allEvents);
+
         const table = new TableRender(
             ["Evento", "Descrição", "Dependência", "Habilitados", "Atores"],
             allEvents.map(e  => [
                 e.identifier,
                 e.description??"",
                 e.depends?.map(d => d.identifier).join(", ")??"",
-                allEvents.filter(ev => ev.depends?.includes(e)??false).map(ev=>ev.identifier).join(", "),
+                // allEvents.map(ev => ev.depends?.filter(d => d.identifier==e.identifier).map(d=>d.identifier)).filter(_ => _? _.length>0:false).join(", "),
+                allEvents.filter(ev => ev.depends?.includes(e)).map(ev => ev.identifier).join(","),
+                e.performer?.map(a => a.identifier).join(', ') ?? ''
             ]),
             "Matrix de Dependência de Eventos"
         )

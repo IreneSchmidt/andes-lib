@@ -11,6 +11,7 @@ export const event1: EventType = {
     action: ["Teste"],
     description: "Descrição",
     performer: [actors1],
+    depends: []
 }
 
 export const event2: EventType = {
@@ -24,7 +25,22 @@ export const event2: EventType = {
     requiriments: [rf1]
 }
 
+export const event3: EventType = {
+    identifier: "EVENTO3",
+    name: "Evento 3",
+    ucRef: uc1,
+    action: ["Teste"],
+    description: "Descrição",
+    performer: [actors1],
+    depends: [event1, event2],
+    requiriments: [rf1]
+}
+
+event1.depends?.push(event2);
+event2.depends?.push(event1);
+
 
 uc1.event?.push(event1);
 uc1.event?.push(event2);
+uc1.event?.push(event3);
 
