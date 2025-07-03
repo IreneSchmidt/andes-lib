@@ -1,6 +1,6 @@
 {
   "name": "andes-lib",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "description": "Andes Library to assist in the development of Andes applications.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
