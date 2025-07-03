@@ -2,8 +2,8 @@ import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentT
 import TableRender from "../../../../renders/markdown/TableRender";
 
 const functionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição", "Dependências", "Prioridade"];
-const nonFunctionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição"];
-const buisinesRuleTableHeaders = ["ID", "Nome", "Descrição"];
+const nonFunctionalRequirimentsTableHeaders = ["ID", "Nome", "Descrição", "Dependências", "Prioridade"];
+const buisinesRuleTableHeaders = ["ID", "Nome", "Descrição", "Dependências", "Prioridade"];
 
 
 export default class TableParser
@@ -16,7 +16,8 @@ export default class TableParser
                 fr.identifier,
                 fr.name,
                 fr.description??"",
-                TableParser.ptBrMultiJoin(fr.depends.map(dep => dep.identifier))
+                TableParser.ptBrMultiJoin(fr.depends.map(dep => dep.identifier)),
+                fr.priority
             ]),
             "Requisitos Funcionais do Módulo"
         )
@@ -26,7 +27,11 @@ export default class TableParser
     {
         return new TableRender(
             nonFunctionalRequirimentsTableHeaders,
-            nfrs.map(nfr => [nfr.identifier, nfr.name, nfr.description??""]),
+            nfrs.map(nfr => [nfr.identifier, 
+                nfr.name, 
+                nfr.description??"",
+                TableParser.ptBrMultiJoin(nfr.depends.map(dep => dep.identifier)),
+                nfr.priority]),
             "Requisitos Não Funcionais do Módulo"
         )
     }
@@ -35,7 +40,11 @@ export default class TableParser
     {
         return new TableRender(
             buisinesRuleTableHeaders,
-            brs.map(br => [br.identifier, br.name, br.description??""]),
+            brs.map(br => [br.identifier, 
+            br.name, 
+            br.description??"",
+            TableParser.ptBrMultiJoin(br.depends.map(dep => dep.identifier)),
+            br.priority]),
             "Regras de Negócio do Módulo"
         )
     }
