@@ -1,11 +1,11 @@
-import { UseCaseType, EventType } from "../../../../model/madeModels";
+import { EventType, UseCaseClass } from "../../../../model/andes/AnalisysTypes";
 import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
 import { ConnectionTypes } from "../../../../renders/markdown/mermaid/flowchart/MultiEdgeHandler";
 import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 
 export default class UserCaseGraphParser {
 
-    static ucToGraph(useCases: UseCaseType[]): GraphRender {
+    static ucToGraph(useCases: UseCaseClass[]): GraphRender {
         const nodes: Node[] = [];
         useCases.forEach(uc => this.addUseCaseAsNode(nodes, uc));
 
@@ -16,10 +16,10 @@ export default class UserCaseGraphParser {
         );
     }
 
-    static eventToGraph(useCases: UseCaseType[]): GraphRender {
+    static eventToGraph(useCases: UseCaseClass[]): GraphRender {
         const nodes: Node[] = [];
         useCases.forEach(uc => {
-            uc.events.forEach(ev => this.addEventAsNode(nodes, ev));
+            uc.event?.forEach(ev => this.addEventAsNode(nodes, ev));
         });
 
         return new GraphRender(
@@ -29,7 +29,7 @@ export default class UserCaseGraphParser {
         );
     }
 
-    private static addUseCaseAsNode(nodes: Node[], uc: UseCaseType): Node {
+    private static addUseCaseAsNode(nodes: Node[], uc: UseCaseClass): Node {
         let existing = this.findNode(nodes, uc.identifier);
         if (existing) return existing;
 
@@ -51,7 +51,7 @@ export default class UserCaseGraphParser {
         const node = new Node(ev.identifier, ev.name);
         nodes.push(node);
 
-        ev.depends.forEach(dep => {
+        ev.depends?.forEach(dep => {
             if ('identifier' in dep && 'name' in dep) {
                 const depNode = this.addEventAsNode(nodes, dep as EventType);
                 node.addEdge(depNode, ConnectionTypes.APPOINTS_TO, "depends");

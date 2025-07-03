@@ -1,10 +1,10 @@
-import { ProjectOverviewType } from "../../../../model/andes/ProjectTypes";
+import { ProjectModuleType } from "../../../../model/andes/ProjectTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 
 
 export class BuildModulePourpuse
 {
-    static buildModuleProporse(module: ProjectOverviewType): MarkdownFileRender
+    static buildModuleProporse(module: ProjectModuleType): MarkdownFileRender
     {
         let porpourse = new MarkdownFileRender("Proósito do Módulo");
         porpourse.addSimpleSection("Propósito", module.purpose);

@@ -26,14 +26,16 @@ export class UseCaseClass extends NameSpaceStarter implements DependableSuperTyp
     requiriments?: RequirimentsBaseClass[];
     performer?: ActorType[];
     event?: EventType[];
+    depends: UseCaseClass[];
 
-    public constructor(identifier: string, name: string, description: string = "", requiriments: RequirimentsBaseClass[] = [], actors: ActorType = [], events: EventType[] = [])
+    public constructor(identifier: string, name: string, description: string = "", requiriments: RequirimentsBaseClass[] = [], actors: ActorType = [], events: EventType[] = [], depends: UseCaseClass[] = [])
     {
         super(identifier, description);
         this.name = name;
         this.requiriments = requiriments;
         this.performer = actors;
         this.event = events;
+        this.depends = depends;
     }
 }
 

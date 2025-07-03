@@ -1,13 +1,12 @@
-import { UseCaseType } from "../../../../model/madeModels";
-import { Actor } from "../../../../model/models";
+import { ActorType, UseCaseClass } from "../../../../model/andes/AnalisysTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
-import UserCaseGraphParser from "./UseCaseGraphParser"; // ⬅️ importado
+import UserCaseGraphParser from "./UseCaseGraphParser";
 
 export default class BuildUserCase
 {
-    static build(useCases: UseCaseType[], actors: Actor[]): MarkdownFileRender
+    static build(useCases: UseCaseClass[], actors: ActorType[]): MarkdownFileRender
     {
         const uc = new MarkdownFileRender("Casos de Uso");
 
@@ -22,31 +21,31 @@ export default class BuildUserCase
         return uc;
     }
 
-    private static buildStartSection(actors: Actor[]): SectionRender
+    private static buildStartSection(actors: ActorType[]): SectionRender
     {
         const startSection = new SectionRender("Casos de Uso");
         startSection.addSimpleParagraph("Modelo de caso de uso...");
 
-        const actorsTable = new TableRender(["Atores", "Descrição"], actors.map(a => [a.name, a.comment]), "Lista de Atores e suas Descrições");
+        const actorsTable = new TableRender(["Atores", "Descrição"], actors.map(a => [a.identifier, a.description??""]), "Lista de Atores e suas Descrições");
         startSection.addElement(actorsTable);
 
         return startSection;
     }
 
-    private static buildUsercaseSection(uc: UseCaseType): SectionRender {
+    private static buildUsercaseSection(uc: UseCaseClass): SectionRender {
     const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
 
     section.addSimpleParagraph(`Descrição: ${uc.description}`);
 
-    if (uc.events.length > 0) {
+    if (uc.event? uc.event.length > 0 : false) {
         const headers = ["Evento", "Nome", "Descrição", "Ação", "Executor"];
-        const rows: string[][] = uc.events.map(e => [
+        const rows: string[][] = uc.event?.map(e => [
             e.identifier,
             e.name,
-            e.description,
-            e.action,
-            e.performer?.name || "-"
-        ]);
+            e.description??"",
+            e.action??"",
+            e.performer?.map(a=>a.identifier).join(', ')??"",
+        ])??[];
 
         const eventTable = new TableRender(headers, rows, "Eventos Associados ao Caso de Uso");
         section.addElement(eventTable);
@@ -58,7 +57,7 @@ export default class BuildUserCase
 }
 
 
-    private static buildGraphSection(useCases: UseCaseType[]): SectionRender {
+    private static buildGraphSection(useCases: UseCaseClass[]): SectionRender {
         const section = new SectionRender("Grafos de Dependência");
 
         const ucGraph = UserCaseGraphParser.ucToGraph(useCases);

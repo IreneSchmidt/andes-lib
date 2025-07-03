@@ -3,14 +3,14 @@ import { BuildModulePourpuse } from "./propourse/BuildMoudulePourpuse";
 import BuildRequisites from "./requisits/BuildRequisites";
 import MarkdownFileRender from "../../../renders/markdown/FileRender";
 import createFolderAndFile from "../../IO";
-import { ModuleInterface } from "../../../model/ProjectModels"
 import BuildDomain from "./domain/BuildDomain";
 import BuildUserCase from "./usercase/BuildUsercase";
+import { ProjectModuleType } from "../../../model/andes/ProjectTypes";
 
 
 export class ModuleCreator
 {
-    private module: ModuleInterface | null;
+    private module: ProjectModuleType | null;
     private originalPath: PathLike;
     private targetFolder: PathLike;
 
@@ -20,14 +20,14 @@ export class ModuleCreator
     private moduleDomainModel: MarkdownFileRender | null = null;
     // private moduleStatesMachines: MarkdownFileRender | null = null;
     
-    public constructor(module: ModuleInterface | null = null, targetFolder: PathLike = "")
+    public constructor(module: ProjectModuleType | null = null, targetFolder: PathLike = "")
     {
         this.module = module;
         this.originalPath = targetFolder;
         this.targetFolder = `${targetFolder}/${module ? module.name : ''}`;
     }
 
-    public changeModule(newModule: ModuleInterface): ModuleCreator
+    public changeModule(newModule: ProjectModuleType): ModuleCreator
     {
         this.module = newModule;
         this.targetFolder = `${this.originalPath}/${this.module.name}`;
@@ -51,9 +51,9 @@ export class ModuleCreator
         // createFolderAndFile(this.targetFolder, `ModuleStatesMachine.md`, this.moduleStatesMachines.render(4));
     }
 
-    private buildModuleUserCase(module: ModuleInterface): MarkdownFileRender
+    private buildModuleUserCase(module: ProjectModuleType): MarkdownFileRender
     {
-        return BuildUserCase.build(module.useCases, module.actors);
+        return BuildUserCase.build(module.uc, module.actors);
     }
 
     // private buildModuleStatesMachine(): MarkdownFileRender
