@@ -23,9 +23,16 @@ export default class SectionRender implements IRender
         this.elements.push(new ParagraphRender(text));
     }
 
-    public addSimpleSubsection(title: string, content: string)
+    public addSimpleSubsection(title: string, content: string): SectionRender
     {
         this.elements.push(new SectionRender(title, [new ParagraphRender(content)]));
+
+        return this;
+    }
+
+    public addEnumerablePart(strs: string[])
+    {
+        this.elements.push(new ParagraphRender(strs.map((s, i) => `${i}. ${s}`).join('\n')));
     }
 
     public render(identationStartLevel: number = 0): string

@@ -5,11 +5,12 @@ import MarkdownFileRender from "../../../renders/markdown/FileRender";
 import createFolderAndFile from "../../IO";
 import BuildDomain from "./domain/BuildDomain";
 import BuildUserCase from "./usercase/BuildUsercase";
-import { ProjectModuleType } from "../../../model/andes/ProjectTypes";
+import { ProjectModuleType, ProjectType } from "../../../model/andes/ProjectTypes";
 
 
 export class ModuleCreator
 {
+    private projectRef: ProjectType;
     private module: ProjectModuleType | null;
     private originalPath: PathLike;
     private targetFolder: PathLike;
@@ -20,8 +21,9 @@ export class ModuleCreator
     private moduleDomainModel: MarkdownFileRender | null = null;
     // private moduleStatesMachines: MarkdownFileRender | null = null;
     
-    public constructor(module: ProjectModuleType | null = null, targetFolder: PathLike = "")
+    public constructor(module: ProjectModuleType | null = null, projectRef: ProjectType, targetFolder: PathLike = "")
     {
+        this.projectRef = projectRef;
         this.module = module;
         this.originalPath = targetFolder;
         this.targetFolder = `${targetFolder}/${module ? module.name : ''}`;
@@ -53,7 +55,7 @@ export class ModuleCreator
 
     private buildModuleUserCase(module: ProjectModuleType): MarkdownFileRender
     {
-        return BuildUserCase.build(module.uc, module.actors);
+        return BuildUserCase.build(module, this.projectRef);
     }
 
     // private buildModuleStatesMachine(): MarkdownFileRender

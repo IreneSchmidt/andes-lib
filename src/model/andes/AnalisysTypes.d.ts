@@ -12,7 +12,7 @@ export interface ActorType extends BaseSuperType
 
 export interface EventType extends DependableSuperType<EventType>
 {
-    action?: string;
+    action?: string[];
     requiriments?: RequirimentsBaseClass[];
     performer?: ActorType[];
 

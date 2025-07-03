@@ -1,3 +1,4 @@
+import { EventType } from "../../../../model/andes/AnalisysTypes";
 import { FunctionalRequirimentType } from "../../../../model/andes/RequirimentsClass";
 import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
 import { ConnectionTypes } from "../../../../renders/markdown/mermaid/flowchart/MultiEdgeHandler";

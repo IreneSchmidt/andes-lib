@@ -8,7 +8,7 @@ export const event1: EventType = {
     identifier: "EVENTO1",
     name: "Nome do Evento",
     ucRef: uc1,
-    action: "Teste",
+    action: ["Teste"],
     description: "Descrição",
     performer: [actors1],
 }
@@ -17,7 +17,7 @@ export const event2: EventType = {
     identifier: "EVENTO2",
     name: "Nome do Evento",
     ucRef: uc1,
-    action: "Teste",
+    action: ["Teste"],
     description: "Descrição",
     performer: [actors1],
     depends: [event1],

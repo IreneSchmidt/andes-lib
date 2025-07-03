@@ -1,14 +1,14 @@
 import { PathLike } from "fs";
-import { ProjectInterface } from "../model/ProjectModels"
 import { ModuleCreator } from "./docusaurus/module/ModuleCreator";
+import { ProjectType } from "../model/andes/ProjectTypes";
 
 
 export class DocusaurusProjectCreator
 {
-    private projectReference: ProjectInterface;
+    private projectReference: ProjectType;
     private targetFolder: PathLike;
 
-    public constructor(projectReference: ProjectInterface, targetFolder: PathLike)
+    public constructor(projectReference: ProjectType, targetFolder: PathLike)
     {
         this.projectReference = projectReference;
         this.targetFolder = `${targetFolder}`;
@@ -21,7 +21,7 @@ export class DocusaurusProjectCreator
 
     private buildModules(): void
     {
-        const module = new ModuleCreator(null, this.targetFolder);
+        const module = new ModuleCreator(null, this.projectReference, this.targetFolder);
         this.projectReference.modules.forEach(m => module.changeModule(m).create())
     }
 }

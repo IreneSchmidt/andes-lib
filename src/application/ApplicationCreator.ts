@@ -14,7 +14,7 @@ export default class ApplicationCreator
     public constructor(project: ProjectType, targetFolder: PathLike)
     {
         this.project = project;
-        this.targetFolder = targetFolder;
+        this.targetFolder = `${targetFolder}/artifacts`;
     }
 
     public create(): void
