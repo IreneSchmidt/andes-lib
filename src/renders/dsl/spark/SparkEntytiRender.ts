@@ -8,11 +8,25 @@ import NameSpaceRender from "../NameSpaceRender";
 export class SparkRelashionshipAttributeRender extends NameSpaceSimpleItemRender
 {
     private relationType: string;
+    private min: number | null;
+    private max: number | null;
 
-    public constructor(reference: string, target: string, relationType: string)
+    public constructor(attribute: RelationType)
     {
-        super(reference, target);
-        this.relationType = relationType;
+        super(attribute.identifier, attribute.targetObject.identifier);
+        this.relationType = attribute.relationType;
+        this.max = attribute.max??null;
+        this.min = attribute.min??null;
+    }
+
+    public getMaxNumeration(): number | null
+    {
+        return this.max;
+    }
+
+    public getMinNumeration(): number | null
+    {
+        return this.min;
     }
 
     override render(identationStartLevel?: number): string
@@ -63,12 +77,18 @@ export default class SparkEntityRender extends NameSpaceRender
 
     public addEnum(e: EnumAttributeType)
     {
-        this.enums.push(new SparkRelashionshipAttributeRender(e.identifier, e.type.identifier, "uses"));
+        const aux: RelationType = {
+            identifier: e.identifier,
+            description: e.description,
+            relationType: "uses",
+            targetObject: e,
+        }
+        this.enums.push(new SparkRelashionshipAttributeRender(aux));
     }
 
     public addRelashionShip(e: RelationType)
     {
-        this.relashionships.push(new SparkRelashionshipAttributeRender(e.identifier, e.targetObject.identifier, e.relationType));
+        this.relashionships.push(new SparkRelashionshipAttributeRender(e));
     }
 
     protected override listAll(): IRender[]

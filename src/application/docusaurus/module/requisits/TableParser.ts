@@ -16,7 +16,7 @@ export default class TableParser
                 fr.identifier,
                 fr.name,
                 fr.description??"",
-                TableParser.ptBrMultiJoin(fr.depends.map(dep => dep.getNameSpaceReference()))
+                TableParser.ptBrMultiJoin(fr.depends.map(dep => dep.identifier))
             ]),
             "Requisitos Funcionais do Módulo"
         )

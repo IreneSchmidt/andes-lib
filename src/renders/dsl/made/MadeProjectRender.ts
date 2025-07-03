@@ -9,7 +9,7 @@ export default class MadeProjectRender extends NameSpaceRender
     public constructor(module: ProjectModuleType)
     {
         super("project", module.identifier, [
-            new NameSpaceSimpleStringItemRender("name", module.miniwolrd),
+            new NameSpaceSimpleStringItemRender("name", module.name),
             new NameSpaceSimpleStringItemRender("description", module.description??""),
             new NameSpaceSimpleItemRender("startDate", dateToIsoString(new Date())),
             new NameSpaceSimpleItemRender("dueDate", dateToIsoString(new Date()))

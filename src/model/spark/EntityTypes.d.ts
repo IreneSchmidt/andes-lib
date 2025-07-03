@@ -34,6 +34,8 @@ export interface RelationType extends BaseSuperType
 {
     relationType: string;
     targetObject: EntityType;
+    min?: number;
+    max?: number;
 }
 
 
