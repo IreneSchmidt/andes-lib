@@ -33,8 +33,7 @@ export default class BuildDomain
     }
     
     private static createEntityDescription (e: EntityType): string {
-        return `Entidade ${e.identifier} \n
-        Descrição: ${e.description}`
+        return `Descrição: ${e.description}`
         
     }
 }   
