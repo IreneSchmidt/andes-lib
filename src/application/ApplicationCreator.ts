@@ -20,7 +20,7 @@ export default class ApplicationCreator
     public create(): void
     {
         this.createSpark();
-        // this.createDocusaurus();
+        this.createDocusaurus();
         this.createMade();
     }
 
