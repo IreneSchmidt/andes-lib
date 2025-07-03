@@ -1,7 +1,6 @@
 import { PackageType } from "../../../../model/spark/PackageTypes";
 import { EntityType } from "../../../../model/spark/EntityTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
-import AttributeRender from "../../../../renders/markdown/plantuml/classDiagram.ts/AttributeRender";
 import ClassDiagramRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassDiagramRender";
 import ClassRender from "../../../../renders/markdown/plantuml/classDiagram.ts/ClassRender";
 import SectionRender from "../../../../renders/markdown/SectionRender";
@@ -23,16 +22,8 @@ export default class BuildDomain
 
     private static packageToMermaid(pkg: PackageType): ClassRender[]
     {
-        return pkg.entities.map(entity => new ClassRender(
-            entity.identifier,
-            (entity.attributes ?? []).map(attr => new AttributeRender(
-                attr.identifier,
-                (attr.type as unknown as EntityType).identifier == undefined ? attr.type as string : (attr.type as unknown as EntityType).identifier    
-            )),
-            [],
-            [],
-            []
-        ));
+        return pkg.entities.map(entity => new ClassRender(entity)
+        );
     }
 
     private static classesDescription (pkg: PackageType): SectionRender{

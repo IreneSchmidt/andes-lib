@@ -1,3 +1,4 @@
+import { RelationType } from "../../../../model/spark/EntityTypes";
 import { identate } from "../../../Identation";
 import IRender from "../../../IRender";
 import ClassRender from "./ClassRender";
@@ -30,12 +31,54 @@ export default class RelationHandler
     private selfNumeration: NumberOptions;
     private relationName: string;
 
-    public constructor(target: ClassRender, selfNumeration: NumberOptions, targetNumeration: NumberOptions, relationName: string)
+    public constructor(r: RelationType)
     {
-        this.target = target;
-        this.selfNumeration= selfNumeration;
-        this.targetNumeration = targetNumeration;
-        this.relationName = relationName;
+        this.target = new ClassRender(r.targetObject);
+        switch (r.relationType) {
+        case "ManyToOne":
+            this.selfNumeration = NumberOptions.Many;
+            this.targetNumeration = NumberOptions.One;
+            break;
+
+        case "OneToMany":
+            this.selfNumeration = NumberOptions.One;
+            this.targetNumeration = NumberOptions.Many;
+            break;
+
+        case "OneToOne":
+            this.selfNumeration = NumberOptions.One;
+            this.targetNumeration = NumberOptions.One;
+            break;
+
+        case "ManyToMany":
+            this.selfNumeration = NumberOptions.Many;
+            this.targetNumeration = NumberOptions.Many;
+            break;
+
+        case "OneToZeroOrMore":
+            this.selfNumeration = NumberOptions.One;
+            this.targetNumeration = NumberOptions.ZeroOrMore;
+            break;
+
+        case "ZeroOrMoreToOne":
+            this.selfNumeration = NumberOptions.ZeroOrMore;
+            this.targetNumeration = NumberOptions.One;
+            break;
+
+        case "OneToOneOrMore":
+            this.selfNumeration = NumberOptions.One;
+            this.targetNumeration = NumberOptions.OneOrMore;
+            break;
+
+        case "OneOrMoreToOne":
+            this.selfNumeration = NumberOptions.OneOrMore;
+            this.targetNumeration = NumberOptions.One;
+            break;
+
+        default:
+            throw new Error(`Unknown relation type: ${r.relationType}`);
+        }
+        this.relationName = r.identifier;
     }
 
     public renderTargerNumeration(): string
