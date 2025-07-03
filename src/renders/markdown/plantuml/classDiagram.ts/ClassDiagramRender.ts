@@ -1,5 +1,6 @@
 import IRender from "../../../IRender";
 import PlantUmlRender from "../PlantUmlRender";
+import ClassRender from "./ClassRender";
 
 export default class ClassDiagramRender extends PlantUmlRender
 {
@@ -13,6 +14,8 @@ export default class ClassDiagramRender extends PlantUmlRender
 
     public pumlRender(identationLevel: number = 0): string
     {
-        return this.objects.map(obj => obj.render(identationLevel+1)).join("\n");
+        const objetos =this.objects.map(obj => obj.render(identationLevel+1)).join("\n")
+        const dependencies = this.objects.filter(obj => obj instanceof ClassRender).map(obj => obj.renderRelations(identationLevel+1)).join('\n')
+        return `${objetos}\n${dependencies}`;
     }
 }

@@ -1,3 +1,4 @@
+import { EntityType } from "../../../../model/spark/EntityTypes";
 import { identate } from "../../../Identation";
 import IRender from "../../../IRender";
 import AttributeRender from "./AttributeRender";
@@ -13,13 +14,13 @@ export default class ClassRender implements IRender
     private supertypes: ClassRender[];
     private relations: RelationHandler[];
 
-    public constructor(name: string, attrs: AttributeRender[], methods: MethodRender[], supertypes: ClassRender[] = [], relations: RelationHandler[])
+    public constructor(entidade: EntityType)
     {
-        this.name = name;
-        this.attr = attrs;
-        this.methods = methods;
-        this.supertypes = supertypes;
-        this.relations = relations;
+        this.name = entidade.identifier;
+        this.attr = entidade.attributes?.map(atr => new AttributeRender(atr))?? [];
+        this.methods = [];
+        this.supertypes = [];
+        this.relations = entidade.relationsAttr?.map(r => new RelationHandler(r))?? [];
     }
 
     public render(identationStartLevel: number = 0): string
@@ -39,7 +40,8 @@ export default class ClassRender implements IRender
 
     private renderRelation(relation: RelationHandler): string
     {
-        return `${relation.getTarget().name} "${relation.renderTargerNumeration()}" -- "${relation.renderSelfNumeration()}" ${this.name} ${relation.getRelationName() ? relation.getRelationName() : ''}`;
+        const relaciones = relation.getRelationName() ? `: ${relation.getRelationName()}` : "";
+        return `${relation.getTarget().name} "${relation.renderTargerNumeration()}" -- "${relation.renderSelfNumeration()}" ${this.name} ${relaciones}`;
     }
 }
 
