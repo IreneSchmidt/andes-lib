@@ -33,16 +33,9 @@ export default class BuildDomain
     }
     
     private static createEntityDescription (e: EntityType): string {
-        if (!BuildDomain.hasNoRelation(e)){
-            const descrpt = `Entidade ${e.identifier}, possuí relação com ${(e.relationsAttr ?? []).map(r => `${r.identifier}`).join(', ').toUpperCase()}`
-            return descrpt  
-        }
-        return `Entidade ${e.identifier}, não possui relações.`
+        return `Entidade ${e.identifier} \n
+        Descrição: ${e.description}`
         
-    }
-
-    private static hasNoRelation (e: EntityType): boolean{
-        return e.relationsAttr == null || e.relationsAttr.length == 0;
     }
 }   
 
