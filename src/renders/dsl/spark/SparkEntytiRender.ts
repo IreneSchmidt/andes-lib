@@ -81,7 +81,7 @@ export default class SparkEntityRender extends NameSpaceRender
             identifier: e.identifier,
             description: e.description,
             relationType: "uses",
-            targetObject: e,
+            targetObject: e.type,
         }
         this.enums.push(new SparkRelashionshipAttributeRender(aux));
     }
