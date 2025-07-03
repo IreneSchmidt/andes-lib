@@ -1,8 +1,12 @@
 import { UseCaseClass } from "../../../../model/andes/AnalisysTypes";
 import { ProjectModuleType, ProjectType } from "../../../../model/andes/ProjectTypes";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
+import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
+import { ConnectionTypes } from "../../../../renders/markdown/mermaid/flowchart/MultiEdgeHandler";
+import Node from "../../../../renders/markdown/mermaid/flowchart/Node";
 import SectionRender from "../../../../renders/markdown/SectionRender";
 import TableRender from "../../../../renders/markdown/TableRender";
+import UserCaseGraphParser from "./UseCaseGraphParser";
 
 export default class BuildUserCase
 {
@@ -11,9 +15,15 @@ export default class BuildUserCase
         const uc = new MarkdownFileRender("Casos de Uso");
 
         const startSection = BuildUserCase.buildStartSection(module, project);
-        module.uc.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
         uc.add(startSection);
 
+        module.uc.forEach(_uc => uc.add(BuildUserCase.buildUsercaseBruteSection(_uc)));
+        const s = BuildUserCase.buildGraphSection(module.uc);
+
+        uc.add(s);
+        uc.add(BuildUserCase.buildEventDependencie(module))
+
+        module.uc.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
         return uc;
     }
 
@@ -33,6 +43,84 @@ export default class BuildUserCase
         const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
 
         uc.event?.forEach((e, index) => section.addSimpleSubsection(`${e.identifier}.${index}: ${e.name}`, "").addEnumerablePart(e.action??[]))
+
+        return section;
+    }
+
+    private static buildEventDependencie(module: ProjectModuleType): SectionRender
+    {
+        const allEvents = module.uc.map(uc => uc.event).flat().filter(obj => obj != undefined);
+
+        const table = new TableRender(
+            ["Evento", "Descrição", "Dependência", "Habilitados", "Atores"],
+            allEvents.map(e  => [
+                e.identifier,
+                e.description??"",
+                e.depends?.map(d => d.identifier).join(", ")??"",
+                allEvents.filter(ev => ev.depends?.includes(e)??false).map(ev=>ev.identifier).join(", "),
+            ]),
+            "Matrix de Dependência de Eventos"
+        )
+
+
+
+        const graph = new GraphRender("Grafo de dependência entre eventos", allEvents.map(e => {
+            const n = new Node(e.identifier, e.name);
+
+            e.depends?.forEach(d => n.addEdge(new Node(d.identifier, ""), ConnectionTypes.APPOINTS_TO, "Depends"));
+
+            return n;
+        }))
+
+        const section = new SectionRender("Matriz de Dependência de eventos", [table, graph]);
+        
+        graph.generateCycleGraph()?.forEach(g => section.addElement(g));
+
+        return section;
+    }
+
+    private static buildGraphSection(useCases: UseCaseClass[]): SectionRender
+    {
+        const section = new SectionRender("Grafos de Dependência");
+
+        const ucGraph = UserCaseGraphParser.ucToGraph(useCases);
+        section.addElement(ucGraph);
+
+        const ucCycle = ucGraph.generateCycleGraph();
+        if (ucCycle)
+            section.addSimpleSubsection("Ciclos entre Casos de Uso", ucCycle.map(g => g.render()).join(""));
+
+        const evGraph = UserCaseGraphParser.eventToGraph(useCases);
+        section.addElement(evGraph);
+
+        const evCycle = evGraph.generateCycleGraph();
+        if (evCycle)
+            section.addSimpleSubsection("Ciclos entre Eventos", evCycle.map(g => g.render()).join(""));
+
+        return section;
+    }
+
+    private static buildUsercaseBruteSection(uc: UseCaseClass): SectionRender
+    {
+        const section = new SectionRender(`${uc.identifier}: ${uc.name}`);
+
+        section.addSimpleParagraph(`Descrição: ${uc.description}`);
+
+        if (uc.event? uc.event.length > 0 : false) {
+            const headers = ["Evento", "Nome", "Descrição", "Ação", "Executor"];
+            const rows: string[][] = uc.event?.map(e => [
+                e.identifier,
+                e.name,
+                e.description??"",
+                e.action?.join(", ")??"",
+                e.performer?.map(a=>a.identifier).join(', ')??"",
+            ])??[];
+
+            const eventTable = new TableRender(headers, rows, "Eventos Associados ao Caso de Uso");
+            section.addElement(eventTable);
+        } else {
+            section.addSimpleParagraph("_Nenhum evento registrado._");
+        }
 
         return section;
     }
