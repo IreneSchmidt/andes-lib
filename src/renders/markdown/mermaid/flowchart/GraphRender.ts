@@ -24,7 +24,7 @@ export default class GraphRender extends MermaidRender
     public mermaidRender(identationStartLevel: number = 0): string
     {
         let title = `---\ntitle: ${this.name}\n---`;
-        let body = `flowchart LR\n${this.renderNodesName(1)}\n${this.renderNodeConnection(1)}`;
+        let body = `graph LR\n${this.renderNodesName(1)}\n${this.renderNodeConnection(1)}`;
 
         return `\n${title}\n${body}\n`;    
     }
