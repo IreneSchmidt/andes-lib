@@ -114,7 +114,7 @@ export class Graph {
                 diagram += `  ${dependency} --> ${node}\n`;
             }
         }
-    
+
         return diagram;
     }
 

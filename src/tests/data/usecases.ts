@@ -2,7 +2,7 @@ import { EventType, UseCaseClass } from "../../model/andes/AnalisysTypes.d";
 import { actors1 } from "./actors";
 import { rf1 } from "./requisitos"
 
-export const uc1 = new UseCaseClass("TESTE", "Algum Nome Aí", "Descrição do Caso de Uso", [], actors1, [])
+export const uc1 = new UseCaseClass("TESTE", "Algum Nome Aí", "Descrição do Caso de Uso", [], [actors1], [])
 
 export const event1: EventType = {
     identifier: "EVENTO1",
@@ -43,4 +43,6 @@ export const event3: EventType = {
 uc1.event?.push(event1);
 uc1.event?.push(event2);
 uc1.event?.push(event3);
+
+export const uc2 = new UseCaseClass("OutroNome", "Nome", "Descrição do Caso de Uso", [], [actors1], [], [uc1]);
 

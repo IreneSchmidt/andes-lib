@@ -14,18 +14,63 @@ export default class BuildUserCase
 {
     static build(module: ProjectModuleType, project: ProjectType): MarkdownFileRender
     {
-        const uc = new MarkdownFileRender("Casos de Uso");
+        const uc = new MarkdownFileRender("Modelo de Caso de Uso");
 
-        const startSection = BuildUserCase.buildStartSection(module, project);
-        uc.add(startSection);
+        const section = new SectionRender("Caso de Uso");
 
-        module.uc.forEach(_uc => uc.add(BuildUserCase.buildUsercaseBruteSection(_uc)));
-        const s = BuildUserCase.buildGraphSection(module.uc);
+        module.uc.forEach(_uc => {
+            const ucSection = new SectionRender(`${_uc.identifier.toUpperCase()}: ${_uc.name}`);
 
-        uc.add(s);
-        uc.add(BuildUserCase.buildEventDependencie(module))
+            _uc.event?.forEach((e, index) => {
+                const eventSection = new SectionRender(`${e.identifier.toUpperCase()}.${index}: ${e.name}`);
+                eventSection.addEnumerablePart(e.action??["Sem ações descritas"]);
+                ucSection.addElement(eventSection);
+            })
 
-        module.uc.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
+            section.addElement(ucSection);
+        })
+
+        const ucGraph = new Graph();
+
+        module.uc.forEach(_uc => {
+            ucGraph.addVertex(_uc.identifier, _uc.description??"", _uc.performer?.map(a=>a.identifier)??[]);
+        })
+        module.uc.forEach(_uc => {
+            _uc.depends.forEach(d => ucGraph.addEdge(_uc.identifier, d.identifier));
+        })
+
+        section.addSimpleSubsection("Matriz dos Casos de Uso", ucGraph.generateMarkdownTable());
+        section.addSimpleSubsection("Matriz de Dependência dos UC", `\n\`\`\`mermaid\n${ucGraph.generateMermaidDiagram()}\n\`\`\``);
+
+        const eventsGraph = new Graph();
+
+        module.uc.forEach(_uc => {
+            _uc.event?.forEach(e => {
+                eventsGraph.addVertex(e.identifier, e.description??"", e.performer?.map(a => a.identifier)??[])
+            })
+        })
+
+        module.uc.forEach(_uc => {
+            _uc.event?.forEach(e => {
+                e.depends?.map(target => eventsGraph.addEdge(e.identifier, target.identifier));
+            })
+        })
+
+        section.addSimpleSubsection("Matriz dos Eventos", eventsGraph.generateMarkdownTable());
+        section.addSimpleSubsection("Matriz de Dependêcia dos Eventos", `\n\`\`\`mermaid\n${eventsGraph.generateMermaidDiagram()}\n\`\`\``);
+
+        uc.add(section);
+
+        // const startSection = BuildUserCase.buildStartSection(module, project);
+        // uc.add(startSection);
+
+        // module.uc.forEach(_uc => uc.add(BuildUserCase.buildUsercaseBruteSection(_uc)));
+        // const s = BuildUserCase.buildGraphSection(module.uc);
+
+        // uc.add(s);
+        // uc.add(BuildUserCase.buildEventDependencie(module))
+
+        // module.uc.map(uc => startSection.addElement(BuildUserCase.buildUsercaseSection(uc)));
         return uc;
     }
 
@@ -52,10 +97,6 @@ export default class BuildUserCase
     private static buildEventDependencie(module: ProjectModuleType): SectionRender
     {
         const allEvents = module.uc.map(uc => uc.event).flat().filter(obj => obj != undefined);
-
-        allEvents.forEach(e => console.log(e.identifier, e.depends));
-
-        console.log(allEvents);
 
         const table = new TableRender(
             ["Evento", "Descrição", "Dependência", "Habilitados", "Atores"],
