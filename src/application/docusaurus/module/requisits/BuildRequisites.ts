@@ -1,6 +1,9 @@
+import { Graph } from "../../../../graph/graph";
 import { UseCaseClass } from "../../../../model/andes/AnalisysTypes";
 import { ProjectModuleType } from "../../../../model/andes/ProjectTypes";
-import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType } from "../../../../model/andes/RequirimentsClass";
+import { BuisinessRuleType, FunctionalRequirimentType, NonFunctionalRequirimentType, RequirimentsBaseClass } from "../../../../model/andes/RequirimentsClass";
+import { DependableSuperType } from "../../../../model/supertypes";
+import IRender from "../../../../renders/IRender";
 import MarkdownFileRender from "../../../../renders/markdown/FileRender";
 import GraphRender from "../../../../renders/markdown/mermaid/flowchart/GraphRender";
 import { ConnectionTypes } from "../../../../renders/markdown/mermaid/flowchart/MultiEdgeHandler";
@@ -13,6 +16,17 @@ import TableParser from "./TableParser";
 import UserCaseGraphParser from "./UseCaseGraphParser";
 
 
+
+export function parseGraph(i: RequirimentsBaseClass[]): Graph
+{
+    const graph = new Graph();
+
+    i.forEach(r => graph.addVertex(r.identifier, r.description??"", []));
+    i.forEach(r => r.depends.forEach(d => graph.addEdge(r.identifier, d.identifier)));
+
+    return graph;
+}
+
 export default class BuildRequisites
 {
     static buildModuleRequisites(module: ProjectModuleType): MarkdownFileRender
@@ -20,15 +34,30 @@ export default class BuildRequisites
         const requisites = new MarkdownFileRender("Requisitos do Módulo");
         const r = RequirimentExtractor.extract(module.requisites);
 
-        BuildRequisites.buildFR(requisites, r.fr);
-        BuildRequisites.buildNFR(requisites, r.nfr);
-        BuildRequisites.buildBR(requisites, r.br);
-        BuildRequisites.buildDependenciesSection(requisites, r);
+        // BuildRequisites.buildFR(requisites, r.fr);
+        // BuildRequisites.buildNFR(requisites, r.nfr);
+        // BuildRequisites.buildBR(requisites, r.br);
+        // BuildRequisites.buildDependenciesSection(requisites, r);
 
-        module.uc.forEach(uc => requisites.add(BuildRequisites.buildUsercaseSection(uc)));
-        BuildRequisites.buildGraphSection(module.uc);
+        const frGraph = parseGraph(r.fr);
+        const nfrGraph = parseGraph(r.nfr);
+        const brGraph = parseGraph(r.br);
 
-        requisites.add(BuildRequisites.buildEventDependencie(module))
+        requisites.addSimpleSection("Requisitos Funcionais", frGraph.generateMarkdownTable());
+        requisites.addSimpleSection("Requisitos Não Funcionais", nfrGraph.generateMarkdownTable());
+        requisites.addSimpleSection("Regras de Negócio", brGraph.generateMarkdownTable());
+
+        const s = new SectionRender("Grafos de Dependências");
+        s.addSimpleSubsection("Requisitos Funcionais", `\n\`\`\`mermaid\n${frGraph.generateMermaidDiagram()}\n\`\`\``)
+        s.addSimpleSubsection("Requisitos Nao Funcionais", `\n\`\`\`mermaid\n${nfrGraph.generateMermaidDiagram()}\n\`\`\``)
+        s.addSimpleSubsection("Regras de Negócio", `\n\`\`\`mermaid\n${brGraph.generateMermaidDiagram()}\n\`\`\``)
+
+        requisites.add(s);
+
+        // module.uc.forEach(uc => requisites.add(BuildRequisites.buildUsercaseSection(uc)));
+        // BuildRequisites.buildGraphSection(module.uc);
+
+        // requisites.add(BuildRequisites.buildEventDependencie(module));
 
         return requisites;
     }

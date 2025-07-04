@@ -123,8 +123,8 @@ export const rn4 = new BuisinessRuleType(
 
 
 // Adicionando Ciclos Intencionais
-rf1.depends.push(rf2);
-rf1.depends.push(rf7);
+// rf1.depends.push(rf2);
+// rf1.depends.push(rf7);
 
 
 
